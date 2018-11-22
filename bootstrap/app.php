@@ -12,7 +12,7 @@
 */
 
 $app = new Illuminate\Foundation\Application(
-    dirname(__DIR__)
+    realpath(__DIR__.'/../')
 );
 
 /*
@@ -25,6 +25,8 @@ $app = new Illuminate\Foundation\Application(
 | incoming requests to this application from both the web and CLI.
 |
 */
+
+
 
 $app->singleton(
     Illuminate\Contracts\Http\Kernel::class,
@@ -51,5 +53,7 @@ $app->singleton(
 | from the actual running of the application and sending responses.
 |
 */
+
+
 
 return $app;
