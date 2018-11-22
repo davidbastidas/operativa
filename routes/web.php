@@ -11,9 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [
+    'uses' => 'HomeController@showLogin'
+]);
+
+Route::get('/login', [
+    'as' => 'login', 'uses' => 'HomeController@showLogin'
+]);
+
+Route::post('/login', [
+    'as' => 'login', 'uses' => 'HomeController@doLogin'
+]);
 
 Route::get('/usuarios', [
     'as' => 'usuarios', 'uses' => 'UsuariosController@index'
