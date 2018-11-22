@@ -93,18 +93,6 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item hand">
-                        <a class="nav-link" id="graph">
-                            <i class="menu-icon mdi mdi-bulletin-board"></i>
-                            <span class="menu-title">Graficas</span>
-                        </a>
-                    </li>
-                    <li class="nav-item hand">
-                        <a class="nav-link" id="img">
-                            <i class="menu-icon mdi mdi-image"></i>
-                            <span class="menu-title">Imágenes</span>
-                        </a>
-                    </li>
                 </ul>
             </nav>
             <!-- partial -->
