@@ -104,8 +104,8 @@
                             <div class="card">
                                 <div class="card-body">
                                     <center><h4 class="card-title">Subir Excel</h4></center>
-                                    
-                                    <form method="post" action="{{route('admin.excel.upload')}}" enctype="multipart/form-data">
+
+                                    <form method="post" action="{{route('admin.avisos.upload')}}" enctype="multipart/form-data">
                                         <input class="form-control" type="file" name="file"/>
                                         <button class="btn btn-primary" type="submit">Upload</button>
 
@@ -134,5 +134,3 @@
     </div>
 
 @endsection
-
-
