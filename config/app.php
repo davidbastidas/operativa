@@ -149,6 +149,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         GoogleMaps\ServiceProvider\GoogleMapsServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -212,6 +213,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'GoogleMaps' => GoogleMaps\Facade\GoogleMapsFacade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class, 
 
     ],
 

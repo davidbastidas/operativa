@@ -5,9 +5,6 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-
-
-
 Route::group(['middleware' => ['sessionValid']], function () {
 
     Route::match(['get', 'post'], '/admin',
@@ -118,12 +115,20 @@ Route::group(['middleware' => ['sessionValid']], function () {
         ]
     );
 
-
     Route::get('admin/graph/getFiveDays/{fecha}/{numdias}', [
         'as' => 'admin.getFiveDays',
         'uses' => 'GraphController@getFiveDays'
     ]);
 
+    Route::get('admin/excel/index', [
+        'as' => 'admin.excel.index',
+        'uses' => 'UploadExcelController@index'
+    ]);
+
+    Route::post('admin/excel/upload', [
+        'as' => 'admin.excel.upload',
+        'uses' => 'UploadExcelController@upload'
+    ]);
 
 });
 
