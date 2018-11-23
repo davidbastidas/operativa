@@ -15,7 +15,6 @@ class AvisosController extends Controller
     $archivo = $request->file;
     $results = Excel::load($archivo)->all()->toArray();
     foreach ($results as $row) {
-      dd($row);
       $base = [];
       $count = 0;
       foreach($row as $x => $x_value) {
