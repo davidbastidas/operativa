@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Avisos;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -18,31 +19,51 @@ class UploadExcelController extends Controller
 
     public function upload(Request $request)
     {
-       $archivo = $request->file;
-       $rows = Excel::load($archivo)->get();
+        $archivo = $request->file;
+        $rows = Excel::load($archivo)->get();
 
-       foreach ($rows as $row) {
-            $modelo->camapana = $row->camapana;
-            $modelo->campana = $row->campana;
-            $modelo->fecha_de_entraga = $row->fecha_de_entraga;
-            $modelo->tipo_de_visita = $row->tipo_de_visita;
-            $modelo->municipio = $row->municipio;
-            $modelo->localidad = $row->localidad;
-            $modelo->barrio = $row->barrio;
-            $modelo->direccion = $row->direccion;
-            $modelo->cliente_o_sgc = $row->cliente_o_sgc;
-            $modelo->deuda = $row->deuda;
-            $modelo->fact_venc = $row->fact_venc;
-            $modelo->nic = $row->nic;
-            $modelo->nis = $row->nis;
-            $modelo->medidor = $row->medidor;
-            $modelo->gestor_de_cobro = $row->gestor_de_cobro;
-            $modelo->supervisor = $row->supervisor;
-            $modelo->zona = $row->zona;
-            $modelo->tarifa = $row->tarifa;
-            $modelo->compromiso = $row->compromiso;
-            $modelo->avisos = $row->avisos;
-       }
-       return $rows;
+        foreach ($rows as $row) {
+            $avisoTMP = new Avisos();
+
+            $avisoTMP->camapana = $row->camapana;
+            $avisoTMP->campana = $row->campana;
+            $avisoTMP->fecha_de_entraga = $row->fecha_de_entraga;
+            $avisoTMP->tipo_de_visita = $row->tipo_de_visita;
+            $avisoTMP->municipio = $row->municipio;
+            $avisoTMP->localidad = $row->localidad;
+            $avisoTMP->barrio = $row->barrio;
+            $avisoTMP->direccion = $row->direccion;
+            $avisoTMP->cliente_o_sgc = $row->cliente_o_sgc;
+            $avisoTMP->deuda = $row->deuda;
+            $avisoTMP->fact_venc = $row->fact_venc;
+            $avisoTMP->nic = $row->nic;
+            $avisoTMP->nis = $row->nis;
+            $avisoTMP->medidor = $row->medidor;
+            $avisoTMP->gestor_de_cobro = $row->gestor_de_cobro;
+            $avisoTMP->supervisor = $row->supervisor;
+            $avisoTMP->zona = $row->zona;
+            $avisoTMP->tarifa = $row->tarifa;
+            $avisoTMP->compromiso = $row->compromiso;
+            $avisoTMP->avisos = $row->avisos;
+
+            $avisoTMP->save();
+        }
+        return $rows;
+    }
+
+    public function download()
+    {
+
+        Excel::create('Avisos', function ($excel) {
+
+            $avisos = Avisos::all();
+
+            $excel->sheet('Avisos', function ($sheet) use ($avisos) {
+
+                $sheet->fromArray($avisos);
+
+            });
+
+        })->export('xlsx');
     }
 }

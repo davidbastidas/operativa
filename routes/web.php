@@ -130,6 +130,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'UploadExcelController@upload'
     ]);
 
+    Route::get('admin/excel/download', [
+        'as' => 'admin.excel.download',
+        'uses' => 'UploadExcelController@download'
+    ]);
+
 });
 
 
