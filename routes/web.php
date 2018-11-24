@@ -135,4 +135,8 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'UploadExcelController@download'
     ]);
 
+    Route::post('admin/avisos/upload', [
+        'as' => 'admin.avisos.upload',
+        'uses' => 'AvisosController@subirAvisos'
+    ]);
 });
