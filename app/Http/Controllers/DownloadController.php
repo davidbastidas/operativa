@@ -25,12 +25,16 @@ class DownloadController extends Controller
 
     public function download(Request $request)
     {
-
         $fecha1 = $request->fecha1;
         $fecha2 = $request->fecha2;
         $delegacion = $request->delegacion;
 
-        $avisos = Avisos::whereBetween('fecha_entrega', [$fecha1, $fecha2])->get();
+        $model = new Avisos();
+        $avisos = $model->hydrate(
+            DB::select(
+                "call download_avisos('$fecha1', '$fecha2')"
+            )
+        );
 
         $this->avisos = $avisos;
 
