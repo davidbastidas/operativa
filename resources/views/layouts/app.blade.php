@@ -62,52 +62,28 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 
+
+<script>
+    $('#download').on('click', function () {
+        location.href = 'http://localhost:8888/operativa/public/admin/download-avisos';
+    });
+</script>
 <script>
 
     $('#reload').on('click', function () {
-        if (location.href === 'http://transitocurumani.com/ettcurumaniServe/public/admin/dashboard/1') {
-            location.reload();
-        }
-
-        if (location.href === 'http://transitocurumani.com/ettcurumaniServe/public/admin/dashboard/2') {
-            location.reload();
-        }
-
-        if (location.href === 'http://transitocurumani.com/ettcurumaniServe/public/admin/dashboard/3') {
-            location.reload();
-        }
-
-        if (location.href === 'http://transitocurumani.com/ettcurumaniServe/public/admin/dashboard/4') {
+        if (location.href === 'http://localhost:8888/operativa/public/admin/dashboard/1') {
             location.reload();
         }
 
         let loc = location.href;
-        let response = 'http://transitocurumani.com/ettcurumaniServe/public/admin/response/';
-        let solved = 'http://transitocurumani.com/ettcurumaniServe/public/admin/solved/';
-        let graph = 'http://transitocurumani.com/ettcurumaniServe/public/admin/graph';
-        let img = 'http://transitocurumani.com/ettcurumaniServe/public/admin/img-panel';
+        let down = 'http://localhost:8888/operativa/public/admin/download-avisos';
+        let solved = 'http://localhost:8888/operativa/public/admin/solved/';
+        let graph = 'http://localhost:8888/operativa/public/admin/graph';
+        let img = 'http://localhost:8888/operativa/public/admin/img-panel';
 
-        if (loc.includes(response)) {
+        if (loc.includes(down)) {
             $id = '{{$id}}';
-            let replaceUrl = 'http://transitocurumani.com/ettcurumaniServe/public/admin/dashboard/' + $id;
-            location.href = replaceUrl;
-        }
-
-        if (loc.includes(solved)) {
-            $id = '{{$id}}';
-            let replaceUrl = 'http://transitocurumani.com/ettcurumaniServe/public/admin/dashboard/' + $id;
-            location.href = replaceUrl;
-        }
-
-        if (loc.includes(graph)) {
-            $id = '{{$id}}';
-            let replaceUrl = 'http://transitocurumani.com/ettcurumaniServe/public/admin/dashboard/' + $id;
-            location.href = replaceUrl;
-        }
-
-        if (loc.includes(img)) {
-            $id = '{{$id}}';
-            let replaceUrl = 'http://transitocurumani.com/ettcurumaniServe/public/admin/dashboard/' + $id;
+            let replaceUrl = 'http://localhost:8888/operativa/public/admin/dashboard/' + $id;
             location.href = replaceUrl;
         }
     });

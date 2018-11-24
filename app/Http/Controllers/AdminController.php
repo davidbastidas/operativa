@@ -50,7 +50,6 @@ class AdminController extends Controller
 
     public function dashboard($id)
     {
-
         Session::remove('users');
         $data = $this->getUserDataById($id);
 
@@ -82,7 +81,6 @@ class AdminController extends Controller
         if ($admin->isEmpty()) {
             $flag = 0;
         }
-
 
         return $flag;
     }

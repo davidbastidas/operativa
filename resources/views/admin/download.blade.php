@@ -21,13 +21,6 @@
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center">
                 <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#"
-                           data-toggle="dropdown" aria-expanded="false">
-                            <i class="mdi mdi-file-document-box"></i>
-                            <span id="pendientes1" class="count">1</span>
-                        </a>
-                    </li>
                     <li class="nav-item dropdown d-none d-xl-inline-block">
                         <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown"
                            aria-expanded="false">
@@ -104,108 +97,48 @@
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
-                    <div class="row">
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
-                            <div class="card card-statistics">
-                                <div class="card-body">
-                                    <div class="clearfix">
-                                        <div class="float-left">
-                                            <i class="mdi mdi-cube text-danger icon-lg"></i>
-                                        </div>
-                                        <div class="float-right">
-                                            <p class="mb-0 text-right">Total Mensajes</p>
-                                            <div class="fluid-container">
-                                                <h3 class="font-weight-medium text-right mb-0">1234</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="text-muted mt-3 mb-0">
-                                        <i class="mdi mdi-alert-octagon mr-1" aria-hidden="true"></i> -------
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
-                            <div class="card card-statistics">
-                                <div class="card-body">
-                                    <div class="clearfix">
-                                        <div class="float-left">
-                                            <i class="mdi mdi-receipt text-warning icon-lg"></i>
-                                        </div>
-                                        <div class="float-right">
-                                            <p class="mb-0 text-right">Pendientes</p>
-                                            <div class="fluid-container">
-                                                <h3 class="font-weight-medium text-right mb-0"
-                                                    id="pendientes2">44</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="text-muted mt-3 mb-0">
-                                        <label id="reloadLabel"><i class="mdi mdi-bookmark-outline mr-1"
-                                                                   aria-hidden="true"></i></label>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
-                            <div class="card card-statistics">
-                                <div class="card-body">
-                                    <div class="clearfix">
-                                        <div class="float-left">
-                                            <i class="mdi mdi-poll-box text-success icon-lg"></i>
-                                        </div>
-                                        <div class="float-right">
-                                            <p class="mb-0 text-right">Resueltos</p>
-                                            <div class="fluid-container">
-                                                <h3 class="font-weight-medium text-right mb-0">2</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="text-muted mt-3 mb-0">
-                                        <i class="mdi mdi-calendar mr-1" aria-hidden="true"></i> -------
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
-                            <div class="card card-statistics">
-                                <div class="card-body">
-                                    <div class="clearfix">
-                                        <div class="float-left">
-                                            <i class="mdi mdi-account-location text-info icon-lg"></i>
-                                        </div>
-                                        <div class="float-right">
-                                            <p class="mb-0 text-right">Usuarios</p>
-                                            <div class="fluid-container">
-                                                <h3 class="font-weight-medium text-right mb-0">3</h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p class="text-muted mt-3 mb-0">
-                                        <i class="mdi mdi-reload mr-1" aria-hidden="true"></i> -------
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <!--Pendientes-->
                     <div class="row">
                         <div class="col-lg-12 grid-margin">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Mensajes Pendientes</h4>
-                                    <div class="table-responsive">
-
-                                    </div>
+                                    <center><h4>Descargar Avisos</h4></center>
                                 </div>
+
+                                @if(isset($info))
+                                    <div class="alert alert-primary" role="alert">
+                                        <strong>{{$info}}</strong>
+                                    </div>
+                                @endif
+
+                                <form action="{{route('admin.excel.download')}}" method="post" style="padding: 3%;">
+                                    <div class="row">
+                                        <div class="col-md-1"></div>
+                                        <div class="col-md-3">
+                                            <label>Desde</label>
+                                            <input type="date" name="fecha1" required class="form-control"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Hasta</label>
+                                            <input type="date" name="fecha2" required class="form-control"/>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label>Delegacion</label>
+                                            <select type="date" name="delegacion" class="form-control">
+                                                @foreach($delegaciones as $delegacion)
+                                                    <option value="{{$delegacion->id}}">{{$delegacion->nombre}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br><br>
+                                    <center>
+                                        <button class="btn btn-secondary" type="submit">Generar</button>
+                                    </center>
+                                </form>
                             </div>
                         </div>
                     </div>
-
-                    <!--End Pendientes-->
-
-                    <!--Resuletos-->
                     <!--END Resuletos-->
                 </div>
                 <!-- content-wrapper ends -->
@@ -226,5 +159,3 @@
     </div>
 
 @endsection
-
-

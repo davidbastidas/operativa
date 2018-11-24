@@ -51,19 +51,5 @@ class UploadExcelController extends Controller
         return $rows;
     }
 
-    public function download()
-    {
 
-        Excel::create('Avisos', function ($excel) {
-
-            $avisos = Avisos::all();
-
-            $excel->sheet('Avisos', function ($sheet) use ($avisos) {
-
-                $sheet->fromArray($avisos);
-
-            });
-
-        })->export('xlsx');
-    }
 }
