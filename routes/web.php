@@ -44,7 +44,6 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'DownloadController@download'
     ]);
 
-
     Route::post('admin/avisos/upload', [
         'as' => 'admin.avisos.upload',
         'uses' => 'AvisosController@subirAvisos'
@@ -57,6 +56,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
     Route::post('admin/asignar-avisos', [
         'as' => 'admin.asignar.avisos',
         'uses' => 'AvisosController@cargarAvisos'
+    ]);
+
+    Route::post('admin/vaciar-carga', [
+        'as' => 'admin.vaciar.carga',
+        'uses' => 'AvisosController@vaciarCarga'
     ]);
 
     Route::get('admin/getAvisos', 'AvisosController@getAvisos');

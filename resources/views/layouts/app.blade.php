@@ -95,8 +95,8 @@
 
         let loc = location.href;
         let down = 'http://localhost:8888/operativa/public/admin/download-avisos';
-        let solved = 'http://localhost:8888/operativa/public/admin/solved/';
-        let graph = 'http://localhost:8888/operativa/public/admin/graph';
+        let carga_avisos = 'http://localhost:8888/operativa/public/admin/carga-avisos';
+        let xxxx = 'http://localhost:8888/operativa/public/admin/vaciar-carga-avisos';
         let img = 'http://localhost:8888/operativa/public/admin/img-panel';
 
         if (loc.includes(down)) {
@@ -104,6 +104,13 @@
             let replaceUrl = 'http://localhost:8888/operativa/public/admin/dashboard/' + $id;
             location.href = replaceUrl;
         }
+
+        if (loc.includes(carga_avisos)) {
+            $id = '{{$id}}';
+            let replaceUrl = 'http://localhost:8888/operativa/public/admin/dashboard/' + $id;
+            location.href = replaceUrl;
+        }
+
     });
 </script>
 

@@ -101,6 +101,7 @@ class AvisosController extends Controller
             $av->estado = 1;
             $av->gestor_id = $user;
             $av->admin_id = $id;
+
             try{
                 $av->save();
                 $aviso->delete();
@@ -125,10 +126,27 @@ class AvisosController extends Controller
 
 
     public function getAvisos(){
-        $avisos = AvisosTemp::all();
+        $id = Session::get('adminId');
+        $avisos = AvisosTemp::where('admin_id', $id)->get();
 
         return response()->json([
             'data' => $avisos
+        ]);
+    }
+
+    public function vaciarCarga(Request $request){
+        $id = Session::get('adminId');
+        $avisos = AvisosTemp::where('admin_id', $id)->get();
+
+        $avisos->delete();
+
+        $id = Session::get('adminId');
+        $name = Session::get('adminName');
+
+        return view('admin.vaciarcarga', [
+            'success' => 'Carga Vaciada Completamente!',
+            'id' => $id,
+            'name' => $name
         ]);
     }
 }

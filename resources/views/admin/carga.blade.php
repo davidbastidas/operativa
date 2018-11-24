@@ -157,6 +157,12 @@
                                         </table>
                                     </div>
                                 </form>
+
+                                <form action="{{route('admin.vaciar.carga')}}" method="post" style="padding: 3%;">
+                                    <center>
+                                        <button class="btn btn-danger" type="submit">Vaciar Carga</button>
+                                    </center>
+                                </form>
                             </div>
                         </div>
                     </div>

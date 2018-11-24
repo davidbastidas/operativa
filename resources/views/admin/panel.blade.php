@@ -111,7 +111,7 @@
                                             <i class="mdi mdi-cube text-danger icon-lg"></i>
                                         </div>
                                         <div class="float-right">
-                                            <p class="mb-0 text-right">Total Mensajes</p>
+                                            <p class="mb-0 text-right">Total</p>
                                             <div class="fluid-container">
                                                 <h3 class="font-weight-medium text-right mb-0">1234</h3>
                                             </div>
@@ -192,7 +192,7 @@
                         <div class="col-lg-12 grid-margin">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Mensajes Pendientes</h4>
+                                    <h4 class="card-title">**************</h4>
                                     <div class="table-responsive">
 
                                     </div>
