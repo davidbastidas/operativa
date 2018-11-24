@@ -21,13 +21,6 @@
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center">
                 <ul class="navbar-nav navbar-nav-right">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#"
-                           data-toggle="dropdown" aria-expanded="false">
-                            <i class="mdi mdi-file-document-box"></i>
-                            <span id="pendientes1" class="count">1</span>
-                        </a>
-                    </li>
                     <li class="nav-item dropdown d-none d-xl-inline-block">
                         <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown"
                            aria-expanded="false">
