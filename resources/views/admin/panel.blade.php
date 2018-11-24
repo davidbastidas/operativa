@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.addons.css')}}">
     <link rel="shortcut icon" href="{{asset('images/favicon.png')}}"/>
 
-
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
