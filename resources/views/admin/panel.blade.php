@@ -91,6 +91,12 @@
                             <span class="menu-title">Descargar Avisos</span>
                         </a>
                     </li>
+                    <li class="nav-item hand" id="carga">
+                        <a class="nav-link">
+                            <i class="menu-icon mdi mdi-upload"></i>
+                            <span class="menu-title">Carga Avisos</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
             <!-- partial -->

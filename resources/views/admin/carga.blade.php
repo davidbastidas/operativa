@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.base.css')}}">
     <link rel="stylesheet" href="{{asset('vendors/css/vendor.bundle.addons.css')}}">
     <link rel="shortcut icon" href="{{asset('images/favicon.png')}}"/>
-
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
@@ -108,39 +108,54 @@
                         <div class="col-lg-12 grid-margin">
                             <div class="card">
                                 <div class="card-body">
-                                    <center><h4>Descargar Avisos</h4></center>
+                                    <center><h4>Carga de Avisos</h4></center>
                                 </div>
 
-                                @if(isset($info))
-                                    <div class="alert alert-primary" role="alert">
-                                        <strong>{{$info}}</strong>
+                                @if(isset($success))
+                                    <div class="alert alert-success" role="alert">
+                                        <strong>{{$success}}</strong>
                                     </div>
                                 @endif
 
-                                <form action="{{route('admin.excel.download')}}" method="post" style="padding: 3%;">
+                                <form action="{{route('admin.asignar.avisos')}}" method="post" style="padding: 3%;">
                                     <div class="row">
-                                        <div class="col-md-1"></div>
+                                        <div class="col-md-2"></div>
                                         <div class="col-md-3">
-                                            <label>Desde</label>
-                                            <input type="date" name="fecha1" required class="form-control"/>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>Hasta</label>
-                                            <input type="date" name="fecha2" required class="form-control"/>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>Delegacion</label>
-                                            <select type="date" name="delegacion" class="form-control">
-                                                @foreach($delegaciones as $delegacion)
-                                                    <option value="{{$delegacion->id}}">{{$delegacion->nombre}}</option>
+                                            <label>Gestor</label>
+                                            <select name="gestor" class="form-control">
+                                                @foreach($gestores as $gestor)
+                                                    <option value="{{$gestor->gestor}}">{{$gestor->gestor   }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <div class="col-md-3">
+                                            <label>Usuarios</label>
+                                            <select name="user" class="form-control">
+                                                @foreach($usuarios as $user)
+                                                    <option value="{{$user->id}}">{{$user->nombre}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                           <br>
+                                            <button class="btn btn-secondary" style="margin-top: 10px;" type="submit">Asignar</button>
+                                        </div>
                                     </div>
-                                    <br><br>
-                                    <center>
-                                        <button class="btn btn-secondary" type="submit">Generar</button>
-                                    </center>
+                                    <div class="row">
+                                        <table class="table table-striped table-bordered" id="myTable">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">localidad</th>
+                                                <th scope="col">barrio</th>
+                                                <th scope="col">direccion</th>
+                                                <th scope="col">nic</th>
+                                                <th scope="col">gestor</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </form>
                             </div>
                         </div>

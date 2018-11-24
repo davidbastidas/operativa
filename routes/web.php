@@ -46,4 +46,13 @@ Route::group(['middleware' => ['sessionValid']], function () {
 
     Route::get('admin/download-avisos', 'DownloadController@index');
 
+    Route::get('admin/carga-avisos', 'AvisosController@cargaAvisosIndex');
+
+    Route::post('admin/asignar-avisos', [
+        'as' => 'admin.asignar.avisos',
+        'uses' => 'AvisosController@cargarAvisos'
+    ]);
+
+    Route::get('admin/getAvisos', 'AvisosController@getAvisos');
+
 });

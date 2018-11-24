@@ -61,11 +61,29 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 
 <script>
     $('#download').on('click', function () {
         location.href = 'http://localhost:8888/operativa/public/admin/download-avisos';
+    });
+
+    $('#carga').on('click', function () {
+        location.href = 'http://localhost:8888/operativa/public/admin/carga-avisos';
+    });
+
+    $('#myTable').DataTable({
+        ajax: 'http://localhost:8888/operativa/public/admin/getAvisos',
+        responsive: true,
+        scrollX: true,
+        columns: [
+            {'data': 'localidad'},
+            {'data': 'barrio'},
+            {'data': 'direccion'},
+            {'data': 'nic'},
+            {'data': 'gestor'}
+        ]
     });
 </script>
 <script>
