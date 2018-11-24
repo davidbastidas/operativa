@@ -44,6 +44,12 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'DownloadController@download'
     ]);
 
+
+    Route::post('admin/avisos/upload', [
+        'as' => 'admin.avisos.upload',
+        'uses' => 'AvisosController@subirAvisos'
+    ]);
+
     Route::get('admin/download-avisos', 'DownloadController@index');
 
     Route::get('admin/carga-avisos', 'AvisosController@cargaAvisosIndex');
