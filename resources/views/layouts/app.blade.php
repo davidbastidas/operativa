@@ -66,15 +66,15 @@
 
 <script>
     $('#download').on('click', function () {
-        location.href = 'http://localhost:8888/operativa/public/admin/download-avisos';
+        location.href = 'http://52.14.94.46/operativa/public/admin/download-avisos';
     });
 
     $('#carga').on('click', function () {
-        location.href = 'http://localhost:8888/operativa/public/admin/carga-avisos';
+        location.href = 'http://52.14.94.46/operativa/public/admin/carga-avisos';
     });
 
     $('#myTable').DataTable({
-        ajax: 'http://localhost:8888/operativa/public/admin/getAvisos',
+        ajax: 'http://52.14.94.46/operativa/public/admin/getAvisos',
         responsive: true,
         scrollX: true,
         columns: [
@@ -89,25 +89,25 @@
 <script>
 
     $('#reload').on('click', function () {
-        if (location.href === 'http://localhost:8888/operativa/public/admin/dashboard/1') {
+        if (location.href === 'http://52.14.94.46/operativa/public/admin/dashboard/1') {
             location.reload();
         }
 
         let loc = location.href;
-        let down = 'http://localhost:8888/operativa/public/admin/download-avisos';
-        let carga_avisos = 'http://localhost:8888/operativa/public/admin/carga-avisos';
-        let xxxx = 'http://localhost:8888/operativa/public/admin/vaciar-carga-avisos';
-        let img = 'http://localhost:8888/operativa/public/admin/img-panel';
+        let down = 'http://52.14.94.46/operativa/public/admin/download-avisos';
+        let carga_avisos = 'http://52.14.94.46/operativa/public/admin/carga-avisos';
+        let xxxx = 'http://52.14.94.46/operativa/public/admin/vaciar-carga-avisos';
+        let img = 'http://52.14.94.46/operativa/public/admin/img-panel';
 
         if (loc.includes(down)) {
             $id = '{{$id}}';
-            let replaceUrl = 'http://localhost:8888/operativa/public/admin/dashboard/' + $id;
+            let replaceUrl = 'http://52.14.94.46/operativa/public/admin/dashboard/' + $id;
             location.href = replaceUrl;
         }
 
         if (loc.includes(carga_avisos)) {
             $id = '{{$id}}';
-            let replaceUrl = 'http://localhost:8888/operativa/public/admin/dashboard/' + $id;
+            let replaceUrl = 'http://52.14.94.46/operativa/public/admin/dashboard/' + $id;
             location.href = replaceUrl;
         }
 
