@@ -11,43 +11,13 @@ use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Login Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles authenticating users for the application and
-    | redirecting them to your home screen. The controller uses a trait
-    | to conveniently provide its functionality to your applications.
-    |
-    */
+    public function login(Request $request){
 
-    use AuthenticatesUsers;
-
-
-
-    protected $redirectTo = '/';
-
-    public function __construct()
-    {
-        $this->middleware('guest', ['except' => 'logout']);
-    }
-
-    protected function credentials(Request $request)
-    {
-        return ['email' => $request->{$this->username()}, 'password' => $request->password];
-    }
-
-    public function login(Request $request)
-    {
-        return "login no worknig";
-    }
-
-    public function logout(Request $request)
-    {
-        Session::remove('lastActivityTime');
-        \Auth::logout();
-
-        return redirect('/');
+        $this->validate($request,
+            [
+                'email' => 'email|required|string',
+                'password' => 'required|string'
+            ]
+        );
     }
 }

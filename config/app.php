@@ -147,8 +147,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         GoogleMaps\ServiceProvider\GoogleMapsServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
@@ -213,7 +213,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'GoogleMaps' => GoogleMaps\Facade\GoogleMapsFacade::class,
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class, 
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

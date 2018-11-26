@@ -50,13 +50,13 @@
                                     </div>
                                 </div>
                             </a>
-                            <a class="dropdown-item">
-                                Cambiar Contraseña
-                            </a>
 
-                            <a class="dropdown-item" href="{{url('/admin/logout')}}">
-                                Salir
-                            </a>
+                            <form action="{{route('logout')}}" method="POST">
+                                {{csrf_field()}}
+                                <button type="submit" class="dropdown-item">
+                                    Salir
+                                </button>
+                            </form>
                         </div>
                     </li>
                 </ul>

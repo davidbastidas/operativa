@@ -10,8 +10,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "maatwebsite/excel": "~2.1.0",
-        "tymon/jwt-auth": "^1.0.0-rc.2"
+        "maatwebsite/excel": "~2.1.0"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -19,7 +18,8 @@
         "fzaninotto/faker": "^1.4",
         "mockery/mockery": "^1.0",
         "nunomaduro/collision": "^2.0",
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^7.0",
+        "tymon/jwt-auth": "^1.0.0-rc.2"
     },
     "autoload": {
         "classmap": [

@@ -3,9 +3,17 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-Auth::routes();
 
 Route::group(['middleware' => ['sessionValid']], function () {
+
+    Route::get('/', function (){
+       return view('auth.login', ['id' => '']);
+    })->name('/');
+
+    Route::post('login', [
+        'as' => 'login',
+        'uses' => 'LoginController@login'
+    ]);
 
     Route::match(['get', 'post'], '/admin',
         [
@@ -19,8 +27,7 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AdminController@dashboard'
     ]);
 
-    Route::get('admin/logout', 'AdminController@logout');
-
+    Route::post('logout', 'LoginController@logout')->name('logout');
 
     Route::match(['get', 'post'], 'admin/img-panel',
         [
@@ -49,9 +56,9 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@subirAvisos'
     ]);
 
-    Route::get('admin/download-avisos', 'DownloadController@index');
+    Route::get('admin/download-avisos', 'DownloadController@index')->name('download.avisos');
 
-    Route::get('admin/carga-avisos', 'AvisosController@cargaAvisosIndex');
+    Route::get('admin/carga-avisos', 'AvisosController@cargaAvisosIndex')->name('carga.avisos');
 
     Route::post('admin/asignar-avisos', [
         'as' => 'admin.asignar.avisos',
@@ -71,3 +78,7 @@ Route::group(['middleware' => ['sessionValid']], function () {
     Route::get('admin/getAvisos', 'AvisosController@getAvisos');
 
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

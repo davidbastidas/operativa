@@ -64,15 +64,21 @@
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 
+
 <script>
-    $('#download').on('click', function () {
-        location.href = 'http://52.14.94.46/operativa/public/admin/download-avisos';
+    //Cargar fecha de hoy al input de los contadores
+    $(document).ready(function () {
+        $fecha = new Date();
+        $year = $fecha.getFullYear();
+        $month = $fecha.getMonth()+1;
+        $day = $fecha.getDate();
+        console.log($fecha);
+        $('#fecha').val($year +'-' + $month +'-' +$day);
     });
+</script>
 
-    $('#carga').on('click', function () {
-        location.href = 'http://52.14.94.46/operativa/public/admin/carga-avisos';
-    });
-
+<script>
+    //Cargar Avisos
     $('#myTable').DataTable({
         ajax: 'http://52.14.94.46/operativa/public/admin/getAvisos',
         responsive: true,
@@ -86,45 +92,10 @@
         ]
     });
 </script>
-<script>
-    $('#reload').on('click', function () {
-        if (location.href === 'http://52.14.94.46/operativa/public/admin/dashboard/1') {
-            location.reload();
-        }
 
-        let loc = location.href;
-        let down = 'http://52.14.94.46/operativa/public/admin/download-avisos';
-        let carga_avisos = 'http://52.14.94.46/operativa/public/admin/carga-avisos';
-        let xxxx = 'http://52.14.94.46/operativa/public/admin/vaciar-carga-avisos';
-        let img = 'http://52.14.94.46/operativa/public/admin/img-panel';
-
-        if (loc.includes(down)) {
-            $id = '{{$id}}';
-            let replaceUrl = 'http://52.14.94.46/operativa/public/admin/dashboard/' + $id;
-            location.href = replaceUrl;
-        }
-
-        if (loc.includes(carga_avisos)) {
-            $id = '{{$id}}';
-            let replaceUrl = 'http://52.14.94.46/operativa/public/admin/dashboard/' + $id;
-            location.href = replaceUrl;
-        }
-
-    });
-</script>
 
 <script>
-    $(document).ready(function () {
-        $fecha = new Date();
-        $year = $fecha.getFullYear();
-        $month = $fecha.getMonth()+1;
-        $day = $fecha.getDate();
-        console.log($fecha);
-        $('#fecha').val($year +'-' + $month +'-' +$day);
-    });
-</script>
-<!--Indicadores busqueda-->
-<script>
+    //Indicadores busqueda
     $('#btnIndicador').on('click', function () {
         let $fecha = $('#fecha').val();
 

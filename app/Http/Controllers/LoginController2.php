@@ -19,17 +19,6 @@ class LoginController2 extends Controller
 
     function login(Request $request)
     {
-        $usario = Usuario::all();
 
-        $mail = $request->get('email');
-        $pass = $request->get('password');
-
-        $array = [
-            'mail' => $mail,
-            'pass' => $pass
-        ];
-        $json = json_encode($array);
-
-        return $usario;
     }
 }

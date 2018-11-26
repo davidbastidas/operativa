@@ -127,7 +127,8 @@ class AvisosController extends Controller
     public function getAvisos()
     {
         $id = Session::get('adminId');
-        $avisos = AvisosTemp::where('admin_id', $id)->get();
+
+        $avisos = AvisosTemp::where('admin_id', DB::raw($id))->get();
 
         return response()->json([
             'data' => $avisos

@@ -51,15 +51,22 @@ class AdminController extends Controller
 
     public function dashboard($id)
     {
-        Session::remove('users');
-        $data = $this->getUserDataById($id);
+        if (Session::has('isLogged')) {
+            Session::remove('users');
+            $data = $this->getUserDataById($id);
 
-        return view('admin.panel',
-            [
-                'name' => $data->name,
-                'id' => $id,
-            ]
-        );
+            return view('admin.panel',
+                [
+                    'name' => $data->name,
+                    'id' => $id,
+                ]
+            );
+        }
+
+        return back()
+            ->withErrors(['email' => 'Debe iniciar sesion.'])
+            ->withInput(request(['email']));
+
     }
 
     public function logout()

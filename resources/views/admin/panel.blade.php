@@ -47,13 +47,13 @@
                                     </div>
                                 </div>
                             </a>
-                            <a class="dropdown-item">
-                                Cambiar Contraseña
-                            </a>
 
-                            <a class="dropdown-item" href="{{url('/admin/logout')}}">
-                                Salir
-                            </a>
+                            <form action="{{route('logout')}}" method="POST">
+                                {{csrf_field()}}
+                                <button type="submit" class="dropdown-item">
+                                    Salir
+                                </button>
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -67,42 +67,7 @@
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_sidebar.html -->
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
-                <ul class="nav">
-                    <li class="nav-item nav-profile">
-                        <div class="nav-link">
-                            <div class="user-wrapper">
-                                <div class="profile-image">
-                                    <img src="{{asset('images/faces/face1.png')}}" alt="profile image">
-                                </div>
-                                <div class="text-wrapper">
-                                    <p class="profile-name">{{$name}}</p>
-                                    <div>
-                                        <small class="designation text-muted">Admin</small>
-                                        <span class="status-indicator online"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-                    <li class="nav-item hand" id="reload">
-                        <a class="nav-link">
-                            <i class="menu-icon mdi mdi-television"></i>
-                            <span class="menu-title">Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="nav-item hand" id="download">
-                        <a class="nav-link">
-                            <i class="menu-icon mdi mdi-file-import"></i>
-                            <span class="menu-title">Descargar Avisos</span>
-                        </a>
-                    </li>
-                    <li class="nav-item hand" id="carga">
-                        <a class="nav-link">
-                            <i class="menu-icon mdi mdi-upload"></i>
-                            <span class="menu-title">Carga Avisos</span>
-                        </a>
-                    </li>
-                </ul>
+                @include('__partials.menu')
             </nav>
             <!-- partial -->
             <div class="main-panel">
@@ -149,11 +114,13 @@
                                 <div class="card-body">
                                     <center><h2 class="card-title text-primary mb-5">Produccion Diaria</h2></center>
                                     <center><p class="mb-2">Total Pendientes</p>
-                                        <p id="contP" class="display-3 mb-4 font-weight-light">321<span class="mdi mdi-thumb-down" style="color:#35abde;"></span></p>
+                                        <p id="contP" class="display-3 mb-4 font-weight-light">321<span
+                                                class="mdi mdi-thumb-down" style="color:#35abde;"></span></p>
                                     </center>
                                     <center>
                                         <p class="mb-2">Total Resueltos</p>
-                                        <p id="contR" class="display-3 mb-5 font-weight-light">123<span class="mdi mdi-thumb-up" style="color:#95de6b;"></span></p>
+                                        <p id="contR" class="display-3 mb-5 font-weight-light">123<span
+                                                class="mdi mdi-thumb-up" style="color:#95de6b;"></span></p>
                                     </center>
                                     <div class="row">
                                         <div class="col-md-8">
@@ -175,7 +142,10 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h4 class="card-title">Location GPS</h4>
-                                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.3387002318436!2d-74.82985228583699!3d11.013194492161118!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef42c4d4ad7ec73%3A0x9ab6eda3d5142548!2sCentro+Comercial+Buenavista!5e0!3m2!1ses-419!2sco!4v1543199574416" width="100%" height="400px" frameborder="0" style="border:0" allowfullscreen></iframe>
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.3387002318436!2d-74.82985228583699!3d11.013194492161118!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef42c4d4ad7ec73%3A0x9ab6eda3d5142548!2sCentro+Comercial+Buenavista!5e0!3m2!1ses-419!2sco!4v1543199574416"
+                                        width="100%" height="400px" frameborder="0" style="border:0"
+                                        allowfullscreen></iframe>
                                 </div>
                             </div>
                         </div>
