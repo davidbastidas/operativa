@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AdminTable;
+use App\Avisos;
 use App\Meses;
 use App\Received;
 use App\Sent;
@@ -60,7 +61,6 @@ class AdminController extends Controller
             ]
         );
     }
-
 
     public function logout()
     {

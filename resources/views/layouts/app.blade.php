@@ -87,7 +87,6 @@
     });
 </script>
 <script>
-
     $('#reload').on('click', function () {
         if (location.href === 'http://52.14.94.46/operativa/public/admin/dashboard/1') {
             location.reload();
@@ -111,6 +110,57 @@
             location.href = replaceUrl;
         }
 
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $fecha = new Date();
+        $year = $fecha.getFullYear();
+        $month = $fecha.getMonth()+1;
+        $day = $fecha.getDate();
+        console.log($fecha);
+        $('#fecha').val($year +'-' + $month +'-' +$day);
+    });
+</script>
+<!--Indicadores busqueda-->
+<script>
+    $('#btnIndicador').on('click', function () {
+        let $fecha = $('#fecha').val();
+
+        let $data = {
+            'fecha': $fecha
+        };
+
+        $.ajax({
+            url: "http://52.14.94.46/operativa/public/admin/getIndicadores",
+            type: "POST",
+            data: $data,
+            success: function (result) {
+                if (result.pendientes == 0) {
+                    $('#contP').text(result.pendientes);
+                    let $msg = "No hay avisos pendientes en la fecha indicada.";
+                    alert($msg);
+                    $('#contP').empty();
+                    $('#contP').append(result.pendientes + "<span class='mdi mdi-thumb-down' style='color:#35abde;'></span>");
+                } else {
+                    $('#contP').empty();
+                    $('#contP').append(result.pendientes + "<span class='mdi mdi-thumb-down' style='color:#35abde;'></span>");
+                }
+                if (result.realizados == 0) {
+                    let $msg = "No hay avisos realizados en la fecha indicada.";
+                    alert($msg);
+                    $('#contR').empty();
+                    $('#contR').append(result.realizados + "<span class='mdi mdi-thumb-up' style='color:#95de6b;'></span>");
+                } else {
+                    $('#contR').empty();
+                    $('#contR').append(result.realizados + "<span class='mdi mdi-thumb-up' style='color:#95de6b;'></span>");
+                }
+            },
+            error: function (error) {
+                alert("error")
+            }
+        });
     });
 </script>
 

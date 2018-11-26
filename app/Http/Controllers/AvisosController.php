@@ -6,6 +6,7 @@ use App\Avisos;
 use App\AvisosTemp;
 use App\Usuarios;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -48,7 +49,6 @@ class AvisosController extends Controller
         return "";
     }
 
-
     public function cargaAvisosIndex()
     {
         $id = Session::get('adminId');
@@ -74,7 +74,7 @@ class AvisosController extends Controller
         $avisos = AvisosTemp::where('gestor', $gestor)->get();
         $delegacion_id = Usuarios::where('id', $user)->first()->delegacion_id;
 
-        foreach ($avisos as $aviso){
+        foreach ($avisos as $aviso) {
             $av = new Avisos();
             $av->id = $aviso->id;
             $av->campana = $aviso->campana;
@@ -102,10 +102,10 @@ class AvisosController extends Controller
             $av->gestor_id = $user;
             $av->admin_id = $id;
 
-            try{
+            try {
                 $av->save();
                 $aviso->delete();
-            }catch (\Exception $e){
+            } catch (\Exception $e) {
                 return $e;
             }
         }
@@ -124,8 +124,8 @@ class AvisosController extends Controller
         ]);
     }
 
-
-    public function getAvisos(){
+    public function getAvisos()
+    {
         $id = Session::get('adminId');
         $avisos = AvisosTemp::where('admin_id', $id)->get();
 
@@ -134,7 +134,8 @@ class AvisosController extends Controller
         ]);
     }
 
-    public function vaciarCarga(Request $request){
+    public function vaciarCarga(Request $request)
+    {
         $id = Session::get('adminId');
         $avisos = AvisosTemp::where('admin_id', $id)->get();
 
@@ -147,6 +148,22 @@ class AvisosController extends Controller
             'success' => 'Carga Vaciada Completamente!',
             'id' => $id,
             'name' => $name
+        ]);
+    }
+
+    public function getIndicadores(Request $request)
+    {
+        $avisosPendientes = Avisos::where('estado', 1)
+            ->where('fecha_entrega', 'LIKE', DB::raw("'%$request->fecha%'"))
+            ->count();
+
+        $avisosRealizados = Avisos::where('estado', 2)
+            ->where('fecha_entrega', 'LIKE', DB::raw("'%$request->fecha%'"))
+            ->count();
+
+        return response()->json([
+            'pendientes' => $avisosPendientes,
+            'realizados' => $avisosRealizados
         ]);
     }
 }
