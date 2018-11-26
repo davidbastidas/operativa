@@ -63,6 +63,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@vaciarCarga'
     ]);
 
+    Route::post('admin/getIndicadores', [
+        'as' => 'admin.getIndicadores',
+        'uses' => 'AvisosController@getIndicadores'
+    ]);
+
     Route::get('admin/getAvisos', 'AvisosController@getAvisos');
 
 });
