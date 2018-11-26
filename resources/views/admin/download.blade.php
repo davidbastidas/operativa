@@ -82,15 +82,16 @@
                                 @endif
 
                                 <form action="{{route('admin.excel.download')}}" method="post" style="padding: 3%;">
+                                    {{csrf_field()}}
                                     <div class="row">
                                         <div class="col-md-1"></div>
                                         <div class="col-md-3">
                                             <label>Desde</label>
-                                            <input type="date" name="fecha1" required class="form-control"/>
+                                            <input type="date" id="fechaD1" name="fecha1" required class="form-control"/>
                                         </div>
                                         <div class="col-md-3">
                                             <label>Hasta</label>
-                                            <input type="date" name="fecha2" required class="form-control"/>
+                                            <input type="date" id="fechaD2" name="fecha2" required class="form-control"/>
                                         </div>
                                         <div class="col-md-3">
                                             <label>Delegacion</label>
