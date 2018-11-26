@@ -6,6 +6,7 @@ use App\Avisos;
 use App\Anomalias;
 use App\Resultados;
 use App\EntidadesPagos;
+use App\ObservacionesRapidas;
 use App\Usuarios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -40,6 +41,7 @@ class ApiController extends Controller
     $arrayAnomalias = [];
     $arrayResultados = [];
     $arrayEntidades = [];
+    $arrayObservacionesRapidas = [];
     $arrayFINAL = [];
     $collection = null;
 
@@ -47,6 +49,7 @@ class ApiController extends Controller
     foreach ($avisos as $aviso) {
       array_push($arrayAvisos, (object) array(
         'id' => $aviso->id,
+        'tipo_visita' => $aviso->tipo_visita,
         'municipio' => $aviso->municipio,
         'localidad' => $aviso->localidad,
         'barrio' => $aviso->barrio,
@@ -86,11 +89,21 @@ class ApiController extends Controller
       ));
     }
 
+    $observaciones = ObservacionesRapidas::all();
+    foreach ($observaciones as $observacion) {
+      array_push($arrayObservacionesRapidas, (object) array(
+        'id' => $observacion->id,
+        'nombre' => $observacion->nombre
+      ));
+    }
+
     array_push($arrayFINAL, (object) array(
+      'estado' => true,
       'visitas' => $arrayAvisos,
       'anomalias' => $arrayAnomalias,
       'resultados' => $arrayResultados,
-      'entidades' => $arrayEntidades
+      'entidades' => $arrayEntidades,
+      'observaciones_rapidas' => $arrayObservacionesRapidas
     ));
     $collection = new Collection($arrayFINAL);
     return $collection;
@@ -102,6 +115,28 @@ class ApiController extends Controller
     if($request->user){
       $aviso = Avisos::where('id', '=', $request->id)->where('estado', '=', '1')->first();
       if(isset($aviso->id)){
+        if($request->resultado == 0){
+          $request->resultado = null;
+        }
+        if($request->anomalia == 0){
+          $request->anomalia = null;
+        }
+        if($request->entidad_recaudo == 0){
+          $request->entidad_recaudo = null;
+        }
+        if($request->observacion_rapida == 0){
+          $request->observacion_rapida = null;
+        }
+        if($request->fecha_compromiso != ""){
+          $request->fecha_compromiso = Carbon::createFromFormat('d/m/Y', $request->fecha_compromiso)->format('Y-m-d');
+        } else if($request->fecha_compromiso == ""){
+          $request->fecha_compromiso = null;
+        }
+        if($request->fecha_pago != ""){
+          $request->fecha_pago = Carbon::createFromFormat('d/m/Y', $request->fecha_pago)->format('Y-m-d');
+        } else if($request->fecha_pago == ""){
+          $request->fecha_pago = null;
+        }
         $aviso->resultado_id = $request->resultado;
         $aviso->anomalia_id = $request->anomalia;
         $aviso->entidad_recaudo_id = $request->entidad_recaudo;
@@ -117,7 +152,8 @@ class ApiController extends Controller
         $aviso->observacion_analisis = $request->observacion_analisis;
         $aviso->latitud = $request->latitud;
         $aviso->longitud = $request->longitud;
-        $aviso->fecha_recibido = Carbon::now();
+        $aviso->fecha_recibido = $aviso->fecha_realizado;
+        $aviso->fecha_recibido_servidor = Carbon::now();
         $aviso->estado = 2;
         $aviso->orden_realizado = $request->orden_realizado;
 

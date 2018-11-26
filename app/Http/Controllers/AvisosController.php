@@ -26,7 +26,7 @@ class AvisosController extends Controller
             $aviso->campana = $base[0];
             $aviso->campana2 = $base[1];
             $aviso->fecha_entrega = $base[2]->format('Y-m-d');
-            $aviso->tipo_visita = $base[3] == null ? "" : $base[3];
+            $aviso->tipo_visita = $base[3];
             $aviso->municipio = $base[4];
             $aviso->localidad = $base[5];
             $aviso->barrio = $base[6];
