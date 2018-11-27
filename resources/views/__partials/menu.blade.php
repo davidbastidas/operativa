@@ -1,5 +1,5 @@
 <style>
-    ul li a:hover{
+    nav ul li a:hover:not(#UserDropdown){
         background-color: #d69d0f !important;
     }
     .menu-eca{
