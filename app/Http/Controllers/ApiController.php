@@ -159,6 +159,14 @@ class ApiController extends Controller
 
         $aviso->save();
 
+        if($request->foto != null || $request->foto != ""){
+          //decode base64 string
+          $image = base64_decode($request->foto);
+
+          $safeName = $aviso->id.'.'.'png';
+          Storage::disk('public')->put('fotos/'.$safeName, $image);
+        }
+
         $response = array(
           'estado' => true
         );

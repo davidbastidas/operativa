@@ -43,10 +43,10 @@ class AvisosController extends Controller
             $aviso->tarifa = $base[17];
             $aviso->compromiso = $base[18]->format('Y-m-d');
             $aviso->avisos = $base[19];
-            $aviso->admin_id = 1;
+            $aviso->admin_id = Session::get('adminId');
             $aviso->save();
         }
-        return "";
+        return \Redirect::route('carga.avisos');
     }
 
     public function cargaAvisosIndex()
@@ -138,18 +138,12 @@ class AvisosController extends Controller
     public function vaciarCarga(Request $request)
     {
         $id = Session::get('adminId');
-        $avisos = AvisosTemp::where('admin_id', $id)->get();
-
-        $avisos->delete();
+        $avisos = AvisosTemp::where('admin_id', $id)->delete();
 
         $id = Session::get('adminId');
         $name = Session::get('adminName');
 
-        return view('admin.vaciarcarga', [
-            'success' => 'Carga Vaciada Completamente!',
-            'id' => $id,
-            'name' => $name
-        ]);
+        return \Redirect::route('carga.avisos');
     }
 
     public function getIndicadores(Request $request)

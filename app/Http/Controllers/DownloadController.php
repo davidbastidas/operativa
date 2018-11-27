@@ -32,7 +32,7 @@ class DownloadController extends Controller
         $model = new Avisos();
         $avisos = $model->hydrate(
             DB::select(
-                "call download_avisos('$fecha1', '$fecha2')"
+                "call download_avisos('$fecha1', '$fecha2', $delegacion)"
             )
         );
 
