@@ -112,12 +112,12 @@
                                 <div class="card-body">
                                     <center><h2 class="card-title text-primary mb-5">Produccion Diaria</h2></center>
                                     <center><p class="mb-2">Total Pendientes</p>
-                                        <p id="contP" class="display-3 mb-4 font-weight-light">321<span
+                                        <p id="contP" class="display-3 mb-4 font-weight-light"><span
                                                 class="mdi mdi-thumb-down" style="color:#35abde;"></span></p>
                                     </center>
                                     <center>
                                         <p class="mb-2">Total Resueltos</p>
-                                        <p id="contR" class="display-3 mb-5 font-weight-light">123<span
+                                        <p id="contR" class="display-3 mb-5 font-weight-light"><span
                                                 class="mdi mdi-thumb-up" style="color:#95de6b;"></span></p>
                                     </center>
                                     <div class="row">

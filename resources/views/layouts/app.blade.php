@@ -64,18 +64,43 @@
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 
-
 <script>
     //Cargar fecha de hoy al input de los contadores
     $(document).ready(function () {
         $fecha = new Date();
         $year = $fecha.getFullYear();
-        $month = $fecha.getMonth()+1;
+        $month = $fecha.getMonth() + 1;
         $day = $fecha.getDate();
         console.log($fecha);
-        $('#fecha').val($year +'-' + $month +'-' +$day);
-        $('#fechaD1').val($year +'-' + $month +'-' +$day);
-        $('#fechaD2').val($year +'-' + $month +'-' +$day);
+        $('#fecha').val($year + '-' + $month + '-' + $day);
+        $('#fechaD1').val($year + '-' + $month + '-' + $day);
+        $('#fechaD2').val($year + '-' + $month + '-' + $day);
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        let $fecha = $('#fecha').val();
+
+        let $data = {
+            'fecha': $fecha
+        };
+
+        $.ajax({
+            url: "http://52.14.94.46/operativa/public/admin/getIndicadores",
+            type: "POST",
+            data: $data,
+            success: function (result) {
+                $('#contP').empty();
+                $('#contP').append(result.pendientes + "<span class='mdi mdi-thumb-down' style='color:#35abde;'></span>");
+
+                $('#contR').empty();
+                $('#contR').append(result.realizados + "<span class='mdi mdi-thumb-up' style='color:#95de6b;'></span>");
+            },
+            error: function (error) {
+                alert("error")
+            }
+        });
     });
 </script>
 
