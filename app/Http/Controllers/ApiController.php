@@ -8,6 +8,7 @@ use App\Resultados;
 use App\EntidadesPagos;
 use App\ObservacionesRapidas;
 use App\Usuarios;
+use App\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
@@ -152,19 +153,33 @@ class ApiController extends Controller
         $aviso->observacion_analisis = $request->observacion_analisis;
         $aviso->latitud = $request->latitud;
         $aviso->longitud = $request->longitud;
-        $aviso->fecha_recibido = $aviso->fecha_realizado;
+        $aviso->fecha_recibido = $request->fecha_realizado;
         $aviso->fecha_recibido_servidor = Carbon::now();
         $aviso->estado = 2;
         $aviso->orden_realizado = $request->orden_realizado;
 
         $aviso->save();
 
-        if($request->foto != null || $request->foto != ""){
-          //decode base64 string
-          $image = base64_decode($request->foto);
+        $logSeg = new Log();
+        $logSeg->log = '' . $request;
+        $logSeg->aviso_id = $aviso->id;
+        $logSeg->save();
 
-          $safeName = $aviso->id.'.'.'png';
-          Storage::disk('public')->put('fotos/'.$safeName, $image);
+        try {
+          if($request->foto != null || $request->foto != ""){
+            //decode base64 string
+            $image = base64_decode($request->foto);
+
+            $archivo = $aviso->id.'.'.'png';
+            \File::put('/var/www/html/operativa/storage/app/public/fotos/' . $archivo, $image);
+          }
+        } catch (\Exception $e) {
+          $logSeg = new Log();
+          $logSeg->log = '' . $e;
+          $logSeg->aviso_id = $aviso->id;
+          $logSeg->save();
+        } finally {
+
         }
 
         $response = array(
