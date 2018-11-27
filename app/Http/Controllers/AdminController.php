@@ -54,7 +54,6 @@ class AdminController extends Controller
         if (Session::has('isLogged')) {
             Session::remove('users');
             $data = $this->getUserDataById($id);
-
             $last50 = DB::table('avisos')
                 ->select(DB::raw('usuarios.nombre, avisos.barrio, avisos.fecha_recibido_servidor, avisos.direccion'))
                 ->leftJoin('usuarios', 'usuarios.id', '=', 'avisos.gestor_id')

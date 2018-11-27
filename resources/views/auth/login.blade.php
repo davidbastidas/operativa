@@ -1,21 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
+    <style>
+        body {
+            background-color: #003a63;
+        }
+
+        .yellow {
+            background-color: #fec00f;
+        }
+
+        .btn-green {
+            background-color: #008080;
+            color: white;
+        }
+
+        .btn-green:hover {
+            background-color: #2ab7b5;
+            color: white;
+        }
+
+        form {
+            padding: 0;
+        }
+    </style>
     <div class="container">
+        <br><br><br>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Login') }}</div>
-
-                    <div class="card-body">
+                    <center>
+                        <div class="card-header yellow">{{ __('Bienvenido!') }}</div>
+                    </center>
+                    <div class="card-body body-login">
+                        <center><img src="{{asset('/images/electricaribe.png')}}" width="180px;"></center>
+                        <br>
                         <form method="POST" action="{{ route('login') }}">
                             {{csrf_field()}}
 
-                            <div class="form-group row">
-                                <label for="email"
-                                       class="col-sm-4 col-form-label text-md-right">{{ __('Email') }}</label>
-
+                            <div class="row">
+                                <div class="col-md-3"></div>
                                 <div class="col-md-6">
+                                    <label>Email</label>
                                     <input id="email" type="email"
                                            class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                            name="email" value="{{ old('email') }}" required autofocus>
@@ -27,12 +53,10 @@
                                     @endif
                                 </div>
                             </div>
-
-                            <div class="form-group row">
-                                <label for="password"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
+                            <div class="row">
+                                <div class="col-md-3"></div>
                                 <div class="col-md-6">
+                                    <label>Contraseña</label>
                                     <input id="password" type="password"
                                            class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                            name="password" required>
@@ -44,23 +68,12 @@
                                     @endif
                                 </div>
                             </div>
+                            <br>
 
-                            <div class="form-group row">
-                                <div class="col-md-6 offset-md-4">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="remember"
-                                               id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                        <label class="form-check-label" for="remember">
-                                            {{ __('Remember Me') }}
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-0">
-                                <div class="col-md-8 offset-md-4">
-                                    <button type="submit" class="btn btn-success">
+                            <div class="row">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn btn-green btn-block">
                                         {{ __('Ingresar') }}
                                     </button>
 
@@ -71,6 +84,8 @@
                                     @endif
                                 </div>
                             </div>
+
+                            <br>
                         </form>
                     </div>
                 </div>

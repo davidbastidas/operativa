@@ -1,21 +1,14 @@
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-    <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
-        <a class="navbar-brand brand-logo" href="#">
-            <img src="{{asset('images/logo.svg')}}" alt="logo"/>
+    <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center notme" style="background-color: #003a63">
+        <a class="navbar-brand brand-logo">
+            <img src="{{asset('images/electricaribe.png')}}" style="width: 170px; height: 50px;">
         </a>
-        <a class="navbar-brand brand-logo-mini" href="#">
-            <img src="{{asset('images/logo-mini.svg')}}" alt="logo"/>
+        <a class="navbar-brand brand-logo-mini">
+            <img src="{{asset('images/electricaribe.png')}}" style="width: 170px; height: 50px;">
         </a>
     </div>
-    <div class="navbar-menu-wrapper d-flex align-items-center">
+    <div class="navbar-menu-wrapper d-flex align-items-center" style="background-color: #008080">
         <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item dropdown">
-                <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#"
-                   data-toggle="dropdown" aria-expanded="false">
-                    <i class="mdi mdi-file-document-box"></i>
-                    <span class="count">{{$pendientes}}</span>
-                </a>
-            </li>
             <li class="nav-item dropdown d-none d-xl-inline-block">
                 <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown"
                    aria-expanded="false">
@@ -38,13 +31,12 @@
                             </div>
                         </div>
                     </a>
-                    <a class="dropdown-item">
-                        Cambiar Contraseña
-                    </a>
-
-                    <a class="dropdown-item" href="{{url('/admin/logout')}}">
-                        Salir
-                    </a>
+                    <form action="{{route('logout')}}" method="POST">
+                        {{csrf_field()}}
+                        <button type="submit" class="dropdown-item">
+                            Salir
+                        </button>
+                    </form>
                 </div>
             </li>
         </ul>
