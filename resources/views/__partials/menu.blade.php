@@ -21,16 +21,23 @@
             <span class="menu-title">Dashboard</span>
         </a>
     </li>
+    <li class="nav-item hand">
+        <a class="nav-link" href="{{route('admin.excel.index', $id)}}">
+            <i class="menu-icon mdi mdi-upload"></i>
+            <span class="menu-title">Subir Avisos</span>
+        </a>
+    </li>
+    <li class="nav-item hand">
+        <a class="nav-link" href="{{route('carga.avisos', $id)}}">
+            <i class="fa fa-arrows-h"></i>
+            <span class="menu-title">Asignar Avisos</span>
+        </a>
+    </li>
     <li class="nav-item hand" id="download">
         <a class="nav-link" href="{{route('download.avisos', $id)}}">
             <i class="menu-icon mdi mdi-file-import"></i>
             <span class="menu-title">Descargar Avisos</span>
         </a>
     </li>
-    <li class="nav-item hand">
-        <a class="nav-link" href="{{route('carga.avisos', $id)}}">
-            <i class="menu-icon mdi mdi-upload"></i>
-            <span class="menu-title">Carga Avisos</span>
-        </a>
-    </li>
+
 </ul>
