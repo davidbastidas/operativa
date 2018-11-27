@@ -9,6 +9,13 @@
     <style>
         form {
             padding: 0;
+
+        }
+        .table-wrapper-scroll-y {
+            display: block;
+            max-height: 300px;
+            overflow-y: auto;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
         }
     </style>
 
@@ -77,35 +84,26 @@
                             <div class="card">
                                 <div class="card-body">
                                     <center><h2 class="card-title text-primary mb-5">Ultimos 50 Realizados</h2></center>
-                                    <table class="table table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">First</th>
-                                            <th scope="col">Last</th>
-                                            <th scope="col">Handle</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>Mark</td>
-                                            <td>Otto</td>
-                                            <td>@mdo</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>Jacob</td>
-                                            <td>Thornton</td>
-                                            <td>@fat</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td colspan="2">Larry the Bird</td>
-                                            <td>@twitter</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                    <div class="table-wrapper-scroll-y">
+                                        <table class="table table-bordered table-striped">
+                                            <thead>
+                                            <tr>
+                                                <th scope="col">Nombre Gestor</th>
+                                                <th scope="col">Barrio</th>
+                                                <th scope="col">Fecha</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach($last50 as $last)
+                                                <tr>
+                                                    <th>{{$last->nombre}}</th>
+                                                    <td>{{$last->barrio}}</td>
+                                                    <td>{{$last->fecha_recibido_servidor}}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
