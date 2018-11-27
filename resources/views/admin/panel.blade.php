@@ -24,10 +24,10 @@
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-top justify-content-center">
                 <a class="navbar-brand brand-logo">
-                    <img src="{{asset('images/electricaribe.jpg')}}" alt="logo"/>
+                    <img src="{{asset('images/electricaribe.jpg')}}" style="width: 170px; height: 50px;">
                 </a>
                 <a class="navbar-brand brand-logo-mini">
-                    <img src="{{asset('images/electricaribe.jpg')}}" alt="logo"/>
+                    <img src="{{asset('images/electricaribe.jpg')}}" style="width: 170px; height: 50px;">
                 </a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center">
@@ -80,7 +80,7 @@
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
-                        <div class="col-lg-7 grid-margin stretch-card">
+                        <div class="col-lg-8 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
                                     <center><h2 class="card-title text-primary mb-5">Ultimos 50 Realizados</h2></center>
@@ -107,7 +107,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-5 grid-margin stretch-card">
+                        <div class="col-lg-4 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
                                     <center><h2 class="card-title text-primary mb-5">Produccion Diaria</h2></center>
