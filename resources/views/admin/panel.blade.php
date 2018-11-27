@@ -11,6 +11,7 @@
             padding: 0;
 
         }
+
         .table-wrapper-scroll-y {
             display: block;
             max-height: 300px;
@@ -21,12 +22,12 @@
 
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
-            @include('__partials.nav')
-        <!-- partial -->
+    @include('__partials.nav')
+    <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_sidebar.html -->
-                @include('__partials.menu')
-            <!-- partial -->
+        @include('__partials.menu')
+        <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
@@ -108,10 +109,10 @@
                 <!-- partial:partials/_footer.html -->
                 <footer class="footer">
                     <div class="container-fluid clearfix">
-            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018
-              <a href="#" target="_blank">David And Julio S.A.S.</a> All rights reserved.</span>
-                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
-            </span>
+                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © 2018
+                          <a href="#" target="_blank">GestionAvisos 1.1</a> All rights reserved.</span>
+                                    <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">
+                        </span>
                     </div>
                 </footer>
                 <!-- partial -->
