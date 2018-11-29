@@ -74,7 +74,7 @@ class ApiController extends Controller
       ));
     }
 
-    $resultados = Resultados::all();
+    $resultados = Resultados::where('estado', '=', '1')->get();
     foreach ($resultados as $resultado) {
       array_push($arrayResultados, (object) array(
         'id' => $resultado->id,
