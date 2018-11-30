@@ -47,6 +47,13 @@
         </li>
 
         <li class="nav-item hand">
+            <a class="nav-link" href="{{route('agenda', $id)}}">
+                <i class="menu-icon mdi mdi-book-open-page-variant"></i>
+                <span class="menu-title">Agenda</span>
+            </a>
+        </li>
+
+        <!--<li class="nav-item hand">
             <a class="nav-link" href="{{route('admin.excel.index', $id)}}">
                 <i class="menu-icon mdi mdi-upload-multiple"></i>
                 <span class="menu-title">Subir Avisos</span>
@@ -65,6 +72,6 @@
                 <i class="menu-icon mdi mdi-file-import"></i>
                 <span class="menu-title">Descargar Avisos</span>
             </a>
-        </li>
+        </li>-->
     </ul>
 </nav>

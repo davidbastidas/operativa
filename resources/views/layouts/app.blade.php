@@ -75,6 +75,7 @@
         $('#fecha').val($year + '-' + $month + '-' + $day);
         $('#fechaD1').val($year + '-' + $month + '-' + $day);
         $('#fechaD2').val($year + '-' + $month + '-' + $day);
+        $('#fechaAgenda').val($year + '-' + $month + '-' + $day);
     });
 </script>
 

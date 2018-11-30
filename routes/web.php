@@ -1,18 +1,23 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
 Route::group(['middleware' => ['sessionValid']], function () {
 
     Route::get('/', function (){
-       return view('auth.login', ['id' => '']);
+        return view('auth.login', ['id' => '']);
     })->name('/');
 
     Route::post('login', [
         'as' => 'login',
         'uses' => 'LoginController@login'
+    ]);
+
+
+    Route::get('admin/agenda', [
+        'as' => 'agenda',
+        'uses' => 'AvisosController@index'
     ]);
 
     Route::match(['get', 'post'], '/admin',

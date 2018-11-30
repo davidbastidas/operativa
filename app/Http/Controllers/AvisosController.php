@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Avisos;
 use App\AvisosTemp;
+use App\Delegacion;
 use App\Usuarios;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,23 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AvisosController extends Controller
 {
+
+    public function index(){
+        $id = Session::get('adminId');
+        $name = Session::get('adminName');
+
+        $totalAvisos = Avisos::all()->count();
+        $delegaciones = Delegacion::all();
+
+        return view('admin.agenda',
+            [
+                'id' => $id,
+                'name' => $name,
+                'totalAvisos' => $totalAvisos,
+                'delegaciones' => $delegaciones
+            ]);
+    }
+
     public function subirAvisos(Request $request)
     {
         $archivo = $request->file;
