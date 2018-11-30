@@ -85,5 +85,3 @@ Route::group(['middleware' => ['sessionValid']], function () {
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
