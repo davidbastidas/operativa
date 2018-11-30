@@ -7,6 +7,10 @@
         button:hover {
             cursor: pointer;
         }
+
+        th {
+            text-align: center;
+        }
     </style>
 
     <div class="container-scroller">
@@ -46,30 +50,36 @@
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-md-1"></div>
-                                                            <div class="col-md-5">
-                                                                <label>Fecha</label>
-                                                                <input id="fechaAgenda" type="date" class="form-control" name="fecha">
-                                                            </div>
-                                                            <div class="col-md-5">
-                                                                <label>Delegacion</label>
-                                                                <select class="form-control" name="delegacion">
-                                                                    @foreach($delegaciones as $del)
-                                                                        <option
-                                                                            value="{{$del->id}}">{{$del->nombre}}</option>
-                                                                    @endforeach
-                                                                </select>
+                                                    <form style="padding: 0;" action="{{route('agenda.save')}}"
+                                                          method="POST">
+                                                        {{csrf_field()}}
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-md-1"></div>
+                                                                <div class="col-md-5">
+                                                                    <label>Fecha</label>
+                                                                    <input id="fechaAgenda" type="date"
+                                                                           class="form-control" name="fecha">
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <label>Delegacion</label>
+                                                                    <select class="form-control" name="delegacion">
+                                                                        @foreach($delegaciones as $del)
+                                                                            <option
+                                                                                value="{{$del->id}}">{{$del->nombre}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                                data-dismiss="modal">Cerrar
-                                                        </button>
-                                                        <button type="button" class="btn btn-primary">Guardar</button>
-                                                    </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                    data-dismiss="modal">Cerrar
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">Guardar
+                                                            </button>
+                                                        </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -96,24 +106,36 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <th scope="row">00001</th>
-                                            <td>2018-11-28</td>
-                                            <td>Norte</td>
-                                            <td>David Bastidas</td>
-                                            <td>
-                                                <button class="btn-primary btn-block">Abrir <i
-                                                        class="mdi mdi-folder-open"></i></button>
-                                                <button class="btn-info btn-block">Cargar <i class="mdi mdi-upload"></i>
-                                                </button>
-                                                <button class="btn-danger btn-block">Eliminar <i
-                                                        class="mdi mdi-delete"></i></button>
-                                                <button class="btn-success btn-block">Descargar <i
-                                                        class="mdi mdi-download"></i></button>
-                                            </td>
-                                        </tr>
+                                        @foreach($agendas as $agenda)
+                                            <tr>
+                                                <th scope="row">{{$agenda->codigo}}</th>
+                                                <td>{{$agenda->fecha}}</td>
+                                                <td>
+                                                    @if($agenda->delegacion == 1)
+                                                        ATLANTICO NORTE
+                                                    @else
+                                                        ATLANTICO SUR
+                                                    @endif
+                                                </td>
+                                                <td>{{$agenda->usuario}}</td>
+                                                <td>
+                                                    <button class="btn-primary btn-block">Abrir <i
+                                                            class="mdi mdi-folder-open"></i></button>
+                                                    <button class="btn-info btn-block">Cargar <i
+                                                            class="mdi mdi-upload"></i>
+                                                    </button>
+                                                    <button class="btn-danger btn-block">Eliminar <i
+                                                            class="mdi mdi-delete"></i></button>
+                                                    <button class="btn-success btn-block">Descargar <i
+                                                            class="mdi mdi-download"></i></button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                         </tbody>
+
                                     </table>
+                                    {{ $agendas->appends([])->links() }}
+
                                 </div>
                             </div>
                         </div>
@@ -122,8 +144,8 @@
                 </div>
                 <!-- content-wrapper ends -->
                 <!-- partial:partials/_footer.html -->
-                    @include('__partials.footer')
-                <!-- partial -->
+            @include('__partials.footer')
+            <!-- partial -->
             </div>
             <!-- main-panel ends -->
         </div>

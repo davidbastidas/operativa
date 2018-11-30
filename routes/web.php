@@ -80,6 +80,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@getIndicadores'
     ]);
 
+    Route::post('admin/agenda/save', [
+        'as' => 'agenda.save',
+        'uses' => 'AvisosController@saveAgenda'
+    ]);
+
     Route::get('admin/getAvisos', 'AvisosController@getAvisos');
 
 });

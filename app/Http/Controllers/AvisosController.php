@@ -2,32 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use App\AdminTable;
+use App\Agenda;
 use App\Avisos;
 use App\AvisosTemp;
 use App\Delegacion;
 use App\Usuarios;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
+
 
 class AvisosController extends Controller
 {
 
-    public function index(){
+    public function index()
+    {
         $id = Session::get('adminId');
         $name = Session::get('adminName');
 
         $totalAvisos = Avisos::all()->count();
         $delegaciones = Delegacion::all();
 
+        $perPage = 10;
+        $page = Input::get('page');
+        $pageName = 'page';
+        $page = Paginator::resolveCurrentPage($pageName);
+        $offSet = ($page * $perPage) - $perPage;
+
+        $agenda = new Agenda();
+
+        $agendas = $agenda->offset($offSet)->limit($perPage)->orderByDesc('id')->get();
+
+        $total_registros = Agenda::all()->count();
+        $array = [];
+        $agendaCollection = null;
+
+        foreach ($agendas as $agenda) {
+
+            $user = AdminTable::where('id', $agenda->admin_id)->first()->name;
+
+            array_push($array, (object)array(
+                'id' => $agenda->id,
+                'codigo' => $agenda->codigo,
+                'fecha' => $agenda->fecha,
+                'delegacion' => $agenda->delegacion_id,
+                'usuario' => $user
+            ));
+        }
+
+        $agendaCollection = new Collection($array);
+
+
+        $posts = new LengthAwarePaginator($agendaCollection, $total_registros, $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
+
         return view('admin.agenda',
             [
                 'id' => $id,
                 'name' => $name,
                 'totalAvisos' => $totalAvisos,
-                'delegaciones' => $delegaciones
-            ]);
+                'delegaciones' => $delegaciones,
+                'agendas' => $posts
+            ])->withPosts($posts);
+    }
+
+    public function saveAgenda(Request $request)
+    {
+
+        $agenda = new Agenda();
+        $agenda->fecha = $request->fecha;
+        $agenda->delegacion_id = $request->delegacion;
+        $agenda->admin_id = Session::get('adminId');
+
+        $agenda->save();
+
+        $anio = Carbon::now()->year;
+
+        $agenda->codigo = "AGE-" . $agenda->id . "-" . $anio;
+
+        $agenda->save();
+
+        return redirect()->route('agenda');
     }
 
     public function subirAvisos(Request $request)
