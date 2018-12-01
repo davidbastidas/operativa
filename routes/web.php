@@ -41,8 +41,8 @@ Route::group(['middleware' => ['sessionValid']], function () {
         ]
     );
 
-    Route::get('admin/excel/index', [
-        'as' => 'admin.excel.index',
+    Route::get('admin/subir-avisos/{agenda}/{delegacion}', [
+        'as' => 'admin.avisos.subir',
         'uses' => 'UploadExcelController@index'
     ]);
 
@@ -63,7 +63,7 @@ Route::group(['middleware' => ['sessionValid']], function () {
 
     Route::get('admin/download-avisos', 'DownloadController@index')->name('download.avisos');
 
-    Route::get('admin/carga-avisos', 'AvisosController@cargaAvisosIndex')->name('carga.avisos');
+    Route::get('admin/asginar-avisos/index/{agenda}/{delegacion}', 'AvisosController@cargaAvisosIndex')->name('asignar.avisos');
 
     Route::post('admin/asignar-avisos', [
         'as' => 'admin.asignar.avisos',

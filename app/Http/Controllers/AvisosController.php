@@ -48,12 +48,17 @@ class AvisosController extends Controller
 
             $user = AdminTable::where('id', $agenda->admin_id)->first()->name;
 
+            $pendientes = Avisos::where('estado', 1)->where('agenda_id', $agenda->id)->get()->count();
+            $realizados = Avisos::where('estado', 2)->where('agenda_id', $agenda->id)->get()->count();
+
             array_push($array, (object)array(
                 'id' => $agenda->id,
                 'codigo' => $agenda->codigo,
                 'fecha' => $agenda->fecha,
                 'delegacion' => $agenda->delegacion_id,
-                'usuario' => $user
+                'usuario' => $user,
+                'pendientes' => $pendientes,
+                'realizados' => $realizados
             ));
         }
 
@@ -97,6 +102,7 @@ class AvisosController extends Controller
     public function subirAvisos(Request $request)
     {
         $archivo = $request->file;
+        $agenda = $request->agenda;
         $results = Excel::load($archivo)->all()->toArray();
         foreach ($results as $row) {
             $base = [];
@@ -126,35 +132,41 @@ class AvisosController extends Controller
             $aviso->compromiso = $base[18]->format('Y-m-d');
             $aviso->avisos = $base[19];
             $aviso->admin_id = Session::get('adminId');
+            $aviso->agenda_id = $agenda;
             $aviso->save();
         }
-        return \Redirect::route('carga.avisos');
+        return \Redirect::route('agenda');
     }
 
-    public function cargaAvisosIndex()
+    //Asignar Avisos INDEX
+    public function cargaAvisosIndex($agenda, $delegacion)
     {
         $id = Session::get('adminId');
         $name = Session::get('adminName');
 
-        $gestores = AvisosTemp::select('gestor')->groupBy('gestor')->get();
+        $gestores = AvisosTemp::select('gestor')->where('agenda_id', $agenda)->groupBy('gestor')->get();
         $usuarios = Usuarios::all();
 
-        return view('admin.carga', [
+        return view('admin.asignar', [
             'id' => $id,
             'name' => $name,
             'gestores' => $gestores,
-            'usuarios' => $usuarios
+            'usuarios' => $usuarios,
+            'agenda' => $agenda,
+            'delegacion' => $delegacion
         ]);
     }
 
+    //Asignar Avisos
     public function cargarAvisos(Request $request)
     {
         $id = Session::get('adminId');
+        $agenda = $request->agenda;
+        $delegacion_id = $request->delegacion;
         $gestor = $request->gestor;
         $user = $request->user;
 
-        $avisos = AvisosTemp::where('gestor', $gestor)->get();
-        $delegacion_id = Usuarios::where('id', $user)->first()->delegacion_id;
+        $avisos = AvisosTemp::where('gestor', $gestor)->where('agenda_id', $agenda)->get();
 
         foreach ($avisos as $aviso) {
             $av = new Avisos();
@@ -183,6 +195,7 @@ class AvisosController extends Controller
             $av->estado = 1;
             $av->gestor_id = $user;
             $av->admin_id = $id;
+            $av->agenda_id = $agenda;
 
             try {
                 $av->save();
@@ -192,18 +205,7 @@ class AvisosController extends Controller
             }
         }
 
-        $name = Session::get('adminName');
-
-        $gestores = AvisosTemp::select('gestor')->groupBy('gestor')->get();
-        $usuarios = Usuarios::all();
-
-        return view('admin.carga', [
-            'success' => 'Gestores Asignados Correctamente!',
-            'id' => $id,
-            'name' => $name,
-            'gestores' => $gestores,
-            'usuarios' => $usuarios
-        ]);
+        return redirect()->route('asignar.avisos', ['agenda' => $agenda, 'delegacion' => $delegacion_id]);
     }
 
     public function getAvisos()

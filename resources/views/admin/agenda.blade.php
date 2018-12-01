@@ -11,6 +11,19 @@
         th {
             text-align: center;
         }
+
+        form {
+            padding: 0;
+        }
+
+        tbody td{
+            font-size: 10px !important;
+        }
+
+        tbody th{
+            font-size: 10px !important;
+        }
+
     </style>
 
     <div class="container-scroller">
@@ -32,7 +45,7 @@
                                     <br><br>
 
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <button class="btn btn-success btn-block" data-toggle="modal"
                                                     data-target="#modal">Nueva Agenda
                                             </button>
@@ -76,7 +89,8 @@
                                                             <button type="button" class="btn btn-secondary"
                                                                     data-dismiss="modal">Cerrar
                                                             </button>
-                                                            <button type="submit" class="btn btn-primary">Guardar
+                                                            <button type="submit" class="btn btn-primary">
+                                                                Guardar
                                                             </button>
                                                         </div>
                                                     </form>
@@ -85,23 +99,26 @@
                                         </div>
 
                                         <div class="col-md-4"></div>
-                                        <div class="col-md-4" style="top: -20px;">
+                                        <div class="col-md-4" style="top: -20px; display: none">
                                             <center><p class="mb-2">Total Avisos</p>
                                                 <p class="display-3 mb-4 font-weight-light"><span
                                                         class="mdi mdi-bell" style="color:#35abde;">
-                                                        {{$totalAvisos}}
+                                                        {$totalAvisos}}
                                                     </span></p>
                                             </center>
                                         </div>
                                     </div>
                                     <br>
-                                    <table class="table table-hover">
+                                    <br>
+                                    <table class="table table-hover" style="display: block; overflow-x: auto; white-space: nowrap;">
                                         <thead>
                                         <tr>
                                             <th scope="col">Agenda</th>
                                             <th scope="col">Fecha</th>
                                             <th scope="col">Delegacion</th>
                                             <th scope="col">Usuario Carga</th>
+                                            <th scope="col">Pendientes</th>
+                                            <th scope="col">Realizados</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                         </thead>
@@ -109,7 +126,7 @@
                                         @foreach($agendas as $agenda)
                                             <tr>
                                                 <th scope="row">{{$agenda->codigo}}</th>
-                                                <td>{{$agenda->fecha}}</td>
+                                                <td>{{explode(' ', $agenda->fecha)[0]}}</td>
                                                 <td>
                                                     @if($agenda->delegacion == 1)
                                                         ATLANTICO NORTE
@@ -118,15 +135,28 @@
                                                     @endif
                                                 </td>
                                                 <td>{{$agenda->usuario}}</td>
+                                                <td>{{$agenda->pendientes}}</td>
+                                                <td>{{$agenda->realizados}}</td>
                                                 <td>
-                                                    <button class="btn-primary btn-block">Abrir <i
-                                                            class="mdi mdi-folder-open"></i></button>
-                                                    <button class="btn-info btn-block">Cargar <i
-                                                            class="mdi mdi-upload"></i>
-                                                    </button>
-                                                    <button class="btn-danger btn-block">Eliminar <i
+                                                    <form target="_blank"
+                                                          action="{{route('asignar.avisos', ['agenda' => $agenda->id, 'delegacion' => $agenda->delegacion])}}">
+                                                        <button style="margin-bottom: 8px"
+                                                                class="btn-primary btn-block">Abrir <i
+                                                                class="mdi mdi-folder-open"></i></button>
+                                                    </form>
+                                                    <form target="_blank"
+                                                          action="{{route('admin.avisos.subir', ['agenda' => $agenda->id, 'delegacion' => $agenda->delegacion])}}">
+                                                        <button style="margin-bottom: 8px" class="btn-info btn-block">
+                                                            Cargar
+                                                            <i class="mdi mdi-upload"></i>
+                                                        </button>
+                                                    </form>
+                                                    <button style="margin-bottom: 8px" class="btn-danger btn-block">
+                                                        Eliminar <i
                                                             class="mdi mdi-delete"></i></button>
-                                                    <button class="btn-success btn-block">Descargar <i
+
+                                                    <button style="margin-bottom: -8px" class="btn-success btn-block">
+                                                        Descargar <i
                                                             class="mdi mdi-download"></i></button>
                                                 </td>
                                             </tr>

@@ -23,7 +23,6 @@ class VerifyCsrfToken extends Middleware
         'login',
         'logout',
         'admin/avisos/upload',
-        'admin/excel/index',
         'admin/excel/upload',
         'admin/excel/download',
         'admin/download-avisos',

@@ -54,21 +54,21 @@
         </li>
 
         <!--<li class="nav-item hand">
-            <a class="nav-link" href="{{route('admin.excel.index', $id)}}">
+            <a class="nav-link" href="{route('admin.avisos.subir', $id)}}">
                 <i class="menu-icon mdi mdi-upload-multiple"></i>
                 <span class="menu-title">Subir Avisos</span>
             </a>
         </li>
 
         <li class="nav-item hand">
-            <a class="nav-link" href="{{route('carga.avisos', $id)}}">
+            <a class="nav-link" href="{route('carga.avisos', $id)}}">
                 <i class="menu-icon mdi mdi-arrow-collapse-up"></i>
                 <span class="menu-title">Asignar Avisos</span>
             </a>
         </li>
 
         <li class="nav-item hand" id="download">
-            <a class="nav-link" href="{{route('download.avisos', $id)}}">
+            <a class="nav-link" href="{route('download.avisos', $id)}}">
                 <i class="menu-icon mdi mdi-file-import"></i>
                 <span class="menu-title">Descargar Avisos</span>
             </a>

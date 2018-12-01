@@ -106,23 +106,6 @@
 </script>
 
 <script>
-    //Cargar Avisos
-    $('#myTable').DataTable({
-        ajax: 'http://52.14.94.46/operativa/public/admin/getAvisos',
-        responsive: true,
-        scrollX: true,
-        columns: [
-            {'data': 'localidad'},
-            {'data': 'barrio'},
-            {'data': 'direccion'},
-            {'data': 'nic'},
-            {'data': 'gestor'}
-        ]
-    });
-</script>
-
-
-<script>
     //Indicadores busqueda
     $('#btnIndicador').on('click', function () {
         let $fecha = $('#fecha').val();
