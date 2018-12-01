@@ -12,27 +12,16 @@ use Maatwebsite\Excel\Facades\Excel;
 class DownloadController extends Controller
 {
     public $avisos = null;
-
-    public function index()
-    {
-        $id = Session::get('adminId');
-        $name = Session::get('adminName');
-
-        $delegacion = Delegacion::all();
-
-        return view('admin.download', ['id' => $id, 'name' => $name, 'delegaciones' => $delegacion]);
-    }
+    
 
     public function download(Request $request)
     {
-        $fecha1 = $request->fecha1;
-        $fecha2 = $request->fecha2;
-        $delegacion = $request->delegacion;
+        $agenda = $request->agenda;
 
         $model = new Avisos();
         $avisos = $model->hydrate(
             DB::select(
-                "call download_avisos('$fecha1', '$fecha2', $delegacion)"
+                "call download_avisos($agenda)"
             )
         );
 
@@ -44,7 +33,7 @@ class DownloadController extends Controller
 
             $delegacion = Delegacion::all();
 
-            $info = 'No Hay Datos en este rango de fechas.';
+            $info = 'No Hay Datos para descargar.';
 
             return view('admin.download', [
                 'id' => $id, 'name' => $name,

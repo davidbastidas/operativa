@@ -16,11 +16,11 @@
             padding: 0;
         }
 
-        tbody td{
+        tbody td {
             font-size: 10px !important;
         }
 
-        tbody th{
+        tbody th {
             font-size: 10px !important;
         }
 
@@ -110,7 +110,8 @@
                                     </div>
                                     <br>
                                     <br>
-                                    <table class="table table-hover" style="display: block; overflow-x: auto; white-space: nowrap;">
+                                    <table class="table table-hover"
+                                           style="display: block; overflow-x: auto; white-space: nowrap;">
                                         <thead>
                                         <tr>
                                             <th scope="col">Agenda</th>
@@ -154,10 +155,13 @@
                                                     <button style="margin-bottom: 8px" class="btn-danger btn-block">
                                                         Eliminar <i
                                                             class="mdi mdi-delete"></i></button>
-
-                                                    <button style="margin-bottom: -8px" class="btn-success btn-block">
-                                                        Descargar <i
-                                                            class="mdi mdi-download"></i></button>
+                                                    <form method="POST" action="{{route('admin.agenda.download')}}">
+                                                        <input type="hidden" name="agenda" value="{{$agenda->id}}">
+                                                        <button style="margin-bottom: -8px"
+                                                                class="btn-success btn-block">
+                                                            Descargar <i
+                                                                class="mdi mdi-download"></i></button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach

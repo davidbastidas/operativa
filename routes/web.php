@@ -51,8 +51,8 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'UploadExcelController@upload'
     ]);
 
-    Route::post('admin/excel/download', [
-        'as' => 'admin.excel.download',
+    Route::post('admin/agenda/download', [
+        'as' => 'admin.agenda.download',
         'uses' => 'DownloadController@download'
     ]);
 
@@ -60,8 +60,6 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'as' => 'admin.avisos.upload',
         'uses' => 'AvisosController@subirAvisos'
     ]);
-
-    Route::get('admin/download-avisos', 'DownloadController@index')->name('download.avisos');
 
     Route::get('admin/asginar-avisos/index/{agenda}/{delegacion}', 'AvisosController@cargaAvisosIndex')->name('asignar.avisos');
 
