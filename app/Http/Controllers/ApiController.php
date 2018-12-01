@@ -9,6 +9,7 @@ use App\EntidadesPagos;
 use App\ObservacionesRapidas;
 use App\Usuarios;
 use App\Log;
+use App\Agenda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
@@ -46,7 +47,25 @@ class ApiController extends Controller
     $arrayFINAL = [];
     $collection = null;
 
-    $avisos = Avisos::where('gestor_id', '=', $request->user)->where('estado', '=', '1')->get();
+    $fechaHoy = Carbon::now()->format('Y-m-d');
+    $avisos = Avisos::select('agenda_id')
+                    ->where('gestor_id', '=', $request->user)
+                    ->where('estado', '=', '1')
+                    ->groupBy('agenda_id')->get();
+    $agendas = Agenda::where('fecha', '<=', "'$fechaHoy'");
+    foreach ($avisos as $aviso) {
+      $agendas = $agendas->orWhere('id', $aviso->agenda_id);
+    }
+    $agendas = $agendas->get();
+
+    $arrayIn = array();
+    foreach ($agendas as $agenda) {
+      $arrayIn[] = $agenda->id;
+    }
+
+    $avisos = Avisos::where('gestor_id', '=', $request->user)
+                    ->where('estado', '=', '1')
+                    ->whereIn('agenda_id', $arrayIn)->get();
     foreach ($avisos as $aviso) {
       array_push($arrayAvisos, (object) array(
         'id' => $aviso->id,

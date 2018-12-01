@@ -84,7 +84,8 @@ class AvisosController extends Controller
     {
 
         $agenda = new Agenda();
-        $agenda->fecha = $request->fecha;
+        $fechaFormat = Carbon::createFromFormat('d/m/Y', $request->fecha)->format('Y-m-d') . ' 00:00:00';
+        $agenda->fecha = $fechaFormat;
         $agenda->delegacion_id = $request->delegacion;
         $agenda->admin_id = Session::get('adminId');
 
