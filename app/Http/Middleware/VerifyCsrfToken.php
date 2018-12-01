@@ -29,6 +29,8 @@ class VerifyCsrfToken extends Middleware
         'admin/carga-avisos',
         'admin/asignar-avisos',
         'admin/vaciar-carga',
-        'admin/getAvisos'
+        'admin/getAvisos',
+        'admin/agenda/download'
+
     ];
 }
