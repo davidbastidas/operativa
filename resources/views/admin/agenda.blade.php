@@ -127,7 +127,7 @@
                                         @foreach($agendas as $agenda)
                                             <tr>
                                                 <th scope="row">{{$agenda->codigo}}</th>
-                                                <td>{{explode(' ', $agenda->fecha)[0]}}</td>
+                                                <td>{{$agenda->fecha}}</td>
                                                 <td>
                                                     @if($agenda->delegacion == 1)
                                                         ATLANTICO NORTE
