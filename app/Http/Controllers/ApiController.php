@@ -206,7 +206,7 @@ class ApiController extends Controller
         );
       } else {
         $response = array(
-          'estado' => true
+          'estado' => false
         );
       }
     } else {

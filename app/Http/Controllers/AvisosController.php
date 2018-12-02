@@ -50,6 +50,7 @@ class AvisosController extends Controller
 
             $pendientes = Avisos::where('estado', 1)->where('agenda_id', $agenda->id)->get()->count();
             $realizados = Avisos::where('estado', 2)->where('agenda_id', $agenda->id)->get()->count();
+            $pendCargaXagenda = AvisosTemp::where('estado', 2)->where('agenda_id', $agenda->id)->get()->count();
 
             array_push($array, (object)array(
                 'id' => $agenda->id,
@@ -58,7 +59,8 @@ class AvisosController extends Controller
                 'delegacion' => $agenda->delegacion_id,
                 'usuario' => $user,
                 'pendientes' => $pendientes,
-                'realizados' => $realizados
+                'realizados' => $realizados,
+                'cargasPendientes' => $pendCargaXagenda,
             ));
         }
 
@@ -84,8 +86,7 @@ class AvisosController extends Controller
     {
 
         $agenda = new Agenda();
-        $fechaFormat = Carbon::createFromFormat('d/m/Y', $request->fecha)->format('Y-m-d') . ' 00:00:00';
-        $agenda->fecha = $fechaFormat;
+        $agenda->fecha = $request->fecha;
         $agenda->delegacion_id = $request->delegacion;
         $agenda->admin_id = Session::get('adminId');
 
