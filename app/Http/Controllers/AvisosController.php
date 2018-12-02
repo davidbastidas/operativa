@@ -50,7 +50,7 @@ class AvisosController extends Controller
 
             $pendientes = Avisos::where('estado', 1)->where('agenda_id', $agenda->id)->get()->count();
             $realizados = Avisos::where('estado', 2)->where('agenda_id', $agenda->id)->get()->count();
-            $pendCargaXagenda = AvisosTemp::where('estado', 2)->where('agenda_id', $agenda->id)->get()->count();
+            //$pendCargaXagenda = AvisosTemp::where('estado', 2)->where('agenda_id', $agenda->id)->get()->count();
 
             array_push($array, (object)array(
                 'id' => $agenda->id,
