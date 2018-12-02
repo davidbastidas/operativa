@@ -52,6 +52,12 @@ class AvisosController extends Controller
             $realizados = Avisos::where('estado', 2)->where('agenda_id', $agenda->id)->get()->count();
             //$pendCargaXagenda = AvisosTemp::where('estado', 2)->where('agenda_id', $agenda->id)->get()->count();
 
+            $flag = false;
+
+            if ($pendientes > 0){
+                $flag = true;
+            }
+
             array_push($array, (object)array(
                 'id' => $agenda->id,
                 'codigo' => $agenda->codigo,
@@ -59,12 +65,12 @@ class AvisosController extends Controller
                 'delegacion' => $agenda->delegacion_id,
                 'usuario' => $user,
                 'pendientes' => $pendientes,
-                'realizados' => $realizados
+                'realizados' => $realizados,
+                'flag' => $flag
             ));
         }
 
         $agendaCollection = new Collection($array);
-
 
         $posts = new LengthAwarePaginator($agendaCollection, $total_registros, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
@@ -229,6 +235,12 @@ class AvisosController extends Controller
         $name = Session::get('adminName');
 
         return \Redirect::route('carga.avisos');
+    }
+
+    public function deleteAgenda($agenga)
+    {
+        Agenda::where('id', $agenga)->delete();
+        return \Redirect::route('agenda');
     }
 
     public function getIndicadores(Request $request)

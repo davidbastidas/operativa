@@ -14,7 +14,6 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'LoginController@login'
     ]);
 
-
     Route::get('admin/agenda', [
         'as' => 'agenda',
         'uses' => 'AvisosController@index'
@@ -81,6 +80,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
     Route::post('admin/agenda/save', [
         'as' => 'agenda.save',
         'uses' => 'AvisosController@saveAgenda'
+    ]);
+
+    Route::get('admin/agenda/delete/{agenda}', [
+        'as' => 'agenda.delete',
+        'uses' => 'AvisosController@deleteAgenda'
     ]);
 
     Route::get('admin/getAvisos', 'AvisosController@getAvisos');

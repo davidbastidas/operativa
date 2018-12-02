@@ -152,9 +152,11 @@
                                                             <i class="mdi mdi-upload"></i>
                                                         </button>
                                                     </form>
-                                                    <button style="margin-bottom: 8px" class="btn-danger btn-block">
-                                                        Eliminar <i
-                                                            class="mdi mdi-delete"></i></button>
+                                                    <form method="get" action="{{route('agenda.delete', $agenda->id)}}">
+                                                        <button style="margin-bottom: 8px" class="btn-danger btn-block" @if($agenda->flag) disabled @endif>
+                                                            Eliminar<i
+                                                                class="mdi mdi-delete"></i></button>
+                                                    </form>
                                                     <form method="POST" action="{{route('admin.agenda.download')}}">
                                                         <input type="hidden" name="agenda" value="{{$agenda->id}}">
                                                         <button style="margin-bottom: -8px"
