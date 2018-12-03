@@ -132,25 +132,28 @@
                                                   <td>{{$agenda->realizados}}</td>
                                                   <td>
                                                       <form action="{{route('asignar.avisos', ['agenda' => $agenda->id])}}">
-                                                          <button style="margin-bottom: 8px"
-                                                                  class="btn btn-outline-primary">Abrir <i
-                                                                  class="mdi mdi-folder-open"></i></button>
+                                                          <button style="margin-bottom: 8px" class="btn btn-outline-primary">
+                                                            Abrir <i class="mdi mdi-folder-open"></i>
+                                                          </button>
                                                       </form>
                                                       <form action="{{route('admin.avisos.subir', ['agenda' => $agenda->id])}}">
                                                           <button style="margin-bottom: 8px" class="btn btn-outline-info">
-                                                              Cargar
-                                                              <i class="mdi mdi-upload"></i>
+                                                              Cargar <i class="mdi mdi-upload"></i>
                                                           </button>
                                                       </form>
-                                                      <button style="margin-bottom: 8px" class="btn btn-outline-danger">
-                                                          Eliminar <i
-                                                              class="mdi mdi-delete"></i></button>
+                                                      @if(!$agenda->flag)
+                                                        <form method="get" action="{{route('agenda.delete', $agenda->id)}}">
+                                                            <button style="margin-bottom: 8px" class="btn-danger btn-block">
+                                                                Eliminar<i class="mdi mdi-delete"></i>
+                                                            </button>
+                                                        </form>
+                                                      @endif
                                                       <form method="POST" action="{{route('admin.agenda.download')}}">
                                                           <input type="hidden" name="agenda" value="{{$agenda->id}}">
                                                           <button style="margin-bottom: -8px"
                                                                   class="btn btn-outline-success">
-                                                              Descargar <i
-                                                                  class="mdi mdi-download"></i></button>
+                                                              Descargar <i class="mdi mdi-download"></i>
+                                                          </button>
                                                       </form>
                                                   </td>
                                               </tr>

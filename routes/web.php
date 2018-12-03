@@ -87,6 +87,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@saveAgenda'
     ]);
 
+    Route::get('admin/agenda/delete/{agenda}', [
+        'as' => 'agenda.delete',
+        'uses' => 'AvisosController@deleteAgenda'
+    ]);
+
     Route::get('admin/getAvisos', 'AvisosController@getAvisos');
 });
 
