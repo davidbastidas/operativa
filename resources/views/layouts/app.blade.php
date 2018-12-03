@@ -29,10 +29,6 @@
             text-align: center;
             color: #333;
         }
-
-        form {
-            padding: 10%;
-        }
     </style>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!--<link rel="stylesheet" href="{asset('css/style.css')}}">

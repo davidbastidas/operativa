@@ -16,9 +16,20 @@
                     <!--Pendientes-->
                     <div class="row">
                         <div class="col-lg-12 grid-margin">
-                            <div class="card">
-                                <div class="card-body">
-                                    <center><h4>Asignar Avisos</h4></center>
+                          <div class="card">
+                            <div class="card-body">
+                              @if(count($gestores) > 0)
+                                <div class="row">
+                                  <div class="col-md-10">
+                                      <h4>Asignar Avisos {{$agendaModel->codigo}} de {{$agendaModel->fecha}}</h4>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <form action="{{route('admin.vaciar.carga')}}" method="post">
+                                      {{ csrf_field() }}
+                                      <input type="hidden" name="agenda" value="{{$agenda}}">
+                                      <button class="btn btn-danger" type="submit">Vaciar Carga</button>
+                                    </form>
+                                  </div>
                                 </div>
 
                                 @if(isset($success))
@@ -26,44 +37,67 @@
                                         <strong>{{$success}}</strong>
                                     </div>
                                 @endif
-
-                                <form action="{{route('admin.asignar.avisos')}}" method="post" style="padding: 3%;">
-
-                                    <input type="hidden" name="agenda" value="{{$agenda}}">
-                                    <input type="hidden" name="delegacion" value="{{$delegacion}}">
-
-                                    <div class="row">
-                                        <div class="col-md-2"></div>
-                                        <div class="col-md-3">
-                                            <label>Gestor</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                      <form action="{{route('admin.asignar.avisos')}}" method="post">
+                                          <input type="hidden" name="agenda" value="{{$agenda}}">
+                                          <div class="form-group">
+                                            <label>Gestor Cargado</label>
                                             <select name="gestor" class="form-control">
                                                 @foreach($gestores as $gestor)
-                                                    <option value="{{$gestor->gestor}}">{{$gestor->gestor   }}</option>
+                                                  <option value="{{$gestor->gestor}}">{{$gestor->gestor}}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label>Usuarios</label>
+                                          </div>
+                                          <div class="form-group">
+                                            <label>Gestor a Asignar</label>
                                             <select name="user" class="form-control">
                                                 @foreach($usuarios as $user)
                                                     <option value="{{$user->id}}">{{$user->nombre}}</option>
                                                 @endforeach
                                             </select>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <br>
-                                            <button class="btn btn-secondary" style="margin-top: 10px;" type="submit">
-                                                Asignar
-                                            </button>
-                                        </div>
+                                          </div>
+                                          <button class="btn btn-success mr-2" type="submit">
+                                              Asignar Uno
+                                          </button>
+                                      </form>
+                                      <br>
+                                      <form action="{{route('admin.asignarall')}}" method="post">
+                                        <input type="hidden" name="agenda" value="{{$agenda}}">
+                                        <button class="btn btn-outline-info" type="submit">Asignar Todo</button>
+                                      </form>
                                     </div>
-                                </form>
-                                <form action="{{route('admin.vaciar.carga')}}" method="post" style="padding: 3%;">
-                                    <center>
-                                        <button class="btn btn-danger" type="submit">Vaciar Carga</button>
-                                    </center>
-                                </form>
+                                </div>
+                              @endif
+                              <hr>
+                              <div class="row">
+                                <div class="col-md-10">
+                                    <h4>Lista de Avisos {{$agendaModel->codigo}} de {{$agendaModel->fecha}}</h4>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <div class="table-responsive">
+                                    <table class="table text-center">
+                                      <thead>
+                                        <tr>
+                                            <th scope="col">Agenda</th>
+                                            <th scope="col">Delegacion</th>
+                                            <th scope="col">Responsable</th>
+                                            <th scope="col">Por Asignar</th>
+                                            <th scope="col">Pend.</th>
+                                            <th scope="col">Reali.</th>
+                                            <th scope="col">Accion</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
+                          </div>
                         </div>
                     </div>
                     <!--END Resuletos-->

@@ -16,14 +16,6 @@
             padding: 0;
         }
 
-        tbody td {
-            font-size: 10px !important;
-        }
-
-        tbody th {
-            font-size: 10px !important;
-        }
-
     </style>
 
     <div class="container-scroller">
@@ -110,66 +102,64 @@
                                     </div>
                                     <br>
                                     <br>
-                                    <table class="table table-hover"
-                                           style="display: block; overflow-x: auto; white-space: nowrap;">
-                                        <thead>
-                                        <tr>
-                                            <th scope="col">Agenda</th>
-                                            <th scope="col">Fecha</th>
-                                            <th scope="col">Delegacion</th>
-                                            <th scope="col">Usuario Carga</th>
-                                            <th scope="col">Pendientes</th>
-                                            <th scope="col">Realizados</th>
-                                            <th scope="col">Action</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($agendas as $agenda)
-                                            <tr>
-                                                <th scope="row">{{$agenda->codigo}}</th>
-                                                <td>{{$agenda->fecha}}</td>
-                                                <td>
-                                                    @if($agenda->delegacion == 1)
-                                                        ATLANTICO NORTE
-                                                    @else
-                                                        ATLANTICO SUR
-                                                    @endif
-                                                </td>
-                                                <td>{{$agenda->usuario}}</td>
-                                                <td>{{$agenda->pendientes}}</td>
-                                                <td>{{$agenda->realizados}}</td>
-                                                <td>
-                                                    <form target="_blank"
-                                                          action="{{route('asignar.avisos', ['agenda' => $agenda->id, 'delegacion' => $agenda->delegacion])}}">
-                                                        <button style="margin-bottom: 8px"
-                                                                class="btn-primary btn-block">Abrir <i
-                                                                class="mdi mdi-folder-open"></i></button>
-                                                    </form>
-                                                    <form target="_blank"
-                                                          action="{{route('admin.avisos.subir', ['agenda' => $agenda->id, 'delegacion' => $agenda->delegacion])}}">
-                                                        <button style="margin-bottom: 8px" class="btn-info btn-block">
-                                                            Cargar
-                                                            <i class="mdi mdi-upload"></i>
-                                                        </button>
-                                                    </form>
-                                                    <button style="margin-bottom: 8px" class="btn-danger btn-block">
-                                                        Eliminar <i
-                                                            class="mdi mdi-delete"></i></button>
-                                                    <form method="POST" action="{{route('admin.agenda.download')}}">
-                                                        <input type="hidden" name="agenda" value="{{$agenda->id}}">
-                                                        <button style="margin-bottom: -8px"
-                                                                class="btn-success btn-block">
-                                                            Descargar <i
-                                                                class="mdi mdi-download"></i></button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                        </tbody>
+                                    <div class="table-responsive">
+                                        <table class="table text-center">
+                                          <thead>
+                                          <tr>
+                                              <th scope="col">Agenda</th>
+                                              <th scope="col">Delegacion</th>
+                                              <th scope="col">Responsable</th>
+                                              <th scope="col">Por Asignar</th>
+                                              <th scope="col">Pend.</th>
+                                              <th scope="col">Reali.</th>
+                                              <th scope="col">Accion</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          @foreach($agendas as $agenda)
+                                              <tr>
+                                                  <td>{{$agenda->fecha}}</td>
+                                                  <td>
+                                                      @if($agenda->delegacion == 1)
+                                                          ATLANTICO NORTE
+                                                      @else
+                                                          ATLANTICO SUR
+                                                      @endif
+                                                  </td>
+                                                  <td>{{$agenda->usuario}}</td>
+                                                  <td>{{$agenda->cargasPendientes}}</td>
+                                                  <td>{{$agenda->pendientes}}</td>
+                                                  <td>{{$agenda->realizados}}</td>
+                                                  <td>
+                                                      <form action="{{route('asignar.avisos', ['agenda' => $agenda->id])}}">
+                                                          <button style="margin-bottom: 8px"
+                                                                  class="btn btn-outline-primary">Abrir <i
+                                                                  class="mdi mdi-folder-open"></i></button>
+                                                      </form>
+                                                      <form action="{{route('admin.avisos.subir', ['agenda' => $agenda->id])}}">
+                                                          <button style="margin-bottom: 8px" class="btn btn-outline-info">
+                                                              Cargar
+                                                              <i class="mdi mdi-upload"></i>
+                                                          </button>
+                                                      </form>
+                                                      <button style="margin-bottom: 8px" class="btn btn-outline-danger">
+                                                          Eliminar <i
+                                                              class="mdi mdi-delete"></i></button>
+                                                      <form method="POST" action="{{route('admin.agenda.download')}}">
+                                                          <input type="hidden" name="agenda" value="{{$agenda->id}}">
+                                                          <button style="margin-bottom: -8px"
+                                                                  class="btn btn-outline-success">
+                                                              Descargar <i
+                                                                  class="mdi mdi-download"></i></button>
+                                                      </form>
+                                                  </td>
+                                              </tr>
+                                          @endforeach
+                                          </tbody>
 
-                                    </table>
-                                    {{ $agendas->appends([])->links() }}
-
+                                        </table>
+                                      {{ $agendas->appends([])->links() }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
