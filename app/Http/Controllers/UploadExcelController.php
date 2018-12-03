@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class UploadExcelController extends Controller
 {
-    public function index($id_agenda, $delegacion)
+    public function index($id_agenda)
     {
         $agenda = Agenda::where('id', $id_agenda)->first();
 

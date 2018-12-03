@@ -30,7 +30,7 @@ class VerifyCsrfToken extends Middleware
         'admin/asignar-avisos',
         'admin/vaciar-carga',
         'admin/getAvisos',
-        'admin/agenda/download'
-
+        'admin/agenda/download',
+        'admin/asignarall'
     ];
 }

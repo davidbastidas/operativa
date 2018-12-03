@@ -14,7 +14,6 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'LoginController@login'
     ]);
 
-
     Route::get('admin/agenda', [
         'as' => 'agenda',
         'uses' => 'AvisosController@index'
@@ -41,7 +40,7 @@ Route::group(['middleware' => ['sessionValid']], function () {
         ]
     );
 
-    Route::get('admin/subir-avisos/{agenda}/{delegacion}', [
+    Route::get('admin/subir-avisos/{agenda}', [
         'as' => 'admin.avisos.subir',
         'uses' => 'UploadExcelController@index'
     ]);
@@ -61,11 +60,16 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@subirAvisos'
     ]);
 
-    Route::get('admin/asginar-avisos/index/{agenda}/{delegacion}', 'AvisosController@cargaAvisosIndex')->name('asignar.avisos');
+    Route::get('admin/asignar-avisos/index/{agenda}', 'AvisosController@listaAvisosIndex')->name('asignar.avisos');
 
     Route::post('admin/asignar-avisos', [
         'as' => 'admin.asignar.avisos',
         'uses' => 'AvisosController@cargarAvisos'
+    ]);
+
+    Route::post('admin/asignarall', [
+        'as' => 'admin.asignarall',
+        'uses' => 'AvisosController@asignarAllAvisos'
     ]);
 
     Route::post('admin/vaciar-carga', [
@@ -83,8 +87,12 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@saveAgenda'
     ]);
 
-    Route::get('admin/getAvisos', 'AvisosController@getAvisos');
+    Route::get('admin/agenda/delete/{agenda}', [
+        'as' => 'agenda.delete',
+        'uses' => 'AvisosController@deleteAgenda'
+    ]);
 
+    Route::get('admin/getAvisos', 'AvisosController@getAvisos');
 });
 
 Auth::routes();

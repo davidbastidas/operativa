@@ -12,7 +12,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class DownloadController extends Controller
 {
     public $avisos = null;
-    
+
 
     public function download(Request $request)
     {
@@ -27,32 +27,16 @@ class DownloadController extends Controller
 
         $this->avisos = $avisos;
 
-        if ($avisos == "[]") {
-            $id = Session::get('adminId');
-            $name = Session::get('adminName');
+        Excel::create('Avisos', function ($excel) {
 
-            $delegacion = Delegacion::all();
+            $avisos = $this->avisos;
 
-            $info = 'No Hay Datos para descargar.';
+            $excel->sheet('Avisos', function ($sheet) use ($avisos) {
 
-            return view('admin.download', [
-                'id' => $id, 'name' => $name,
-                'delegaciones' => $delegacion,
-                'info' => $info
-            ]);
+                $sheet->fromArray($avisos);
 
-        } else {
-            Excel::create('Avisos', function ($excel) {
+            });
 
-                $avisos = $this->avisos;
-
-                $excel->sheet('Avisos', function ($sheet) use ($avisos) {
-
-                    $sheet->fromArray($avisos);
-
-                });
-
-            })->export('xlsx');
-        }
+        })->export('xlsx');
     }
 }

@@ -8,6 +8,7 @@
             <img src="{{asset('images/electricaribe.png')}}" style="width: 170px; height: 50px;">
         </a>
     </div>
+
     <div class="navbar-menu-wrapper d-flex align-items-center" style="background-color: #008080">
         <ul class="navbar-nav navbar-nav-right">
             <li class="nav-item dropdown d-none d-xl-inline-block">

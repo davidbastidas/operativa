@@ -179,17 +179,17 @@ class ApiController extends Controller
 
         $aviso->save();
 
-        $logSeg = new Log();
-        $logSeg->log = '' . $request;
-        $logSeg->aviso_id = $aviso->id;
-        $logSeg->save();
-
         try {
+          $logSeg = new Log();
+          $logSeg->log = '' . $request;
+          $logSeg->aviso_id = $aviso->id;
+          $logSeg->save();
+
           if($request->foto != null || $request->foto != ""){
             //decode base64 string
             $image = base64_decode($request->foto);
 
-            $archivo = $aviso->id.'.'.'png';
+            $archivo = $aviso->id . '.png';
             \File::put('/var/www/html/operativa/storage/app/public/fotos/' . $archivo, $image);
           }
         } catch (\Exception $e) {
@@ -206,7 +206,7 @@ class ApiController extends Controller
         );
       } else {
         $response = array(
-          'estado' => false
+          'estado' => true
         );
       }
     } else {

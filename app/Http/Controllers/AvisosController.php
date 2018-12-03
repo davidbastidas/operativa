@@ -48,9 +48,15 @@ class AvisosController extends Controller
 
             $user = AdminTable::where('id', $agenda->admin_id)->first()->name;
 
-            $pendientes = Avisos::where('estado', 1)->where('agenda_id', $agenda->id)->get()->count();
-            $realizados = Avisos::where('estado', 2)->where('agenda_id', $agenda->id)->get()->count();
-            $pendCargaXagenda = AvisosTemp::where('estado', 2)->where('agenda_id', $agenda->id)->get()->count();
+            $pendientes = Avisos::where('estado', 1)->where('agenda_id', $agenda->id)->count();
+            $realizados = Avisos::where('estado', 2)->where('agenda_id', $agenda->id)->count();
+            $cargasPendientes = AvisosTemp::where('agenda_id', $agenda->id)->count();
+
+            $flag = false;
+
+            if ($pendientes > 0) {
+                $flag = true;
+            }
 
             array_push($array, (object)array(
                 'id' => $agenda->id,
@@ -60,12 +66,12 @@ class AvisosController extends Controller
                 'usuario' => $user,
                 'pendientes' => $pendientes,
                 'realizados' => $realizados,
-                'cargasPendientes' => $pendCargaXagenda,
+                'cargasPendientes' => $cargasPendientes,
+                'flag' => $flag
             ));
         }
 
         $agendaCollection = new Collection($array);
-
 
         $posts = new LengthAwarePaginator($agendaCollection, $total_registros, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
@@ -141,13 +147,29 @@ class AvisosController extends Controller
     }
 
     //Asignar Avisos INDEX
-    public function cargaAvisosIndex($agenda, $delegacion)
+    public function listaAvisosIndex($agenda)
     {
         $id = Session::get('adminId');
         $name = Session::get('adminName');
 
         $gestores = AvisosTemp::select('gestor')->where('agenda_id', $agenda)->groupBy('gestor')->get();
         $usuarios = Usuarios::all();
+        $agendaModel = Agenda::find($agenda);
+
+        $perPage = 10;
+        $page = Input::get('page');
+        $pageName = 'page';
+        $page = Paginator::resolveCurrentPage($pageName);
+        $offSet = ($page * $perPage) - $perPage;
+
+        $avisos = Avisos::where('agenda_id', $agenda)->offset($offSet)->limit($perPage)->orderByDesc('gestor_id')->get();
+
+        $total_registros = Avisos::where('agenda_id', $agenda)->count();
+
+        $posts = new LengthAwarePaginator($avisos, $total_registros, $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
 
         return view('admin.asignar', [
             'id' => $id,
@@ -155,7 +177,8 @@ class AvisosController extends Controller
             'gestores' => $gestores,
             'usuarios' => $usuarios,
             'agenda' => $agenda,
-            'delegacion' => $delegacion
+            'agendaModel' => $agendaModel,
+            'avisos' => $posts
         ]);
     }
 
@@ -163,12 +186,11 @@ class AvisosController extends Controller
     public function cargarAvisos(Request $request)
     {
         $id = Session::get('adminId');
-        $agenda = $request->agenda;
-        $delegacion_id = $request->delegacion;
+        $agenda = Agenda::find($request->agenda);
         $gestor = $request->gestor;
         $user = $request->user;
 
-        $avisos = AvisosTemp::where('gestor', $gestor)->where('agenda_id', $agenda)->get();
+        $avisos = AvisosTemp::where('gestor', $gestor)->where('agenda_id', $agenda->id)->get();
 
         foreach ($avisos as $aviso) {
             $av = new Avisos();
@@ -192,12 +214,12 @@ class AvisosController extends Controller
             $av->tarifa = $aviso->tarifa;
             $av->compromiso = $aviso->compromiso;
             $av->avisos = $aviso->avisos;
-            $av->delegacion_id = $delegacion_id;
+            $av->delegacion_id = $agenda->delegacion_id;
             $av->orden_realizado = 0;
             $av->estado = 1;
             $av->gestor_id = $user;
             $av->admin_id = $id;
-            $av->agenda_id = $agenda;
+            $av->agenda_id = $agenda->id;
 
             try {
                 $av->save();
@@ -207,7 +229,58 @@ class AvisosController extends Controller
             }
         }
 
-        return redirect()->route('asignar.avisos', ['agenda' => $agenda, 'delegacion' => $delegacion_id]);
+        return redirect()->route('asignar.avisos', ['agenda' => $agenda]);
+    }
+
+    //Asignar todos los avisos
+    public function asignarAllAvisos(Request $request)
+    {
+        $id = Session::get('adminId');
+        $agenda = Agenda::find($request->agenda);
+        $gestoresTemp = AvisosTemp::select('gestor')->where('agenda_id', $agenda->id)->groupBy('gestor')->get();
+        foreach ($gestoresTemp as $ges) {
+            $gestor = explode(" ", $ges->gestor);
+            $cedula = trim($gestor[0]);
+            $avisosTemp = AvisosTemp::where('gestor', $ges->gestor)->where('agenda_id', $agenda->id)->get();
+            $usuario = Usuarios::where('nickname', $cedula)->first();
+            foreach ($avisosTemp as $aviso) {
+                $av = new Avisos();
+                $av->id = $aviso->id;
+                $av->campana = $aviso->campana;
+                $av->campana2 = $aviso->campana2;
+                $av->fecha_entrega = $aviso->fecha_entrega;
+                $av->tipo_visita = $aviso->tipo_visita;
+                $av->municipio = $aviso->municipio;
+                $av->localidad = $aviso->localidad;
+                $av->barrio = $aviso->barrio;
+                $av->direccion = $aviso->direccion;
+                $av->cliente = $aviso->cliente;
+                $av->deuda = $aviso->deuda;
+                $av->factura_vencida = $aviso->factura_vencida;
+                $av->nic = $aviso->nic;
+                $av->nis = $aviso->nis;
+                $av->medidor = $aviso->medidor;
+                $av->gestor = $aviso->gestor;
+                $av->supervisor = $aviso->supervisor;
+                $av->tarifa = $aviso->tarifa;
+                $av->compromiso = $aviso->compromiso;
+                $av->avisos = $aviso->avisos;
+                $av->delegacion_id = $agenda->delegacion_id;
+                $av->orden_realizado = 0;
+                $av->estado = 1;
+                $av->gestor_id = $usuario->id;
+                $av->admin_id = $id;
+                $av->agenda_id = $agenda->id;
+
+                try {
+                    $av->save();
+                    $aviso->delete();
+                } catch (\Exception $e) {
+                    return $e;
+                }
+            }
+        }
+        return redirect()->route('asignar.avisos', ['agenda' => $agenda]);
     }
 
     public function getAvisos()
@@ -224,12 +297,18 @@ class AvisosController extends Controller
     public function vaciarCarga(Request $request)
     {
         $id = Session::get('adminId');
-        $avisos = AvisosTemp::where('admin_id', $id)->delete();
+        $avisos = AvisosTemp::where('admin_id', $id)->where('agenda_id', $request->agenda)->delete();
 
         $id = Session::get('adminId');
         $name = Session::get('adminName');
 
-        return \Redirect::route('carga.avisos');
+        return redirect()->route('asignar.avisos', ['agenda' => $request->agenda]);
+    }
+
+    public function deleteAgenda($agenga)
+    {
+        Agenda::where('id', $agenga)->delete();
+        return \Redirect::route('agenda');
     }
 
     public function getIndicadores(Request $request)
