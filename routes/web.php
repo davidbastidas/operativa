@@ -60,7 +60,7 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@subirAvisos'
     ]);
 
-    Route::get('admin/asignar-avisos/index/{agenda}', 'AvisosController@cargaAvisosIndex')->name('asignar.avisos');
+    Route::get('admin/asignar-avisos/index/{agenda}', 'AvisosController@listaAvisosIndex')->name('asignar.avisos');
 
     Route::post('admin/asignar-avisos', [
         'as' => 'admin.asignar.avisos',

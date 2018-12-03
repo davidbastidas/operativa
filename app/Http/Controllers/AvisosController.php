@@ -50,7 +50,7 @@ class AvisosController extends Controller
 
             $pendientes = Avisos::where('estado', 1)->where('agenda_id', $agenda->id)->count();
             $realizados = Avisos::where('estado', 2)->where('agenda_id', $agenda->id)->count();
-            $pendCargaXagenda = AvisosTemp::where('agenda_id', $agenda->id)->count();
+            $cargasPendientes = AvisosTemp::where('agenda_id', $agenda->id)->count();
 
             $flag = false;
 
@@ -66,6 +66,7 @@ class AvisosController extends Controller
                 'usuario' => $user,
                 'pendientes' => $pendientes,
                 'realizados' => $realizados,
+                'cargasPendientes' => $cargasPendientes,
                 'flag' => $flag
             ));
         }
@@ -146,7 +147,7 @@ class AvisosController extends Controller
     }
 
     //Asignar Avisos INDEX
-    public function cargaAvisosIndex($agenda)
+    public function listaAvisosIndex($agenda)
     {
         $id = Session::get('adminId');
         $name = Session::get('adminName');
@@ -155,13 +156,29 @@ class AvisosController extends Controller
         $usuarios = Usuarios::all();
         $agendaModel = Agenda::find($agenda);
 
+        $perPage = 10;
+        $page = Input::get('page');
+        $pageName = 'page';
+        $page = Paginator::resolveCurrentPage($pageName);
+        $offSet = ($page * $perPage) - $perPage;
+
+        $avisos = Avisos::where('agenda_id', $agenda)->offset($offSet)->limit($perPage)->orderByDesc('gestor_id')->get();
+
+        $total_registros = Avisos::where('agenda_id', $agenda)->count();
+
+        $posts = new LengthAwarePaginator($avisos, $total_registros, $perPage, $page, [
+            'path' => Paginator::resolveCurrentPath(),
+            'pageName' => $pageName,
+        ]);
+
         return view('admin.asignar', [
             'id' => $id,
             'name' => $name,
             'gestores' => $gestores,
             'usuarios' => $usuarios,
             'agenda' => $agenda,
-            'agendaModel' => $agendaModel
+            'agendaModel' => $agendaModel,
+            'avisos' => $posts
         ]);
     }
 

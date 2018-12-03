@@ -68,8 +68,9 @@
                                       </form>
                                     </div>
                                 </div>
+                                <hr>
                               @endif
-                              <hr>
+
                               <div class="row">
                                 <div class="col-md-10">
                                     <h4>Lista de Avisos {{$agendaModel->codigo}} de {{$agendaModel->fecha}}</h4>
@@ -81,18 +82,35 @@
                                     <table class="table text-center">
                                       <thead>
                                         <tr>
-                                            <th scope="col">Agenda</th>
-                                            <th scope="col">Delegacion</th>
-                                            <th scope="col">Responsable</th>
-                                            <th scope="col">Por Asignar</th>
-                                            <th scope="col">Pend.</th>
-                                            <th scope="col">Reali.</th>
+                                            <th scope="col">Gestor</th>
+                                            <th scope="col">Barrio</th>
+                                            <th scope="col">Municipio</th>
+                                            <th scope="col">NIC</th>
+                                            <th scope="col">Result.</th>
                                             <th scope="col">Accion</th>
                                         </tr>
                                       </thead>
                                       <tbody>
+                                        @foreach ($avisos as $aviso)
+                                          <tr>
+                                            <td>{{ $aviso->usuario->nombre }}</td>
+                                            <td>{{ $aviso->barrio }}</td>
+                                            <td>{{ $aviso->municipio }}</td>
+                                            <td>{{ $aviso->nic }}</td>
+                                            <td>
+                                              @if (isset($aviso->resultado->nombre))
+                                                {{ $aviso->resultado->nombre }}
+                                              @endif
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                          </tr>
+                                        @endforeach
                                       </tbody>
                                     </table>
+                                    <br>
+                                    {{ $avisos->appends([])->links() }}
                                   </div>
                                 </div>
                               </div>

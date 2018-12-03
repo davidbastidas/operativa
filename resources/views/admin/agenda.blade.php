@@ -143,7 +143,7 @@
                                                       </form>
                                                       @if(!$agenda->flag)
                                                         <form method="get" action="{{route('agenda.delete', $agenda->id)}}">
-                                                            <button style="margin-bottom: 8px" class="btn-danger btn-block">
+                                                            <button style="margin-bottom: 8px" class="btn btn-outline-danger btn-block">
                                                                 Eliminar<i class="mdi mdi-delete"></i>
                                                             </button>
                                                         </form>
