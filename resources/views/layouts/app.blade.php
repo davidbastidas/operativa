@@ -29,10 +29,6 @@
             text-align: center;
             color: #333;
         }
-
-        form {
-            padding: 10%;
-        }
     </style>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <!--<link rel="stylesheet" href="{asset('css/style.css')}}">
@@ -75,6 +71,7 @@
         $('#fecha').val($year + '-' + $month + '-' + $day);
         $('#fechaD1').val($year + '-' + $month + '-' + $day);
         $('#fechaD2').val($year + '-' + $month + '-' + $day);
+        $('#fechaAgenda').val($year + '-' + $month + '-' + $day);
     });
 </script>
 
@@ -103,23 +100,6 @@
         });
     });
 </script>
-
-<script>
-    //Cargar Avisos
-    $('#myTable').DataTable({
-        ajax: 'http://52.14.94.46/operativa/public/admin/getAvisos',
-        responsive: true,
-        scrollX: true,
-        columns: [
-            {'data': 'localidad'},
-            {'data': 'barrio'},
-            {'data': 'direccion'},
-            {'data': 'nic'},
-            {'data': 'gestor'}
-        ]
-    });
-</script>
-
 
 <script>
     //Indicadores busqueda

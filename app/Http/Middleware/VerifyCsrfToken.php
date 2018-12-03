@@ -20,15 +20,17 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'admin/getIndicadores',
+        'login',
         'logout',
         'admin/avisos/upload',
-        'admin/excel/index',
         'admin/excel/upload',
         'admin/excel/download',
         'admin/download-avisos',
         'admin/carga-avisos',
         'admin/asignar-avisos',
         'admin/vaciar-carga',
-        'admin/getAvisos'
+        'admin/getAvisos',
+        'admin/agenda/download',
+        'admin/asignarall'
     ];
 }

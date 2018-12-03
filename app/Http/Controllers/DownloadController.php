@@ -13,57 +13,30 @@ class DownloadController extends Controller
 {
     public $avisos = null;
 
-    public function index()
-    {
-        $id = Session::get('adminId');
-        $name = Session::get('adminName');
-
-        $delegacion = Delegacion::all();
-
-        return view('admin.download', ['id' => $id, 'name' => $name, 'delegaciones' => $delegacion]);
-    }
 
     public function download(Request $request)
     {
-        $fecha1 = $request->fecha1;
-        $fecha2 = $request->fecha2;
-        $delegacion = $request->delegacion;
+        $agenda = $request->agenda;
 
         $model = new Avisos();
         $avisos = $model->hydrate(
             DB::select(
-                "call download_avisos('$fecha1', '$fecha2', $delegacion)"
+                "call download_avisos($agenda)"
             )
         );
 
         $this->avisos = $avisos;
 
-        if ($avisos == "[]") {
-            $id = Session::get('adminId');
-            $name = Session::get('adminName');
+        Excel::create('Avisos', function ($excel) {
 
-            $delegacion = Delegacion::all();
+            $avisos = $this->avisos;
 
-            $info = 'No Hay Datos en este rango de fechas.';
+            $excel->sheet('Avisos', function ($sheet) use ($avisos) {
 
-            return view('admin.download', [
-                'id' => $id, 'name' => $name,
-                'delegaciones' => $delegacion,
-                'info' => $info
-            ]);
+                $sheet->fromArray($avisos);
 
-        } else {
-            Excel::create('Avisos', function ($excel) {
+            });
 
-                $avisos = $this->avisos;
-
-                $excel->sheet('Avisos', function ($sheet) use ($avisos) {
-
-                    $sheet->fromArray($avisos);
-
-                });
-
-            })->export('xlsx');
-        }
+        })->export('xlsx');
     }
 }

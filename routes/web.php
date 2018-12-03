@@ -1,18 +1,22 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 
 Route::group(['middleware' => ['sessionValid']], function () {
 
     Route::get('/', function (){
-       return view('auth.login', ['id' => '']);
+        return view('auth.login', ['id' => '']);
     })->name('/');
 
     Route::post('login', [
         'as' => 'login',
         'uses' => 'LoginController@login'
+    ]);
+
+    Route::get('admin/agenda', [
+        'as' => 'agenda',
+        'uses' => 'AvisosController@index'
     ]);
 
     Route::match(['get', 'post'], '/admin',
@@ -36,8 +40,8 @@ Route::group(['middleware' => ['sessionValid']], function () {
         ]
     );
 
-    Route::get('admin/excel/index', [
-        'as' => 'admin.excel.index',
+    Route::get('admin/subir-avisos/{agenda}', [
+        'as' => 'admin.avisos.subir',
         'uses' => 'UploadExcelController@index'
     ]);
 
@@ -46,8 +50,8 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'UploadExcelController@upload'
     ]);
 
-    Route::post('admin/excel/download', [
-        'as' => 'admin.excel.download',
+    Route::post('admin/agenda/download', [
+        'as' => 'admin.agenda.download',
         'uses' => 'DownloadController@download'
     ]);
 
@@ -56,13 +60,16 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@subirAvisos'
     ]);
 
-    Route::get('admin/download-avisos', 'DownloadController@index')->name('download.avisos');
-
-    Route::get('admin/carga-avisos', 'AvisosController@cargaAvisosIndex')->name('carga.avisos');
+    Route::get('admin/asignar-avisos/index/{agenda}', 'AvisosController@listaAvisosIndex')->name('asignar.avisos');
 
     Route::post('admin/asignar-avisos', [
         'as' => 'admin.asignar.avisos',
         'uses' => 'AvisosController@cargarAvisos'
+    ]);
+
+    Route::post('admin/asignarall', [
+        'as' => 'admin.asignarall',
+        'uses' => 'AvisosController@asignarAllAvisos'
     ]);
 
     Route::post('admin/vaciar-carga', [
@@ -75,10 +82,17 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@getIndicadores'
     ]);
 
-    Route::get('admin/getAvisos', 'AvisosController@getAvisos');
+    Route::post('admin/agenda/save', [
+        'as' => 'agenda.save',
+        'uses' => 'AvisosController@saveAgenda'
+    ]);
 
+    Route::get('admin/agenda/delete/{agenda}', [
+        'as' => 'agenda.delete',
+        'uses' => 'AvisosController@deleteAgenda'
+    ]);
+
+    Route::get('admin/getAvisos', 'AvisosController@getAvisos');
 });
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
