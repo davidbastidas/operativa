@@ -54,7 +54,7 @@ class AvisosController extends Controller
 
             $flag = false;
 
-            if ($pendientes > 0) {
+            if ($pendientes > 0){
                 $flag = true;
             }
 
@@ -113,35 +113,38 @@ class AvisosController extends Controller
         $agenda = $request->agenda;
         $results = Excel::load($archivo)->all()->toArray();
         foreach ($results as $row) {
-            $base = [];
-            $count = 0;
             foreach ($row as $x => $x_value) {
-                $base[$count] = $x_value;
-                $count++;
+            	$base = [];
+            	$count = 0;
+            	foreach ($x_value as $y => $y_value) {
+	                $base[$count] = $y_value;
+	                $count++;
+	            }
+	            $aviso = new AvisosTemp();
+	            $aviso->campana = $base[0];
+	            $aviso->campana2 = $base[1];
+
+	            $aviso->fecha_entrega = $base[2]->format('Y-m-d');
+	            $aviso->tipo_visita = $base[3];
+	            $aviso->municipio = $base[4];
+	            $aviso->localidad = $base[5];
+	            $aviso->barrio = $base[6];
+	            $aviso->direccion = $base[7];
+	            $aviso->cliente = $base[8];
+	            $aviso->deuda = $base[9];
+	            $aviso->factura_vencida = $base[10];
+	            $aviso->nic = $base[11];
+	            $aviso->nis = $base[12];
+	            $aviso->medidor = $base[13];
+	            $aviso->gestor = $base[14];
+	            $aviso->supervisor = $base[15];
+	            $aviso->tarifa = $base[17];
+	            $aviso->compromiso = $base[18]->format('Y-m-d');
+	            $aviso->avisos = $base[19];
+	            $aviso->admin_id = Session::get('adminId');
+	            $aviso->agenda_id = $agenda;
+	            $aviso->save();
             }
-            $aviso = new AvisosTemp();
-            $aviso->campana = $base[0];
-            $aviso->campana2 = $base[1];
-            $aviso->fecha_entrega = $base[2]->format('Y-m-d');
-            $aviso->tipo_visita = $base[3];
-            $aviso->municipio = $base[4];
-            $aviso->localidad = $base[5];
-            $aviso->barrio = $base[6];
-            $aviso->direccion = $base[7];
-            $aviso->cliente = $base[8];
-            $aviso->deuda = $base[9];
-            $aviso->factura_vencida = $base[10];
-            $aviso->nic = $base[11];
-            $aviso->nis = $base[12];
-            $aviso->medidor = $base[13];
-            $aviso->gestor = $base[14];
-            $aviso->supervisor = $base[15];
-            $aviso->tarifa = $base[17];
-            $aviso->compromiso = $base[18]->format('Y-m-d');
-            $aviso->avisos = $base[19];
-            $aviso->admin_id = Session::get('adminId');
-            $aviso->agenda_id = $agenda;
-            $aviso->save();
         }
         return \Redirect::route('agenda');
     }
@@ -239,46 +242,46 @@ class AvisosController extends Controller
         $agenda = Agenda::find($request->agenda);
         $gestoresTemp = AvisosTemp::select('gestor')->where('agenda_id', $agenda->id)->groupBy('gestor')->get();
         foreach ($gestoresTemp as $ges) {
-            $gestor = explode(" ", $ges->gestor);
-            $cedula = trim($gestor[0]);
-            $avisosTemp = AvisosTemp::where('gestor', $ges->gestor)->where('agenda_id', $agenda->id)->get();
-            $usuario = Usuarios::where('nickname', $cedula)->first();
-            foreach ($avisosTemp as $aviso) {
-                $av = new Avisos();
-                $av->id = $aviso->id;
-                $av->campana = $aviso->campana;
-                $av->campana2 = $aviso->campana2;
-                $av->fecha_entrega = $aviso->fecha_entrega;
-                $av->tipo_visita = $aviso->tipo_visita;
-                $av->municipio = $aviso->municipio;
-                $av->localidad = $aviso->localidad;
-                $av->barrio = $aviso->barrio;
-                $av->direccion = $aviso->direccion;
-                $av->cliente = $aviso->cliente;
-                $av->deuda = $aviso->deuda;
-                $av->factura_vencida = $aviso->factura_vencida;
-                $av->nic = $aviso->nic;
-                $av->nis = $aviso->nis;
-                $av->medidor = $aviso->medidor;
-                $av->gestor = $aviso->gestor;
-                $av->supervisor = $aviso->supervisor;
-                $av->tarifa = $aviso->tarifa;
-                $av->compromiso = $aviso->compromiso;
-                $av->avisos = $aviso->avisos;
-                $av->delegacion_id = $agenda->delegacion_id;
-                $av->orden_realizado = 0;
-                $av->estado = 1;
-                $av->gestor_id = $usuario->id;
-                $av->admin_id = $id;
-                $av->agenda_id = $agenda->id;
+          $gestor = explode(" ", $ges->gestor);
+          $cedula = trim($gestor[0]);
+          $avisosTemp = AvisosTemp::where('gestor', $ges->gestor)->where('agenda_id', $agenda->id)->get();
+          $usuario = Usuarios::where('nickname', $cedula)->first();
+          foreach ($avisosTemp as $aviso) {
+            $av = new Avisos();
+            $av->id = $aviso->id;
+            $av->campana = $aviso->campana;
+            $av->campana2 = $aviso->campana2;
+            $av->fecha_entrega = $aviso->fecha_entrega;
+            $av->tipo_visita = $aviso->tipo_visita;
+            $av->municipio = $aviso->municipio;
+            $av->localidad = $aviso->localidad;
+            $av->barrio = $aviso->barrio;
+            $av->direccion = $aviso->direccion;
+            $av->cliente = $aviso->cliente;
+            $av->deuda = $aviso->deuda;
+            $av->factura_vencida = $aviso->factura_vencida;
+            $av->nic = $aviso->nic;
+            $av->nis = $aviso->nis;
+            $av->medidor = $aviso->medidor;
+            $av->gestor = $aviso->gestor;
+            $av->supervisor = $aviso->supervisor;
+            $av->tarifa = $aviso->tarifa;
+            $av->compromiso = $aviso->compromiso;
+            $av->avisos = $aviso->avisos;
+            $av->delegacion_id = $agenda->delegacion_id;
+            $av->orden_realizado = 0;
+            $av->estado = 1;
+            $av->gestor_id = $usuario->id;
+            $av->admin_id = $id;
+            $av->agenda_id = $agenda->id;
 
-                try {
-                    $av->save();
-                    $aviso->delete();
-                } catch (\Exception $e) {
-                    return $e;
-                }
+            try {
+                $av->save();
+                $aviso->delete();
+            } catch (\Exception $e) {
+                return $e;
             }
+          }
         }
         return redirect()->route('asignar.avisos', ['agenda' => $agenda]);
     }
