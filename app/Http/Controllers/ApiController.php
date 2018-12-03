@@ -179,12 +179,12 @@ class ApiController extends Controller
 
         $aviso->save();
 
-        $logSeg = new Log();
-        $logSeg->log = '' . $request;
-        $logSeg->aviso_id = $aviso->id;
-        $logSeg->save();
-
         try {
+          $logSeg = new Log();
+          $logSeg->log = '' . $request;
+          $logSeg->aviso_id = $aviso->id;
+          $logSeg->save();
+
           if($request->foto != null || $request->foto != ""){
             //decode base64 string
             $image = base64_decode($request->foto);
