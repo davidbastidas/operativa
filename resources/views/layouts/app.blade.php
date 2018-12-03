@@ -71,11 +71,20 @@
         $year = $fecha.getFullYear();
         $month = $fecha.getMonth() + 1;
         $day = $fecha.getDate();
-        console.log($fecha);
-        $('#fecha').val($year + '-' + $month + '-' + $day);
-        $('#fechaD1').val($year + '-' + $month + '-' + $day);
-        $('#fechaD2').val($year + '-' + $month + '-' + $day);
-        $('#fechaAgenda').val($year + '-' + $month + '-' + $day);
+        $fechaNew = null;
+
+        if ($day.toString().length == 1){
+            $fechaNew = $year + '-' + $month + '-' + "0" + $day;
+
+        } else {
+            $fechaNew = $year + '-' + $month + '-' + $day;
+        }
+
+        console.log($fechaNew);
+        $('#fecha').val($fechaNew);
+        $('#fechaD1').val($fechaNew);
+        $('#fechaD2').val($fechaNew);
+        $('#fechaAgenda').val($fechaNew);
     });
 </script>
 
