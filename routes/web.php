@@ -105,6 +105,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
     ]);
 
     Route::get('admin/getAvisos', 'AvisosController@getAvisos');
+
+    Route::post('admin/dashboard/getAvancePorGestor', [
+        'as' => 'admin.dashboard.getAvancePorGestor',
+        'uses' => 'DashboardController@getAvancePorGestor'
+    ]);
 });
 
 Auth::routes();

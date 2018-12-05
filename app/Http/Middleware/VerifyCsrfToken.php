@@ -33,5 +33,6 @@ class VerifyCsrfToken extends Middleware
         'admin/agenda/download',
         'admin/asignarall',
         'admin/avisos/save',
+        'admin/dashboard/getAvancePorGestor'
     ];
 }

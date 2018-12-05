@@ -190,7 +190,7 @@ class ApiController extends Controller
             $image = base64_decode($request->foto);
 
             $archivo = $aviso->id . '.png';
-            \File::put('/var/www/html/operativa/storage/app/public/fotos/' . $archivo, $image);
+            \File::put(config('myconfig.ruta_fotos') . $archivo, $image);
           }
         } catch (\Exception $e) {
           $logSeg = new Log();
