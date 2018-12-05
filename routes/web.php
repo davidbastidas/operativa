@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 
 
 Route::group(['middleware' => ['sessionValid']], function () {
@@ -90,6 +92,16 @@ Route::group(['middleware' => ['sessionValid']], function () {
     Route::get('admin/agenda/delete/{agenda}', [
         'as' => 'agenda.delete',
         'uses' => 'AvisosController@deleteAgenda'
+    ]);
+
+    Route::get('admin/avisos/editar/{aviso}', [
+        'as' => 'aviso.editar',
+        'uses' => 'AvisosController@editarAviso'
+    ]);
+
+    Route::post('admin/avisos/save', [
+        'as' => 'aviso.editar.save',
+        'uses' => 'AvisosController@saveAviso'
     ]);
 
     Route::get('admin/getAvisos', 'AvisosController@getAvisos');

@@ -1,0 +1,182 @@
+@extends('layouts.app')
+
+@section('content')
+    @include('__partials.head')
+
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+    @include('__partials.nav')
+    <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_sidebar.html -->
+        @include('__partials.menu')
+        <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    <!--Pendientes-->
+                    <div class="row">
+                        <div class="col-lg-12 grid-margin">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <center><h4>EDITAR AVISO</h4></center>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            Nic: {{$aviso->nic}}
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            Cliente: {{$aviso->cliente}}
+                                        </div>
+
+                                        <div class="col-md-3">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <form action="{{route('aviso.editar.save')}}" method="POST">
+                                                <button style="margin-bottom: 8px" class="btn-block btn btn-outline-primary">
+                                                    Guardar <i class="mdi mdi-content-save"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>Resultado</label>
+                                            <select class="form-control">
+                                                <option value="">Selecciona..</option>
+                                                @foreach($resultados as $resultado)
+                                                    @if($resultado->id == $aviso->resultado_id)
+                                                        <option value="{{$resultado->id}}"
+                                                                selected>{{$resultado->nombre}}</option>
+                                                    @else
+                                                        <option
+                                                            value="{{$resultado->id}}">{{$resultado->nombre}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label>Anomalia</label>
+                                            <select class="form-control">
+                                                <option value="">Selecciona..</option>
+                                                @foreach($anomalias as $anomalia)
+                                                    @if($anomalia->id == $aviso->anomalia_id)
+                                                        <option value="{{$anomalia->id}}"
+                                                                selected>{{$anomalia->nombre}}</option>
+                                                    @else
+                                                        <option value="{{$anomalia->id}}">{{$anomalia->nombre}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Recaudo</label>
+                                            <select class="form-control">
+                                                <option value="">Selecciona..</option>
+                                                @foreach($recaudos as $recaudo)
+                                                    @if($recaudo->id == $aviso->entidad_recaudo_id)
+                                                        <option value="{{$recaudo->id}}"
+                                                                selected>{{$recaudo->nombre}}</option>
+                                                    @else
+                                                        <option value="{{$recaudo->id}}">{{$recaudo->nombre}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>Fecha Pago</label>
+                                            <input class="form-control" type="date" name="fecha_pago" id="fechapagoedit">
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Atiende</label>
+                                            <input class="form-control" name="atiende" required>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Cedula</label>
+                                            <input class="form-control" name="cedula" >
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Titular Pago</label>
+                                            <input class="form-control" name="titular" >
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label>Telefono</label>
+                                            <input class="form-control" type="number" name="telefono" >
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Correo electronico</label>
+                                            <input type="email" class="form-control" name="correo_electronico" >
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Observacion Rapida</label>
+                                            <select class="form-control">
+                                                <option value="">Selecciona..</option>
+                                                @foreach($observaciones as $observacion)
+                                                    @if($observacion->id == $aviso->observacion_rapida)
+                                                        <option value="{{$observacion->id}}"
+                                                                selected>{{$observacion->nombre}}</option>
+                                                    @else
+                                                        <option
+                                                            value="{{$observacion->id}}">{{$observacion->nombre}}</option>
+                                                    @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <label>Lectura</label>
+                                            <input class="form-control" name="lectura" >
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label>Observacion Analisis</label>
+                                            <textarea class="form-control" name="observacion_analisis" rows="6"></textarea>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <label>Foto</label>
+                                            <br>
+                                            <img src="{{$path}}" height="300px" width="100%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--END Resuletos-->
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+            @include('__partials.footer')
+            <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+
+@endsection

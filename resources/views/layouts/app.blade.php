@@ -59,7 +59,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
 <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
-
 <script>
     //Cargar fecha de hoy al input de los contadores
     $(document).ready(function () {
@@ -81,6 +80,7 @@
         $('#fechaD1').val($fechaNew);
         $('#fechaD2').val($fechaNew);
         $('#fechaAgenda').val($fechaNew);
+        $('#fechapagoedit').val($fechaNew);
     });
 </script>
 

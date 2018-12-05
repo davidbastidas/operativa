@@ -82,6 +82,7 @@
                                     <table class="table text-center">
                                       <thead>
                                         <tr>
+                                            <th scope="col">#</th>
                                             <th scope="col">Gestor</th>
                                             <th scope="col">Barrio</th>
                                             <th scope="col">Municipio</th>
@@ -93,6 +94,7 @@
                                       <tbody>
                                         @foreach ($avisos as $aviso)
                                           <tr>
+                                            <td>{{ $aviso->id }}</td>
                                             <td>{{ $aviso->usuario->nombre }}</td>
                                             <td>{{ $aviso->barrio }}</td>
                                             <td>{{ $aviso->municipio }}</td>
@@ -103,7 +105,11 @@
                                               @endif
                                             </td>
                                             <td>
-
+                                                <form action="{{route('aviso.editar', ['aviso' => $aviso->id])}}">
+                                                    <button style="margin-bottom: 8px" class="btn-block btn btn-outline-primary">
+                                                        Ver <i class="mdi mdi-pencil"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                           </tr>
                                         @endforeach

@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\AdminTable;
 use App\Agenda;
+use App\Anomalias;
 use App\Avisos;
 use App\AvisosTemp;
 use App\Delegacion;
+use App\EntidadesPagos;
+use App\ObservacionesRapidas;
+use App\Resultados;
 use App\Usuarios;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -328,5 +332,35 @@ class AvisosController extends Controller
             'pendientes' => $avisosPendientes,
             'realizados' => $avisosRealizados
         ]);
+    }
+
+    public function editarAviso($id){
+        $aviso = Avisos::where('id', $id)->first();
+        $resultados = Resultados::all();
+        $anomalias = Anomalias::all();
+        $recaudos = EntidadesPagos::all();
+        $observaciones = ObservacionesRapidas::all();
+
+        $filename = $aviso->id . ".jpg";
+
+        $path = 'http://localhost:8888/operativa/public/fotos/' . $filename;
+
+        $id = Session::get('adminId');
+        $name = Session::get('adminName');
+
+        return view('admin.editar', [
+            'aviso' => $aviso,
+            'id' => $id,
+            'name' => $name,
+            'resultados' => $resultados,
+            'anomalias' => $anomalias,
+            'recaudos' => $recaudos,
+            'observaciones' => $observaciones,
+            'path' => $path
+        ]);
+    }
+
+    public function saveAviso(Request $request){
+
     }
 }
