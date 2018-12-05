@@ -75,111 +75,128 @@
             $fechaNew = $year + '-' + $month + '-' + $day;
         }
 
-        console.log($fechaNew);
         $('#fecha').val($fechaNew);
         $('#fechaD1').val($fechaNew);
         $('#fechaD2').val($fechaNew);
         $('#fechaAgenda').val($fechaNew);
         $('#fechapagoedit').val($fechaNew);
+
+        var fecha = $('#fecha').val();
+        dashboard.getAvancePorGestor(fecha);
+        dashboard.getAvanceDiario(fecha);
+        dashboard.getPointMapGestores(fecha);
     });
 </script>
 
 <script>
   $('#btnIndicador').on('click', function () {
-      let fecha = $('#fecha').val();
-      dashboard.getAvancePorGestor(fecha);
+    let fecha = $('#fecha').val();
+    dashboard.getAvancePorGestor(fecha);
+    dashboard.getAvanceDiario(fecha);
+    dashboard.getPointMapGestores(fecha);
   });
-    $(document).ready(function () {
-        let $fecha = $('#fecha').val();
-
-        let $data = {
-            'fecha': $fecha
-        };
-
-        $.ajax({
-            url: "http://52.14.94.46/operativa/public/admin/getIndicadores",
-            type: "POST",
-            data: $data,
-            success: function (result) {
-                $('#contP').empty();
-                $('#contP').append(result.pendientes + "<span class='mdi mdi-thumb-down' style='color:#35abde;'></span>");
-
-                $('#contR').empty();
-                $('#contR').append(result.realizados + "<span class='mdi mdi-thumb-up' style='color:#95de6b;'></span>");
-            },
-            error: function (error) {
-                alert("error")
-            }
-        });
-    });
 </script>
 
 <script>
-    //Indicadores busqueda
-    $('#btnIndicador--').on('click', function () {
-        let $fecha = $('#fecha').val();
+  var dashboard = (function () {
+    function getAvancePorGestor(fecha) {
+      var request = $.ajax({
+        url: "{{route('admin.dashboard.getAvancePorGestor')}}",
+        method: "POST",
+        data: {
+            'fecha': fecha
+        },
+        beforeSend: function() {
 
-        let $data = {
-            'fecha': $fecha
-        };
-
-        $.ajax({
-            url: "http://52.14.94.46/operativa/public/admin/getIndicadores",
-            type: "POST",
-            data: $data,
-            success: function (result) {
-                if (result.pendientes == 0) {
-                    $('#contP').text(result.pendientes);
-                    let $msg = "No hay avisos pendientes en la fecha indicada.";
-                    alert($msg);
-                    $('#contP').empty();
-                    $('#contP').append(result.pendientes + "<span class='mdi mdi-thumb-down' style='color:#35abde;'></span>");
-                } else {
-                    $('#contP').empty();
-                    $('#contP').append(result.pendientes + "<span class='mdi mdi-thumb-down' style='color:#35abde;'></span>");
-                }
-                if (result.realizados == 0) {
-                    let $msg = "No hay avisos realizados en la fecha indicada.";
-                    alert($msg);
-                    $('#contR').empty();
-                    $('#contR').append(result.realizados + "<span class='mdi mdi-thumb-up' style='color:#95de6b;'></span>");
-                } else {
-                    $('#contR').empty();
-                    $('#contR').append(result.realizados + "<span class='mdi mdi-thumb-up' style='color:#95de6b;'></span>");
-                }
-            },
-            error: function (error) {
-                alert("error")
-            }
-        });
-    });
-    var dashboard = (function () {
-      function getAvancePorGestor(fecha) {
-        var request = $.ajax({
-          url: "{{route('admin.dashboard.getAvancePorGestor')}}",
-          method: "POST",
-          data: {
-              'fecha': fecha
-          },
-          beforeSend: function() {
-
-          }
-        });
-
-        request.done(function (response) {
-          console.log(response)
-          let json = JSON.parse(response);
-          for (var i = 0; i < json.length; i++) {
-            console.log(json[i])
-          }
-        });
-      }
-      return {
-        getAvancePorGestor: function(fecha){
-            getAvancePorGestor(fecha);
         }
-      };
-    })();
+      });
+      request.done(function (response) {
+        var tabla = $("#dash_tabla_gestores tbody");
+        var json = response.gestores;
+        var content = '', colorBar = 'danger', porcentaje = 0;
+        for (var i = 0; i < json.length; i++) {
+          porcentaje = Math.round((100 * json[i].realizados) / (json[i].pendientes + json[i].realizados));
+          if(porcentaje < 20){
+            colorBar = 'danger';
+          } else if(porcentaje >= 20 && porcentaje < 50){
+            colorBar = 'warning';
+          } else if(porcentaje >= 50 && porcentaje < 70){
+            colorBar = 'info';
+          } else if(porcentaje >= 70 && porcentaje < 100){
+            colorBar = 'primary';
+          } else if(porcentaje == 100){
+            colorBar = 'success';
+          }
+          console.log(porcentaje)
+          content = '<tr>' +
+                      '<td>' + json[i].nombre + '</td>' +
+                      '<td>' + json[i].realizados + '</td>' +
+                      '<td>' + json[i].pendientes + '</td>' +
+                      '<td>' +
+                        '<div class="progress">' +
+                          '<div class="progress-bar bg-' + colorBar + '" role="progressbar" style="width: ' + porcentaje + '%" aria-valuenow="' + porcentaje + '" aria-valuemin="0" aria-valuemax="100"></div>' +
+                        '</div>' +
+                        porcentaje + '%' +
+                      '</td>';
+        }
+        if(json.length > 0){
+          tabla.html(content);
+        } else{
+          tabla.html('');
+        }
+      });
+    }
+
+    function getAvanceDiario(fecha) {
+      var request = $.ajax({
+        url: "{{route('admin.dashboard.getAvanceDiario')}}",
+        method: "POST",
+        data: {
+            'fecha': fecha
+        },
+        beforeSend: function() {
+
+        }
+      });
+      request.done(function (response) {
+        var tabla = $("#dash_tabla_gestores tbody");
+        var pendientes = response.pendientes;
+        var resueltos = response.resueltos;
+        $('#contP').html(pendientes + "<span class='mdi mdi-thumb-down' style='color:#35abde;'></span>");
+        $('#contR').html(resueltos + "<span class='mdi mdi-thumb-up' style='color:#95de6b;'></span>");
+      });
+    }
+
+    function getPointMapGestores(fecha) {
+      var request = $.ajax({
+        url: "{{route('admin.dashboard.getPointMapGestores')}}",
+        method: "POST",
+        data: {
+            'fecha': fecha
+        },
+        beforeSend: function() {
+
+        }
+      });
+      request.done(function (response) {
+        var json = response.gestores;
+        for (var i = 0; i < json.length; i++) {
+          json[i].nombre
+        }
+      });
+    }
+    return {
+      getAvancePorGestor: function(fecha){
+          getAvancePorGestor(fecha);
+      },
+      getAvanceDiario: function(fecha){
+          getAvanceDiario(fecha);
+      },
+      getPointMapGestores: function(fecha){
+          getPointMapGestores(fecha);
+      }
+    };
+  })();
 </script>
 
 </html>

@@ -43,7 +43,7 @@
                                   <br>
                                   <center><h2 class="card-title text-primary mb-5">Avance por Gestor</h2></center>
                                   <div class="table-responsive">
-                                    <table class="table table-striped">
+                                    <table class="table table-bordered" id="dash_tabla_gestores">
                                       <thead>
                                         <tr>
                                           <th>
@@ -61,22 +61,6 @@
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        <tr>
-                                          <td>
-                                            Herman Beck
-                                          </td>
-                                          <td>
-                                            1
-                                          </td>
-                                          <td>
-                                            1
-                                          </td>
-                                          <td>
-                                            <div class="progress">
-                                              <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                                            </div>
-                                          </td>
-                                        </tr>
                                       </tbody>
                                     </table>
                                   </div>
@@ -91,12 +75,14 @@
                                       <center><h2 class="card-title text-primary mb-5">Avance Diario</h2></center>
                                       <center>
                                           <p class="mb-2">Total Resueltos</p>
-                                          <p id="contR" class="display-3 mb-5 font-weight-light"><span
-                                                  class="mdi mdi-thumb-up" style="color:#95de6b;"></span></p>
+                                          <p id="contR" class="display-3 mb-5 font-weight-light">
+                                            <span class="mdi mdi-thumb-up" style="color:#95de6b;"></span>
+                                          </p>
                                       </center>
                                       <center><p class="mb-2">Total Pendientes</p>
-                                          <p id="contP" class="display-3 mb-4 font-weight-light"><span
-                                                  class="mdi mdi-thumb-down" style="color:#35abde;"></span></p>
+                                          <p id="contP" class="display-3 mb-4 font-weight-light">
+                                            <span class="mdi mdi-thumb-down" style="color:#35abde;"></span>
+                                          </p>
                                       </center>
                                     </div>
                                   </div>
@@ -109,11 +95,12 @@
                         <div class="col-lg-12 grid-margin">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Location GPS</h4>
-                                    <iframe
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.3387002318436!2d-74.82985228583699!3d11.013194492161118!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8ef42c4d4ad7ec73%3A0x9ab6eda3d5142548!2sCentro+Comercial+Buenavista!5e0!3m2!1ses-419!2sco!4v1543199574416"
-                                        width="100%" height="400px" frameborder="0" style="border:0"
-                                        allowfullscreen></iframe>
+                                    <h4 class="card-title">Ultima ubicacion</h4>
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        mapa
+                                      </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

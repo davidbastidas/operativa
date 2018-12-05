@@ -33,5 +33,7 @@ class VerifyCsrfToken extends Middleware
         'admin/agenda/download',
         'admin/asignarall',
         'admin/dashboard/getAvancePorGestor',
+        'admin/dashboard/getAvanceDiario',
+        'admin/dashboard/getPointMapGestores',
     ];
 }
