@@ -110,6 +110,12 @@
                                                         Ver <i class="mdi mdi-pencil"></i>
                                                     </button>
                                                 </form>
+
+                                                <form action="{{route('aviso.eliminar', ['aviso' => $aviso->id])}}">
+                                                    <button style="margin-bottom: 8px" class="btn-block btn btn-outline-danger">
+                                                        Eliminar <i class="mdi mdi-delete"></i>
+                                                    </button>
+                                                </form>
                                             </td>
                                           </tr>
                                         @endforeach

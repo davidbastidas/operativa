@@ -376,10 +376,20 @@ class AvisosController extends Controller
         $aviso->lectura = $request->lectura;
         $aviso->observacion_rapida = $request->observacion;
         $aviso->observacion_analisis = $request->observacion_analisis;
-        $aviso->estado = $request->estado;
+        $aviso->estado = 3;
 
         $aviso->update();
 
         return redirect()->route('asignar.avisos', ['id' => $aviso->agenda_id]);
+    }
+
+
+    public function deleteAviso($aviso){
+
+        $agenda_id = Avisos::where('id', $aviso)->first()->agenda_id;
+
+        Avisos::where('id', $aviso)->where('estado', 1)->delete();
+
+        return redirect()->route('asignar.avisos', ['id' => $agenda_id]);
     }
 }

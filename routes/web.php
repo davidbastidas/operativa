@@ -104,6 +104,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@saveAviso'
     ]);
 
+    Route::get('admin/avisos/delete/{aviso}', [
+        'as' => 'aviso.eliminar',
+        'uses' => 'AvisosController@deleteAviso'
+    ]);
+
     Route::get('admin/getAvisos', 'AvisosController@getAvisos');
 
     Route::post('admin/dashboard/getAvancePorGestor', [
