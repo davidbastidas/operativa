@@ -31,6 +31,7 @@ class VerifyCsrfToken extends Middleware
         'admin/vaciar-carga',
         'admin/getAvisos',
         'admin/agenda/download',
-        'admin/asignarall'
+        'admin/asignarall',
+        'admin/dashboard/getAvancePorGestor',
     ];
 }

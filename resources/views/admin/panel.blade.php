@@ -30,53 +30,76 @@
                         <div class="col-lg-8 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <center><h2 class="card-title text-primary mb-5">Ultimos 50 Realizados</h2></center>
-                                    <div class="table-wrapper-scroll-y">
-                                        <table class="table table-bordered table-striped">
-                                            <thead>
-                                            <tr>
-                                                <th scope="col">Nombre Gestor</th>
-                                                <th scope="col">Barrio</th>
-                                                <th scope="col">Fecha</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach($last50 as $last)
-                                                <tr>
-                                                    <th>{{$last->nombre}}</th>
-                                                    <td>{{$last->barrio}}</td>
-                                                    <td>{{$last->fecha_recibido_servidor}}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                  <div class="row">
+                                      <div class="col-md-3">
+                                          <input id="fecha" class="form-control" type="date" name="fecha" required/>
+                                      </div>
+                                      <div class="col-md-4">
+                                          <button class="btn btn-secondary" id="btnIndicador">
+                                              Buscar Fecha
+                                          </button>
+                                      </div>
+                                  </div>
+                                  <br>
+                                  <center><h2 class="card-title text-primary mb-5">Avance por Gestor</h2></center>
+                                  <div class="table-responsive">
+                                    <table class="table table-striped">
+                                      <thead>
+                                        <tr>
+                                          <th>
+                                            Gestor
+                                          </th>
+                                          <th>
+                                            Realiz.
+                                          </th>
+                                          <th>
+                                            Pendi.
+                                          </th>
+                                          <th>
+                                            Avance
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>
+                                            Herman Beck
+                                          </td>
+                                          <td>
+                                            1
+                                          </td>
+                                          <td>
+                                            1
+                                          </td>
+                                          <td>
+                                            <div class="progress">
+                                              <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <center><h2 class="card-title text-primary mb-5">Produccion Diaria</h2></center>
-                                    <center><p class="mb-2">Total Pendientes</p>
-                                        <p id="contP" class="display-3 mb-4 font-weight-light"><span
-                                                class="mdi mdi-thumb-down" style="color:#35abde;"></span></p>
-                                    </center>
-                                    <center>
-                                        <p class="mb-2">Total Resueltos</p>
-                                        <p id="contR" class="display-3 mb-5 font-weight-light"><span
-                                                class="mdi mdi-thumb-up" style="color:#95de6b;"></span></p>
-                                    </center>
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <input id="fecha" class="form-control" type="date" name="fecha" required/>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <button class="btn btn-secondary" id="btnIndicador">
-                                                Ver
-                                            </button>
-                                        </div>
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                      <center><h2 class="card-title text-primary mb-5">Avance Diario</h2></center>
+                                      <center>
+                                          <p class="mb-2">Total Resueltos</p>
+                                          <p id="contR" class="display-3 mb-5 font-weight-light"><span
+                                                  class="mdi mdi-thumb-up" style="color:#95de6b;"></span></p>
+                                      </center>
+                                      <center><p class="mb-2">Total Pendientes</p>
+                                          <p id="contP" class="display-3 mb-4 font-weight-light"><span
+                                                  class="mdi mdi-thumb-down" style="color:#35abde;"></span></p>
+                                      </center>
                                     </div>
+                                  </div>
                                 </div>
                             </div>
                         </div>
@@ -110,7 +133,4 @@
         </div>
         <!-- page-body-wrapper ends -->
     </div>
-
 @endsection
-
-

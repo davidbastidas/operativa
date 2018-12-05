@@ -85,6 +85,10 @@
 </script>
 
 <script>
+  $('#btnIndicador').on('click', function () {
+      let fecha = $('#fecha').val();
+      dashboard.getAvancePorGestor(fecha);
+  });
     $(document).ready(function () {
         let $fecha = $('#fecha').val();
 
@@ -112,7 +116,7 @@
 
 <script>
     //Indicadores busqueda
-    $('#btnIndicador').on('click', function () {
+    $('#btnIndicador--').on('click', function () {
         let $fecha = $('#fecha').val();
 
         let $data = {
@@ -149,6 +153,33 @@
             }
         });
     });
+    var dashboard = (function () {
+      function getAvancePorGestor(fecha) {
+        var request = $.ajax({
+          url: "{{route('admin.dashboard.getAvancePorGestor')}}",
+          method: "POST",
+          data: {
+              'fecha': fecha
+          },
+          beforeSend: function() {
+
+          }
+        });
+
+        request.done(function (response) {
+          console.log(response)
+          let json = JSON.parse(response);
+          for (var i = 0; i < json.length; i++) {
+            console.log(json[i])
+          }
+        });
+      }
+      return {
+        getAvancePorGestor: function(fecha){
+            getAvancePorGestor(fecha);
+        }
+      };
+    })();
 </script>
 
 </html>

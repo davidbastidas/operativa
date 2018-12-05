@@ -54,21 +54,11 @@ class AdminController extends Controller
         if (Session::has('isLogged')) {
             Session::remove('users');
             $data = $this->getUserDataById($id);
-            $last50 = DB::table('avisos')
-                ->select(DB::raw('usuarios.nombre, avisos.barrio, avisos.fecha_recibido_servidor, avisos.direccion'))
-                ->leftJoin('usuarios', 'usuarios.id', '=', 'avisos.gestor_id')
-                ->where('avisos.estado', 2)
-                ->limit(50)
-                ->orderByDesc('avisos.fecha_recibido_servidor')
-                ->get();
 
-            return view('admin.panel',
-                [
-                    'last50' => $last50,
-                    'name' => $data->name,
-                    'id' => $id,
-                ]
-            );
+            return view('admin.panel', [
+                'name' => $data->name,
+                'id' => $id,
+            ]);
         }
 
         return back()
