@@ -110,16 +110,6 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'as' => 'admin.dashboard.getAvancePorGestor',
         'uses' => 'DashboardController@getAvancePorGestor'
     ]);
-
-    Route::post('admin/dashboard/getAvanceDiario', [
-        'as' => 'admin.dashboard.getAvanceDiario',
-        'uses' => 'DashboardController@getAvanceDiario'
-    ]);
-
-    Route::post('admin/dashboard/getPointMapGestores', [
-        'as' => 'admin.dashboard.getPointMapGestores',
-        'uses' => 'DashboardController@getPointMapGestores'
-    ]);
 });
 
 Auth::routes();
