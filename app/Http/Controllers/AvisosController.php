@@ -362,5 +362,24 @@ class AvisosController extends Controller
 
     public function saveAviso(Request $request){
 
+        $aviso = Avisos::where('id', $request->aviso_id)->first();
+
+        $aviso->resultado_id = $request->resultado;
+        $aviso->anomalia_id = $request->anomalia;
+        $aviso->entidad_recaudo_id = $request->recaudo;
+        $aviso->fecha_pago = $request->fecha_pago;
+        $aviso->persona_contacto = $request->atiende;
+        $aviso->cedula = $request->cedula;
+        $aviso->titular_pago = $request->titular;
+        $aviso->telefono = $request->telefono;
+        $aviso->correo_electronico = $request->correo_electronico;
+        $aviso->lectura = $request->lectura;
+        $aviso->observacion_rapida = $request->observacion;
+        $aviso->observacion_analisis = $request->observacion_analisis;
+        $aviso->estado = $request->estado;
+
+        $aviso->update();
+
+        return redirect()->route('asignar.avisos', ['id' => $aviso->agenda_id]);
     }
 }
