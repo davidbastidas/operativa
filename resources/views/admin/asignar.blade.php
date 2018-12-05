@@ -79,16 +79,15 @@
                               <div class="row">
                                 <div class="col-md-12">
                                   <div class="table-responsive">
-                                    <table class="table text-center">
+                                    <table style="width: 100%;text-align:center;" class="table-bordered">
                                       <thead>
                                         <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Gestor</th>
-                                            <th scope="col">Barrio</th>
-                                            <th scope="col">Municipio</th>
-                                            <th scope="col">NIC</th>
-                                            <th scope="col">Result.</th>
-                                            <th scope="col">Accion</th>
+                                            <th style="width: 5%;padding: 10px;">#</th>
+                                            <th style="width: 20%;">Gestor</th>
+                                            <th style="width: 15%;">Barrio</th>
+                                            <th style="width: 10%;">NIC</th>
+                                            <th style="width: 10%;">Result.</th>
+                                            <th style="width: 10%;">Accion</th>
                                         </tr>
                                       </thead>
                                       <tbody>
@@ -97,7 +96,6 @@
                                             <td>{{ $aviso->id }}</td>
                                             <td>{{ $aviso->usuario->nombre }}</td>
                                             <td>{{ $aviso->barrio }}</td>
-                                            <td>{{ $aviso->municipio }}</td>
                                             <td>{{ $aviso->nic }}</td>
                                             <td>
                                               @if (isset($aviso->resultado->nombre))
