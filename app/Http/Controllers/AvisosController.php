@@ -281,9 +281,13 @@ class AvisosController extends Controller
 
             try {
                 $av->save();
-                $aviso->delete();
             } catch (\Exception $e) {
-                return $e;
+              return $e;
+            } finally {
+              $avisoExiste = Avisos::where('id', $aviso->id)->first();
+              if(isset($avisoExiste->id)){
+                $aviso->delete();
+              }
             }
           }
         }
@@ -318,22 +322,6 @@ class AvisosController extends Controller
         return \Redirect::route('agenda');
     }
 
-    public function getIndicadores(Request $request)
-    {
-        $avisosPendientes = Avisos::where('estado', 1)
-            ->where('fecha_entrega', 'LIKE', DB::raw("'%$request->fecha%'"))
-            ->count();
-
-        $avisosRealizados = Avisos::where('estado', 2)
-            ->where('fecha_entrega', 'LIKE', DB::raw("'%$request->fecha%'"))
-            ->count();
-
-        return response()->json([
-            'pendientes' => $avisosPendientes,
-            'realizados' => $avisosRealizados
-        ]);
-    }
-
     public function editarAviso($id){
         $aviso = Avisos::where('id', $id)->first();
         $resultados = Resultados::all();
@@ -341,7 +329,7 @@ class AvisosController extends Controller
         $recaudos = EntidadesPagos::all();
         $observaciones = ObservacionesRapidas::all();
 
-        $filename = $aviso->id . ".jpg";
+        $filename = $aviso->id . ".png";
 
         $path = config('myconfig.public_fotos')  . $filename;
 
@@ -391,5 +379,47 @@ class AvisosController extends Controller
         Avisos::where('id', $aviso)->where('estado', 1)->delete();
 
         return redirect()->route('asignar.avisos', ['id' => $agenda_id]);
+    }
+
+    public function visitaMapa() {
+        $id = Session::get('adminId');
+        $name = Session::get('adminName');
+
+        $usuarios = Usuarios::orderBy('nombre')->get();
+
+        return view('admin.mapas', [
+            'id' => $id,
+            'name' => $name,
+            'usuarios' => $usuarios
+        ]);
+    }
+
+    public function getPointMapVisita(Request $request){
+      $agendas = Agenda::where('fecha', 'LIKE', DB::raw("'%$request->fecha%'"))->get();
+      $arrayAgendas = [];
+      $count = 0;
+      $stringIn = '';
+      foreach ($agendas as $agenda) {
+        $arrayAgendas[] = $agenda->id;
+        if($count == 0){
+          $stringIn = $agenda->id;
+          $count++;
+        } else {
+          $stringIn .= ',' . $agenda->id;
+        }
+      }
+
+      $puntos = [];
+      if(count($arrayAgendas) > 0){
+        $puntos = Avisos::whereIn('agenda_id', $arrayAgendas)
+                          ->where('gestor_id', $request->gestor_id)
+                          ->where('estado', '>', 1)
+                          ->where('latitud', '!=', '0.0')
+                          ->orderBy('orden_realizado')->get();
+      }
+
+      return response()->json([
+        'puntos' => $puntos
+      ]);
     }
 }

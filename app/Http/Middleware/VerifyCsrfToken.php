@@ -36,5 +36,6 @@ class VerifyCsrfToken extends Middleware
         'admin/dashboard/getAvancePorGestor',
         'admin/dashboard/getAvanceDiario',
         'admin/dashboard/getPointMapGestores',
+        'admin/avisos/getPointMapVisita',
     ];
 }

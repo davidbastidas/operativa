@@ -21,6 +21,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@index'
     ]);
 
+    Route::get('admin/mapas', [
+        'as' => 'mapas',
+        'uses' => 'AvisosController@visitaMapa'
+    ]);
+
     Route::match(['get', 'post'], '/admin',
         [
             'as' => 'admin',
@@ -79,11 +84,6 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@vaciarCarga'
     ]);
 
-    Route::post('admin/getIndicadores', [
-        'as' => 'admin.getIndicadores',
-        'uses' => 'AvisosController@getIndicadores'
-    ]);
-
     Route::post('admin/agenda/save', [
         'as' => 'agenda.save',
         'uses' => 'AvisosController@saveAgenda'
@@ -115,7 +115,7 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'as' => 'admin.dashboard.getAvanceDiario',
         'uses' => 'DashboardController@getAvanceDiario'
     ]);
-    
+
     Route::post('admin/dashboard/getPointMapGestores', [
         'as' => 'admin.dashboard.getPointMapGestores',
         'uses' => 'DashboardController@getPointMapGestores'
@@ -124,6 +124,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
     Route::get('admin/avisos/delete/{aviso}', [
         'as' => 'aviso.eliminar',
         'uses' => 'AvisosController@deleteAviso'
+    ]);
+
+    Route::post('admin/avisos/getPointMapVisita', [
+        'as' => 'admin.avisos.getPointMapVisita',
+        'uses' => 'AvisosController@getPointMapVisita'
     ]);
 });
 

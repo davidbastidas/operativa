@@ -53,6 +53,13 @@
             </a>
         </li>
 
+        <li class="nav-item hand">
+            <a class="nav-link" href="{{route('mapas', $id)}}">
+                <i class="menu-icon mdi mdi-map"></i>
+                <span class="menu-title">Mapa de Visitas</span>
+            </a>
+        </li>
+
         <!--<li class="nav-item hand">
             <a class="nav-link" href="{route('admin.avisos.subir', $id)}}">
                 <i class="menu-icon mdi mdi-upload-multiple"></i>

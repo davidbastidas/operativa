@@ -35,7 +35,8 @@ class DashboardController extends Controller
           ->from(DB::raw('avisos a'))
           ->join('usuarios as u', 'u.id', '=', 'a.gestor_id')
           ->whereIn('a.agenda_id', $arrayAgendas)
-          ->groupBy('u.nombre', 'realizados', 'pendientes')->get();
+          ->groupBy('u.nombre', 'realizados', 'pendientes')
+          ->orderBy('u.nombre')->get();
     }
 
     return response()->json([
