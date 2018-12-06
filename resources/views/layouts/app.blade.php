@@ -61,6 +61,138 @@
 <script src="{{ asset('js/leaflet/leaflet.js') }}"></script>
 
 <script>
+      var iconFeature = new ol.Feature({
+        geometry: new ol.geom.Point([0, 0]),
+        name: 'Null Island',
+        population: 4000,
+        rainfall: 500
+      });
+
+      var iconStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {module:ol/style/Icon~Options} */ ({
+          anchor: [0.5, 46],
+          anchorXUnits: 'fraction',
+          anchorYUnits: 'pixels',
+          src: 'https://openlayers.org/en/v5.3.0/examples/data/icon.png'
+        }))
+      });
+
+      iconFeature.setStyle(iconStyle);
+
+      var vectorSource = new ol.source.Vector({
+        features: [iconFeature]
+      });
+
+      var vectorLayer = new ol.layer.Vector({
+        source: vectorSource
+      });
+
+      var rasterLayer = new ol.layer.Tile({
+        source: new ol.source.TileJSON({
+          url: 'https://api.tiles.mapbox.com/v3/mapbox.geography-class.json?secure',
+          crossOrigin: ''
+        })
+      });
+
+      var map = new ol.Map({
+        layers: [rasterLayer, vectorLayer],
+        target: document.getElementById('map'),
+        view: new ol.View({
+          center: [0, 0],
+          zoom: 3
+        })
+      });
+
+      var element = document.getElementById('popup');
+
+      var popup = new ol.Overlay({
+        element: element,
+        positioning: 'bottom-center',
+        stopEvent: false,
+        offset: [0, -50]
+      });
+      map.addOverlay(popup);
+
+      // display popup on click
+      map.on('click', function(evt) {
+        var feature = map.forEachFeatureAtPixel(evt.pixel,
+          function(feature) {
+            return feature;
+          });
+        if (feature) {
+          var coordinates = feature.getGeometry().getCoordinates();
+          popup.setPosition(coordinates);
+          $(element).popover({
+            placement: 'top',
+            html: true,
+            content: feature.get('name')
+          });
+          $(element).popover('show');
+        } else {
+          $(element).popover('destroy');
+        }
+      });
+
+      // change mouse cursor when over marker
+      map.on('pointermove', function(e) {
+        if (e.dragging) {
+          $(element).popover('destroy');
+          return;
+        }
+        var pixel = map.getEventPixel(e.originalEvent);
+        var hit = map.hasFeatureAtPixel(pixel);
+        map.getTarget().style.cursor = hit ? 'pointer' : '';
+      });
+/*
+    var markerSource = new ol.source.Vector();
+    var markerStyle = new ol.style.Style({
+      image: new ol.style.Icon(({
+        anchor: [0.5, 46],
+        anchorXUnits: 'fraction',
+        anchorYUnits: 'pixels',
+        opacity: 0.75,
+        src: 'https://openlayers.org/en/v5.3.0/examples/data/icon.png'
+      }))
+    });
+    var map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM()
+        }),
+        new ol.layer.Vector({
+          source: markerSource,
+          style: markerStyle,
+        }),
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([-74.80 ,10.97]),
+        zoom: 12
+      })
+    });
+    function addMarker(lon, lat) {
+      var iconFeatures = [];
+
+      var iconFeature = new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat])),
+        name: 'Null Island',
+        population: 4000,
+        rainfall: 500
+      });
+      iconFeature.setStyle(markerStyle)
+      markerSource.addFeature(iconFeature);
+
+      var element = document.getElementById('popup');
+
+      var popup = new ol.Overlay({
+        element: element,
+        positioning: 'bottom-center',
+        stopEvent: false,
+        offset: [0, -50]
+      });
+      map.addOverlay(popup);
+    }
+    addMarker(-74.88473166666667, 10.897871666666667);*/
     //Cargar fecha de hoy al input de los contadores
     $(document).ready(function () {
         $fecha = new Date();
@@ -128,7 +260,6 @@
           } else if(porcentaje == 100){
             colorBar = 'success';
           }
-          console.log(porcentaje)
           content = '<tr>' +
                       '<td>' + json[i].nombre + '</td>' +
                       '<td>' + json[i].realizados + '</td>' +

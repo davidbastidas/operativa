@@ -343,7 +343,7 @@ class AvisosController extends Controller
 
         $filename = $aviso->id . ".jpg";
 
-        $path = 'http://localhost:8888/operativa/public/fotos/' . $filename;
+        $path = config('myconfig.public_fotos')  . $filename;
 
         $id = Session::get('adminId');
         $name = Session::get('adminName');
