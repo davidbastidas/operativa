@@ -31,6 +31,7 @@
         }
     </style>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link href="{{ asset('js/leaflet/leaflet.css') }}" rel="stylesheet">
     <!--<link rel="stylesheet" href="{asset('css/style.css')}}">
     <link rel="stylesheet" href="{asset('vendors/iconfonts/mdi/css/materialdesignicons.min.css')}}">
     <link rel="stylesheet" href="{asset('vendors/css/vendor.bundle.base.css')}}">
@@ -57,7 +58,7 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="{{ asset('js/leaflet/leaflet.js') }}"></script>
 
 <script>
     //Cargar fecha de hoy al input de los contadores
