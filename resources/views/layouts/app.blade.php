@@ -256,6 +256,17 @@
               $('.check-avisos').prop("checked", false);
           }
         });
+        $('#borrar_masivo').click(function () {
+          var form = $('<form id="form_temp_delete" action="{{route('aviso.eliminar.all')}}" method="post"></form>');
+          form.append('<input type="hidden" name="agenda_id" value="'+$('#agenda_id').val()+'">');
+          $('.check-avisos').each(function () {
+            if ( $(this).is(':checked') ){
+              form.append('<input type="checkbox" class="check-avisos" name="avisos[]" value="'+$(this).val()+'" checked>');
+            }
+          });
+          $('#form-hidden').append(form);
+          $('#form_temp_delete').submit();
+        });
     });
   </script>
 

@@ -135,10 +135,9 @@
                                 <div class="col-md-2">
                                   <label class="sr-only">Borrar Masivo</label>
                                   @if ($pendientes > 0)
-                                    <form class="form-inline" action="{{route('aviso.eliminar.all')}}" method="post">
-                                      <input type="hidden" name="agenda_id" value="{{$agenda}}">
-                                      <button class="btn btn-danger mb-2" type="submit">Borrar Masivo</button>
-                                    </form>
+                                    <input type="hidden" id="agenda_id" value="{{$agenda}}">
+                                    <button class="btn btn-danger mb-2" type="submit" id="borrar_masivo">Borrar Masivo</button>
+                                    <div id="form-hidden" style="display: none;"></div>
                                   @endif
                                 </div>
                               </div>
