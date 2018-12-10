@@ -126,6 +126,11 @@ Route::group(['middleware' => ['sessionValid']], function () {
         'uses' => 'AvisosController@deleteAviso'
     ]);
 
+    Route::get('admin/avisos/delete/all', [
+        'as' => 'aviso.eliminar.all',
+        'uses' => 'AvisosController@deleteAvisoPorSeleccion'
+    ]);
+
     Route::post('admin/avisos/getPointMapVisita', [
         'as' => 'admin.avisos.getPointMapVisita',
         'uses' => 'AvisosController@getPointMapVisita'

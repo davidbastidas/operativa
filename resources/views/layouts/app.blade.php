@@ -247,6 +247,15 @@
         $('#fechaD2').val($fechaNew);
         $('#fechaAgenda').val($fechaNew);
         $('#fechapagoedit').val($fechaNew);
+
+        $('#avisos-check-all').click(function () {
+          if ( $(this).is(':checked') ){
+              $('.check-avisos').prop("checked", true);
+          }
+          else{
+              $('.check-avisos').prop("checked", false);
+          }
+        });
     });
   </script>
 

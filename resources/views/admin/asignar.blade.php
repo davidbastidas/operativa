@@ -76,13 +76,53 @@
                                     <h4>Lista de Avisos {{$agendaModel->codigo}} de {{$agendaModel->fecha}}</h4>
                                 </div>
                               </div>
+
+                              <br><br>
+                              <div class="row">
+                                <div class="col-md-12">
+                                  <form class="form-inline" action="{{route('admin.asignar.avisos')}}" method="get">
+                                    <input type="hidden" name="agenda" value="{{$agenda}}">
+
+                                    <label class="sr-only">Gestor</label>
+                                    <select name="gestor_filtro" class="form-control mb-2 mr-sm-2">
+                                        <option value="0">[Todos los Gestores]</option>
+                                      @foreach($gestoresAsignados as $gestor)
+                                        @foreach ($usuarios as $usuario)
+                                          @if ($usuario->id == $gestor->gestor_id)
+                                            <option value="{{$usuario->id}}">{{$usuario->nombre}}</option>
+                                          @endif
+                                        @endforeach
+                                      @endforeach
+                                    </select>
+
+                                    <label class="sr-only">Username</label>
+                                    <select name="gestor_filtro" class="form-control mb-2 mr-sm-2">
+                                        <option value="0">[Todos los Estados]</option>
+                                        <option value="1">PENDIENTES</option>
+                                        <option value="2">REALIZADOS</option>
+                                        <option value="3">MODIFICADOS</option>
+                                    </select>
+
+                                    <label class="sr-only">NIC</label>
+                                    <input type="text" class="form-control mb-2 mr-sm-2" name="nic" placeholder="NIC">
+
+                                    <label class="sr-only">MEDIDOR</label>
+                                    <input type="text" class="form-control mb-2 mr-sm-2" name="medidor" placeholder="MEDIDOR">
+
+                                    <button class="btn btn-success mb-2" type="submit">Filtrar</button>
+                                  </form>
+                                </div>
+                              </div>
+
                               <div class="row">
                                 <div class="col-md-12">
                                   <div class="table-responsive">
-                                    <table style="width: 100%;text-align:center;" class="table-bordered">
+                                    <table style="width: 100%;text-align:center;font-size: 12px;" class="table-bordered">
                                       <thead>
                                         <tr>
-                                            <th style="width: 5%;padding: 10px;">#</th>
+                                            <th style="width: 5%;padding: 10px;">
+                                              <input type="checkbox" id="avisos-check-all">
+                                            </th>
                                             <th style="width: 20%;">Gestor</th>
                                             <th style="width: 15%;">Barrio</th>
                                             <th style="width: 10%;">NIC</th>
@@ -93,7 +133,13 @@
                                       <tbody>
                                         @foreach ($avisos as $aviso)
                                           <tr>
-                                            <td>{{ $aviso->id }}</td>
+                                            <td>
+                                              @if ($aviso->estado == 1)
+                                                <input type="checkbox" class="check-avisos" name="avisos[]" value="{{ $aviso->id }}">
+                                              @else
+                                                {{$aviso->id}}
+                                              @endif
+                                            </td>
                                             <td>{{ $aviso->usuario->nombre }}</td>
                                             <td>{{ $aviso->barrio }}</td>
                                             <td>{{ $aviso->nic }}</td>
@@ -104,13 +150,13 @@
                                             </td>
                                             <td>
                                                 <form action="{{route('aviso.editar', ['aviso' => $aviso->id])}}">
-                                                    <button style="margin-bottom: 8px" class="btn-block btn btn-outline-primary">
+                                                    <button style="margin-bottom: 8px" class="btn-sm btn btn-outline-primary">
                                                         Ver <i class="mdi mdi-pencil"></i>
                                                     </button>
                                                 </form>
                                                 @if ($aviso->estado == 1)
                                                   <form action="{{route('aviso.eliminar', ['aviso' => $aviso->id])}}">
-                                                      <button style="margin-bottom: 8px" class="btn-block btn btn-outline-danger">
+                                                      <button style="margin-bottom: 8px" class="btn-sm btn btn-outline-danger">
                                                           Eliminar <i class="mdi mdi-delete"></i>
                                                       </button>
                                                   </form>

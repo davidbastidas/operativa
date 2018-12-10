@@ -156,6 +156,7 @@ class AvisosController extends Controller
     //Asignar Avisos INDEX
     public function listaAvisosIndex($agenda)
     {
+
         $id = Session::get('adminId');
         $name = Session::get('adminName');
 
@@ -163,7 +164,7 @@ class AvisosController extends Controller
         $usuarios = Usuarios::all();
         $agendaModel = Agenda::find($agenda);
 
-        $perPage = 10;
+        $perPage = 150;
         $page = Input::get('page');
         $pageName = 'page';
         $page = Paginator::resolveCurrentPage($pageName);
@@ -178,6 +179,8 @@ class AvisosController extends Controller
             'pageName' => $pageName,
         ]);
 
+        $gestoresAsignados = Avisos::select('gestor_id')->where('agenda_id', $agenda)->groupBy('gestor_id')->get();
+
         return view('admin.asignar', [
             'id' => $id,
             'name' => $name,
@@ -185,7 +188,8 @@ class AvisosController extends Controller
             'usuarios' => $usuarios,
             'agenda' => $agenda,
             'agendaModel' => $agendaModel,
-            'avisos' => $posts
+            'avisos' => $posts,
+            'gestoresAsignados' => $gestoresAsignados
         ]);
     }
 
@@ -379,6 +383,18 @@ class AvisosController extends Controller
         Avisos::where('id', $aviso)->where('estado', 1)->delete();
 
         return redirect()->route('asignar.avisos', ['id' => $agenda_id]);
+    }
+
+    public function deleteAvisoPorSeleccion(Request $request){
+      $arrayIdAvisos = null;
+      if ($request->has('avisos')) {
+        $arrayIdAvisos = $request->get('avisos');
+      }
+      $agenda_id = $request->agenda_id;
+
+      Avisos::whereIn('id', $arrayIdAvisos)->where('estado', 1)->delete();
+
+      return redirect()->route('asignar.avisos', ['id' => $agenda_id]);
     }
 
     public function visitaMapa() {
