@@ -156,6 +156,10 @@ class AvisosController extends Controller
     //Asignar Avisos INDEX
     public function listaAvisosIndex($agenda)
     {
+        $gestor_filtro = 0;
+        $estados_filtro = 0;
+        $nic_filtro = '';
+        $medidor_filtro = '';
 
         $id = Session::get('adminId');
         $name = Session::get('adminName');
@@ -170,9 +174,38 @@ class AvisosController extends Controller
         $page = Paginator::resolveCurrentPage($pageName);
         $offSet = ($page * $perPage) - $perPage;
 
-        $avisos = Avisos::where('agenda_id', $agenda)->offset($offSet)->limit($perPage)->orderByDesc('gestor_id')->get();
+        $avisos = Avisos::where('agenda_id', $agenda);
+        if(Input::has('gestor_filtro')){
+          $gestor_filtro = Input::get('gestor_filtro');
+          if($gestor_filtro != 0){
+            $avisos = $avisos->where('gestor_id', $gestor_filtro);
+          }
+        }
+        if(Input::has('estados_filtro')){
+          $estados_filtro = Input::get('estados_filtro');
+          if($estados_filtro != 0){
+            $avisos = $avisos->where('estado', $estados_filtro);
+          }
+        }
+        if(Input::has('nic_filtro')){
+          $nic_filtro = Input::get('nic_filtro');
+          if($nic_filtro != 0){
+            $avisos = $avisos->where('nic', $nic_filtro);
+          }
+        }
+        if(Input::has('medidor_filtro')){
+          $medidor_filtro = Input::get('medidor_filtro');
+          if($medidor_filtro != 0){
+            $avisos = $avisos->where('medidor', DB::raw("'$medidor_filtro'"));
+          }
+        }
+        $avisos = $avisos->offset($offSet)->limit($perPage)->orderBy('id')->get();
 
-        $total_registros = Avisos::where('agenda_id', $agenda)->count();
+        $avisosAux = $avisos;
+
+        $total_registros = $avisosAux->count();
+        $pendientes = $avisosAux->where('estado', 1)->count();
+        $realizados = $avisosAux->where('estado', '>', 1)->count();
 
         $posts = new LengthAwarePaginator($avisos, $total_registros, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),
@@ -189,7 +222,13 @@ class AvisosController extends Controller
             'agenda' => $agenda,
             'agendaModel' => $agendaModel,
             'avisos' => $posts,
-            'gestoresAsignados' => $gestoresAsignados
+            'gestoresAsignados' => $gestoresAsignados,
+            'pendientes' => $pendientes,
+            'realizados' => $realizados,
+            'gestor_filtro' => $gestor_filtro,
+            'estados_filtro' => $estados_filtro,
+            'nic_filtro' => $nic_filtro,
+            'medidor_filtro' => $medidor_filtro
         ]);
     }
 
@@ -392,7 +431,9 @@ class AvisosController extends Controller
       }
       $agenda_id = $request->agenda_id;
 
-      Avisos::whereIn('id', $arrayIdAvisos)->where('estado', 1)->delete();
+      if($arrayIdAvisos != null){
+        Avisos::whereIn('id', $arrayIdAvisos)->where('estado', 1)->delete();
+      }
 
       return redirect()->route('asignar.avisos', ['id' => $agenda_id]);
     }

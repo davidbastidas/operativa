@@ -76,38 +76,107 @@
                                     <h4>Lista de Avisos {{$agendaModel->codigo}} de {{$agendaModel->fecha}}</h4>
                                 </div>
                               </div>
+                              @php
+                                $colorBar = 'danger';
+                                $porcentaje = 0;
+                                if(($pendientes + $realizados) > 0){
+                                  $porcentaje = round((100 * $realizados) / ($pendientes + $realizados));
+                                  if($porcentaje < 20){
+                                    $colorBar = 'danger';
+                                  } else if($porcentaje >= 20 && $porcentaje < 50){
+                                    $colorBar = 'warning';
+                                  } else if($porcentaje >= 50 && $porcentaje < 70){
+                                    $colorBar = 'info';
+                                  } else if($porcentaje >= 70 && $porcentaje < 100){
+                                    $colorBar = 'primary';
+                                  } else if($porcentaje == 100){
+                                    $colorBar = 'success';
+                                  }
+                                }
+                              @endphp
+                              <br>
+                              <div class="row">
+                                <div class="col-md-2">
+                                  <div class="wrapper d-flex justify-content-between">
+                                    <div class="side-left">
+                                      <p class="mb-2">Realizados</p>
+                                      <p class="display-4 mb-4 font-weight-light text-success">
+                                        @if ($realizados == 0)
+                                          {{$realizados}}
+                                        @else
+                                          {{$realizados}}
+                                          <i class="mdi mdi-arrow-up"></i>
+                                        @endif
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <div class="wrapper d-flex justify-content-between">
+                                    <div class="side-left">
+                                      <p class="mb-2">Pendientes</p>
+                                      <p class="display-4 mb-4 font-weight-light text-danger">
+                                        @if ($pendientes == 0)
+                                          {{$pendientes}}
+                                        @else
+                                          {{$pendientes}}
+                                          <i class="mdi mdi-arrow-down"></i>
+                                        @endif
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-md-6">
+                                  <p class="mb-2">Avance {{$porcentaje.'%'}}</p>
+                                  <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated bg-{{$colorBar}}" role="progressbar" style="width: {{$porcentaje}}%" aria-valuenow="{{$porcentaje}}" aria-valuemin="0" aria-valuemax="100"></div>
+                                  </div>
+                                </div>
+                                <div class="col-md-2">
+                                  <label class="sr-only">Borrar Masivo</label>
+                                  @if ($pendientes > 0)
+                                    <form class="form-inline" action="{{route('aviso.eliminar.all')}}" method="post">
+                                      <input type="hidden" name="agenda_id" value="{{$agenda}}">
+                                      <button class="btn btn-danger mb-2" type="submit">Borrar Masivo</button>
+                                    </form>
+                                  @endif
+                                </div>
+                              </div>
 
-                              <br><br>
+
+
                               <div class="row">
                                 <div class="col-md-12">
-                                  <form class="form-inline" action="{{route('admin.asignar.avisos')}}" method="get">
-                                    <input type="hidden" name="agenda" value="{{$agenda}}">
-
+                                  <form class="form-inline" action="{{route('asignar.avisos',['agenda' => $agenda])}}" method="get">
                                     <label class="sr-only">Gestor</label>
                                     <select name="gestor_filtro" class="form-control mb-2 mr-sm-2">
                                         <option value="0">[Todos los Gestores]</option>
                                       @foreach($gestoresAsignados as $gestor)
                                         @foreach ($usuarios as $usuario)
                                           @if ($usuario->id == $gestor->gestor_id)
-                                            <option value="{{$usuario->id}}">{{$usuario->nombre}}</option>
+                                            @if ($gestor_filtro == $usuario->id)
+                                              <option value="{{$usuario->id}}" selected>{{$usuario->nombre}}</option>
+                                            @else
+                                              <option value="{{$usuario->id}}">{{$usuario->nombre}}</option>
+                                            @endif
                                           @endif
                                         @endforeach
                                       @endforeach
                                     </select>
 
                                     <label class="sr-only">Username</label>
-                                    <select name="gestor_filtro" class="form-control mb-2 mr-sm-2">
+                                    <select name="estados_filtro" class="form-control mb-2 mr-sm-2">
                                         <option value="0">[Todos los Estados]</option>
-                                        <option value="1">PENDIENTES</option>
-                                        <option value="2">REALIZADOS</option>
-                                        <option value="3">MODIFICADOS</option>
+                                        <option value="1" @if ($estados_filtro == 1) selected @endif>PENDIENTES</option>
+                                        <option value="2" @if ($estados_filtro == 2) selected @endif>REALIZADOS</option>
+                                        <option value="3" @if ($estados_filtro == 3) selected @endif>MODIFICADOS</option>
                                     </select>
 
                                     <label class="sr-only">NIC</label>
-                                    <input type="text" class="form-control mb-2 mr-sm-2" name="nic" placeholder="NIC">
+                                    <input type="text" class="form-control mb-2 mr-sm-2" name="nic_filtro" placeholder="NIC" value="{{$nic_filtro}}">
 
                                     <label class="sr-only">MEDIDOR</label>
-                                    <input type="text" class="form-control mb-2 mr-sm-2" name="medidor" placeholder="MEDIDOR">
+                                    <input type="text" class="form-control mb-2 mr-sm-2" name="medidor_filtro" placeholder="MEDIDOR" value="{{$medidor_filtro}}">
 
                                     <button class="btn btn-success mb-2" type="submit">Filtrar</button>
                                   </form>
@@ -121,7 +190,11 @@
                                       <thead>
                                         <tr>
                                             <th style="width: 5%;padding: 10px;">
-                                              <input type="checkbox" id="avisos-check-all">
+                                              @if ($pendientes == 0)
+                                                #
+                                              @else
+                                                <input type="checkbox" id="avisos-check-all">
+                                              @endif
                                             </th>
                                             <th style="width: 20%;">Gestor</th>
                                             <th style="width: 15%;">Barrio</th>
