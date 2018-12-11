@@ -45,12 +45,15 @@
   <script src="{{ asset('js/leaflet/leaflet.js') }}"></script>
   <script>
     var dashboard = (function () {
-      function getAvancePorGestor(fecha) {
+      function getAvancePorGestor(fecha, gestor_filtro, delegacion_filtro, estados_filtro) {
         var request = $.ajax({
           url: "{{route('admin.dashboard.getAvancePorGestor')}}",
           method: "POST",
           data: {
-              'fecha': fecha
+              'fecha': fecha,
+              'gestor_filtro': gestor_filtro,
+              'delegacion_filtro': delegacion_filtro,
+              'estados_filtro': estados_filtro
           },
           beforeSend: function() {
 
@@ -92,12 +95,14 @@
         });
       }
 
-      function getAvanceDiario(fecha) {
+      function getAvanceDiario(fecha, gestor_filtro, delegacion_filtro) {
         var request = $.ajax({
           url: "{{route('admin.dashboard.getAvanceDiario')}}",
           method: "POST",
           data: {
-              'fecha': fecha
+              'fecha': fecha,
+              'gestor_filtro': gestor_filtro,
+              'delegacion_filtro': delegacion_filtro
           },
           beforeSend: function() {
 
@@ -112,7 +117,7 @@
         });
       }
 
-      function getPointMapGestores(fecha) {
+      function getPointMapGestores(fecha, gestor_filtro, delegacion_filtro, estados_filtro) {
         mapDashboard.eachLayer(function (layer) {
             mapDashboard.removeLayer(layer);
         });
@@ -127,7 +132,10 @@
           url: "{{route('admin.dashboard.getPointMapGestores')}}",
           method: "POST",
           data: {
-              'fecha': fecha
+              'fecha': fecha,
+              'gestor_filtro': gestor_filtro,
+              'delegacion_filtro': delegacion_filtro,
+              'estados_filtro': estados_filtro
           },
           beforeSend: function() {
 
@@ -150,14 +158,14 @@
         });
       }
       return {
-        getAvancePorGestor: function(fecha){
-            getAvancePorGestor(fecha);
+        getAvancePorGestor: function(fecha, gestor_filtro, delegacion_filtro, estados_filtro){
+            getAvancePorGestor(fecha, gestor_filtro, delegacion_filtro, estados_filtro);
         },
-        getAvanceDiario: function(fecha){
-            getAvanceDiario(fecha);
+        getAvanceDiario: function(fecha, gestor_filtro, delegacion_filtro){
+            getAvanceDiario(fecha, gestor_filtro, delegacion_filtro);
         },
-        getPointMapGestores: function(fecha){
-            getPointMapGestores(fecha);
+        getPointMapGestores: function(fecha, gestor_filtro, delegacion_filtro, estados_filtro){
+            getPointMapGestores(fecha, gestor_filtro, delegacion_filtro, estados_filtro);
         }
       };
     })();
@@ -273,9 +281,12 @@
   <script>
     $('#btnIndicador').on('click', function () {
       let fecha = $('#fecha').val();
-      dashboard.getAvancePorGestor(fecha);
-      dashboard.getAvanceDiario(fecha);
-      dashboard.getPointMapGestores(fecha);
+      let gestor_filtro = $('#gestor_filtro').val();
+      let delegacion_filtro = $('#delegacion_filtro').val();
+      let estados_filtro = $('#estados_filtro').val();
+      dashboard.getAvancePorGestor(fecha, gestor_filtro, delegacion_filtro, estados_filtro);
+      dashboard.getAvanceDiario(fecha, gestor_filtro, delegacion_filtro);
+      dashboard.getPointMapGestores(fecha, gestor_filtro, delegacion_filtro, estados_filtro);
     });
   </script>
 

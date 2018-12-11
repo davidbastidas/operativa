@@ -175,37 +175,45 @@ class AvisosController extends Controller
         $offSet = ($page * $perPage) - $perPage;
 
         $avisos = Avisos::where('agenda_id', $agenda);
+        $avisosAux1 = Avisos::where('agenda_id', $agenda);
+        $avisosAux2 = Avisos::where('agenda_id', $agenda);
         if(Input::has('gestor_filtro')){
           $gestor_filtro = Input::get('gestor_filtro');
           if($gestor_filtro != 0){
             $avisos = $avisos->where('gestor_id', $gestor_filtro);
+            $avisosAux1 = $avisosAux1->where('gestor_id', $gestor_filtro);
+            $avisosAux2 = $avisosAux2->where('gestor_id', $gestor_filtro);
           }
         }
         if(Input::has('estados_filtro')){
           $estados_filtro = Input::get('estados_filtro');
           if($estados_filtro != 0){
             $avisos = $avisos->where('estado', $estados_filtro);
+            $avisosAux1 = $avisosAux1->where('estado', $estados_filtro);
+            $avisosAux2 = $avisosAux2->where('estado', $estados_filtro);
           }
         }
         if(Input::has('nic_filtro')){
           $nic_filtro = Input::get('nic_filtro');
           if($nic_filtro != 0){
             $avisos = $avisos->where('nic', $nic_filtro);
+            $avisosAux1 = $avisosAux1->where('nic', $nic_filtro);
+            $avisosAux2 = $avisosAux2->where('nic', $nic_filtro);
           }
         }
         if(Input::has('medidor_filtro')){
           $medidor_filtro = Input::get('medidor_filtro');
           if($medidor_filtro != 0){
             $avisos = $avisos->where('medidor', DB::raw("'$medidor_filtro'"));
+            $avisosAux1 = $avisosAux1->where('medidor', DB::raw("'$medidor_filtro'"));
+            $avisosAux2 = $avisosAux2->where('medidor', DB::raw("'$medidor_filtro'"));
           }
         }
-        $avisos = $avisos->offset($offSet)->limit($perPage)->orderBy('id')->get();
-
         $avisosAux = $avisos;
-
         $total_registros = $avisosAux->count();
-        $pendientes = $avisosAux->where('estado', 1)->count();
-        $realizados = $avisosAux->where('estado', '>', 1)->count();
+        $pendientes = $avisosAux1->where('estado',  '=', DB::raw("1"))->count();
+        $realizados = $avisosAux2->where('estado', '>', DB::raw("1"))->count();
+        $avisos = $avisos->offset($offSet)->limit($perPage)->orderBy('id')->get();
 
         $posts = new LengthAwarePaginator($avisos, $total_registros, $perPage, $page, [
             'path' => Paginator::resolveCurrentPath(),

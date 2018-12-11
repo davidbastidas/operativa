@@ -163,7 +163,7 @@
                                       @endforeach
                                     </select>
 
-                                    <label class="sr-only">Username</label>
+                                    <label class="sr-only">Estado</label>
                                     <select name="estados_filtro" class="form-control mb-2 mr-sm-2">
                                         <option value="0">[Todos los Estados]</option>
                                         <option value="1" @if ($estados_filtro == 1) selected @endif>PENDIENTES</option>
@@ -203,13 +203,16 @@
                                         </tr>
                                       </thead>
                                       <tbody>
+                                        @php
+                                          $count = 1;
+                                        @endphp
                                         @foreach ($avisos as $aviso)
                                           <tr>
                                             <td>
                                               @if ($aviso->estado == 1)
                                                 <input type="checkbox" class="check-avisos" name="avisos[]" value="{{ $aviso->id }}">
                                               @else
-                                                {{$aviso->id}}
+                                                {{$count++}}
                                               @endif
                                             </td>
                                             <td>{{ $aviso->usuario->nombre }}</td>

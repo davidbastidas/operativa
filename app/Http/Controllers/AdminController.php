@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\AdminTable;
 use App\Avisos;
 use App\Meses;
+use App\Usuarios;
+use App\Delegacion;
 use App\Received;
 use App\Sent;
 use Carbon\Carbon;
@@ -54,10 +56,14 @@ class AdminController extends Controller
         if (Session::has('isLogged')) {
             Session::remove('users');
             $data = $this->getUserDataById($id);
+            $usuarios = Usuarios::orderBy('nombre')->get();
+            $delegaciones = Delegacion::all();
 
             return view('admin.panel', [
                 'name' => $data->name,
                 'id' => $id,
+                'usuarios' => $usuarios,
+                'delegaciones' => $delegaciones,
             ]);
         }
 
