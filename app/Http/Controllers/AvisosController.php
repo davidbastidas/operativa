@@ -303,7 +303,6 @@ class AvisosController extends Controller
           $usuario = Usuarios::where('nickname', $cedula)->first();
           foreach ($avisosTemp as $aviso) {
             $av = new Avisos();
-            $av->id = $aviso->id;
             $av->campana = $aviso->campana;
             $av->campana2 = $aviso->campana2;
             $av->fecha_entrega = $aviso->fecha_entrega;
@@ -332,13 +331,9 @@ class AvisosController extends Controller
 
             try {
                 $av->save();
-            } catch (\Exception $e) {
-              return $e;
-            } finally {
-              $avisoExiste = Avisos::where('id', $aviso->id)->first();
-              if(isset($avisoExiste->id)){
                 $aviso->delete();
-              }
+            } catch (\Exception $e) {
+
             }
           }
         }
