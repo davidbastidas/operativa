@@ -221,6 +221,7 @@ class AvisosController extends Controller
         ]);
 
         $gestoresAsignados = Avisos::select('gestor_id')->where('agenda_id', $agenda)->groupBy('gestor_id')->get();
+        
 
         return view('admin.asignar', [
             'id' => $id,
